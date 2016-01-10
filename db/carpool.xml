@@ -63,7 +63,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="1233" y="510" name="Trips">
+<table x="1118" y="421" name="Trips">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -73,16 +73,6 @@
 <row name="price" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
 <default>NULL</default></row>
-<row name="startLocationLat" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<row name="startLocationLng" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<row name="driverID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Users" row="id" />
-</row>
 <row name="eventID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Events" row="id" />
@@ -91,7 +81,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="710" y="738" name="TripRiders">
+<table x="758" y="615" name="TripUsers">
 <row name="tripID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Trips" row="id" />
@@ -106,11 +96,14 @@
 <row name="startLocationLng" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
 <default>NULL</default></row>
+<row name="Role" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>tripID</part>
 </key>
 </table>
-<table x="631" y="376" name="UserEvents">
+<table x="630" y="376" name="UserEvents">
 <row name="userID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Users" row="id" />

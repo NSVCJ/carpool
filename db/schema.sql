@@ -14,11 +14,11 @@ DROP TABLE IF EXISTS `Users`;
 
 CREATE TABLE `Users` (
   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `email` VARCHAR(255) NULL DEFAULT NULL,
-  `name` VARCHAR(255) NULL DEFAULT NULL,
-  `phone` VARCHAR(255) NULL DEFAULT NULL,
+  `email` VARCHAR NULL DEFAULT NULL,
+  `name` VARCHAR NULL DEFAULT NULL,
+  `phone` INTEGER NULL DEFAULT NULL,
   `rating` DECIMAL NULL DEFAULT NULL,
-  `profilePicture` VARCHAR(255) NULL DEFAULT NULL,
+  `profilePicture` VARCHAR NULL DEFAULT NULL,
   `numberOfRatings` INTEGER NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -34,25 +34,23 @@ CREATE TABLE `Trips` (
   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
   `startTime` DATETIME NULL DEFAULT NULL,
   `price` DECIMAL NULL DEFAULT NULL,
-  `startLocationLat` DECIMAL NULL DEFAULT NULL,
-  `startLocationLng` DECIMAL NULL DEFAULT NULL,
-  `driverID` INTEGER NULL DEFAULT NULL,
   `eventID` INTEGER NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
 -- ---
--- Table 'TripRiders'
+-- Table 'TripUsers'
 --
 -- ---
 
-DROP TABLE IF EXISTS `TripRiders`;
+DROP TABLE IF EXISTS `TripUsers`;
 
-CREATE TABLE `TripRiders` (
+CREATE TABLE `TripUsers` (
   `tripID` INTEGER NULL DEFAULT NULL,
   `userID` INTEGER NULL DEFAULT NULL,
   `startLocationLat` DECIMAL NULL DEFAULT NULL,
   `startLocationLng` DECIMAL NULL DEFAULT NULL,
+  `Role` VARCHAR NULL DEFAULT NULL,
   PRIMARY KEY (`tripID`)
 );
 
@@ -79,12 +77,12 @@ DROP TABLE IF EXISTS `Events`;
 
 CREATE TABLE `Events` (
   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `name` VARCHAR NULL DEFAULT NULL,
   `locationLat` DECIMAL NULL DEFAULT NULL,
   `locationLng` DECIMAL NULL DEFAULT NULL,
   `startTime` DATETIME NULL DEFAULT NULL,
-  `type` VARCHAR(255) NULL DEFAULT NULL,
-  `description` VARCHAR(255) NULL DEFAULT NULL,
+  `type` VARCHAR NULL DEFAULT NULL,
+  `description` VARCHAR NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -92,10 +90,9 @@ CREATE TABLE `Events` (
 -- Foreign Keys
 -- ---
 
-ALTER TABLE `Trips` ADD FOREIGN KEY (driverID) REFERENCES `Users` (`id`);
 ALTER TABLE `Trips` ADD FOREIGN KEY (eventID) REFERENCES `Events` (`id`);
-ALTER TABLE `TripRiders` ADD FOREIGN KEY (tripID) REFERENCES `Trips` (`id`);
-ALTER TABLE `TripRiders` ADD FOREIGN KEY (userID) REFERENCES `Users` (`id`);
+ALTER TABLE `TripUsers` ADD FOREIGN KEY (tripID) REFERENCES `Trips` (`id`);
+ALTER TABLE `TripUsers` ADD FOREIGN KEY (userID) REFERENCES `Users` (`id`);
 ALTER TABLE `UserEvents` ADD FOREIGN KEY (userID) REFERENCES `Users` (`id`);
 ALTER TABLE `UserEvents` ADD FOREIGN KEY (eventID) REFERENCES `Events` (`id`);
 ALTER TABLE `UserEvents` ADD FOREIGN KEY (tripID) REFERENCES `Trips` (`id`);
@@ -106,7 +103,7 @@ ALTER TABLE `UserEvents` ADD FOREIGN KEY (tripID) REFERENCES `Trips` (`id`);
 
 -- ALTER TABLE `Users` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Trips` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `TripRiders` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `TripUsers` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `UserEvents` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Events` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -116,10 +113,10 @@ ALTER TABLE `UserEvents` ADD FOREIGN KEY (tripID) REFERENCES `Trips` (`id`);
 
 -- INSERT INTO `Users` (`id`,`email`,`name`,`phone`,`rating`,`profilePicture`,`numberOfRatings`) VALUES
 -- ('','','','','','','');
--- INSERT INTO `Trips` (`id`,`startTime`,`price`,`startLocationLat`,`startLocationLng`,`driverID`,`eventID`) VALUES
--- ('','','','','','','');
--- INSERT INTO `TripRiders` (`tripID`,`userID`,`startLocationLat`,`startLocationLng`) VALUES
+-- INSERT INTO `Trips` (`id`,`startTime`,`price`,`eventID`) VALUES
 -- ('','','','');
+-- INSERT INTO `TripUsers` (`tripID`,`userID`,`startLocationLat`,`startLocationLng`,`Role`) VALUES
+-- ('','','','','');
 -- INSERT INTO `UserEvents` (`userID`,`eventID`,`tripID`) VALUES
 -- ('','','');
 -- INSERT INTO `Events` (`id`,`name`,`locationLat`,`locationLng`,`startTime`,`type`,`description`) VALUES
