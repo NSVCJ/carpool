@@ -1,5 +1,5 @@
-var EventfulAPIKey = 'YOUR KEY HERE';
-var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
+var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
+var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey + '&location=Los+Angeles&keywords=Lakers';
 
 var Event = React.createClass({
   render: function() {
@@ -45,8 +45,13 @@ var EventBox = React.createClass({
   loadEventsFromServer: function() {
     $.ajax({
       url: EventfulAPI,
+      // dataType: 'application/json',
       method: "GET",
+      dataType: 'jsonp',
       cache: false,
+      error: function(data) {
+        console.log(data)
+      },
       success: function(data) {
         this.setState({data: data.events.event});
       }.bind(this)
