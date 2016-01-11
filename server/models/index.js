@@ -1,5 +1,5 @@
-var db = require("../db");
-var serverHelpers = require("../server-helpers");
+// var db = require("../db/db.js");
+//var serverHelpers = require("../server-helpers");
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
