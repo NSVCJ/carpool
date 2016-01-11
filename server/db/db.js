@@ -42,6 +42,8 @@ User.belongsToMany(Trip, {through: 'TripUser'});
 Trip.belongsToMany(User, {through: 'EventUser'});
 User.belongsToMany(Trip, {through: 'EventUser'});
 Event.belongToMany(User, {through: 'EventUser'});
+//Triple Join is weird. Not recipricating all relationships, but I'm not sure if
+//it's really necessary
 
 User.sync();
 Trip.sync();
