@@ -1,5 +1,5 @@
 var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey + '&location=Los+Angeles&keywords=';
+var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
 var Event = React.createClass({
   render: function() {
@@ -9,6 +9,47 @@ var Event = React.createClass({
         <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}</h4>
         <h4>Driver | Rider</h4>
       </div>
+    );
+  }
+});
+
+var SearchBox = React.createClass({
+  getInitialState: function() {
+    return {location: '', keywords: ''};
+  },
+  handleLocationChange: function(e) {
+    this.setState({location: e.target.value});
+  },
+  handleKeywordsChange: function(e) {
+    this.setState({keywords: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var location = this.state.location.trim();
+    var keywords = this.state.keywords.trim();
+    if (!keywords || !location) {
+      return;
+    }
+    this.props.onCommentSubmit({location: location, keywords: keywords});
+    this.setState({location: '', keywords: ''});
+  },
+  render: function() {
+    return (
+      <form className="searchBox" onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          placeholder="location"
+          value={this.state.location}
+          onChange={this.handleLocationChange}
+        />
+        <input
+          type="text"
+          placeholder="query"
+          value={this.state.keywords}
+          onChange={this.handleKeywordsChange}
+        />
+        <input type="submit" value="Search" />
+      </form>
     );
   }
 });
@@ -26,7 +67,6 @@ var EventList = React.createClass({
     });
     return (
       <div className="eventList">
-        <h3>Events In Your Neighborhood</h3>
         {eventNodes}
       </div>
     );
@@ -35,22 +75,23 @@ var EventList = React.createClass({
 
 // root component
 var EventBox = React.createClass({
-  getInitialState: function() {
-    return {data: []};
+  noResults: function() {
+    console.log('no results');
   },
 
-  componentDidMount: function() {
-    this.loadEventsFromServer();
-  },
-
-  loadEventsFromServer: function(query) {
-    // TODO: delete query
+  handleQuerySubmit: function(query) {
     $.ajax({
-      url: EventfulAPI + 'Lakers',
+      url: EventfulAPI +
+        '&location=' + query.location +
+        '&keywords=' + query.keywords,
       method: 'GET',
       dataType: 'jsonp',
       success: function(data) {
-        this.setState({data: data.events.event});
+        if (!data.events) {
+          this.noResults()
+        } else {
+          this.setState({data: data.events.event});
+        }
       }.bind(this),
       error: function(err) {
         console.error(err);
@@ -58,9 +99,14 @@ var EventBox = React.createClass({
     })
   },
 
+  getInitialState: function() {
+    return {data: []};
+  },
+
   render: function() {
     return (
       <div className="eventBox">
+        <SearchBox onCommentSubmit={this.handleQuerySubmit} />
         <EventList data={this.state.data} />
       </div>
     )
