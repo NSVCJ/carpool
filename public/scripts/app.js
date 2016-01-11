@@ -1,5 +1,5 @@
 var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey + '&location=Los+Angeles&keywords=Lakers';
+var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey + '&location=Los+Angeles&keywords=';
 
 var Event = React.createClass({
   render: function() {
@@ -33,6 +33,7 @@ var EventList = React.createClass({
   }
 });
 
+// root component
 var EventBox = React.createClass({
   getInitialState: function() {
     return {data: []};
@@ -42,18 +43,17 @@ var EventBox = React.createClass({
     this.loadEventsFromServer();
   },
 
-  loadEventsFromServer: function() {
+  loadEventsFromServer: function(query) {
+    // TODO: delete query
     $.ajax({
-      url: EventfulAPI,
-      // dataType: 'application/json',
-      method: "GET",
+      url: EventfulAPI + 'Lakers',
+      method: 'GET',
       dataType: 'jsonp',
-      cache: false,
-      error: function(data) {
-        console.log(data)
-      },
       success: function(data) {
         this.setState({data: data.events.event});
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
       }.bind(this)
     })
   },
@@ -66,7 +66,6 @@ var EventBox = React.createClass({
     )
   }
 });
-
 
 ReactDOM.render(
   <EventBox />,
