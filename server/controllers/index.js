@@ -1,5 +1,5 @@
 //will need to require some fold called modles
-//var models = require('../models');
+var models = require('../models');
 
 module.exports = {
   users: {
@@ -27,7 +27,7 @@ module.exports = {
       models.trips.post(function(data){
         console.log('inside controllers trips post')
         res.send(data);
-      })
+      }, req.body); //some function to get data, fix later
     }
   }
 };

@@ -4,13 +4,21 @@ var serverHelpers = require("../server-helpers");
 //with under_scores. You have been warned.
 
 module.exports = models = {
-  trip: {
-    getTrips: function(eventID) {
-
-    }
+  users:{
+    get: function(){},
+    post: function(){}
   },
-  tripUser: {
-    postTrip: function(data) {
+  trips: {
+    get: function(callback, userData) {
+      var data = userData;
+      // somefunction on db(){
+      //
+      // }.then(data){
+      //   callback(data);
+      // }
+    },
+    post: function(cb, data) {
+      /*
       //MVP: no profile associated, so a new user is created for every post.
       //data must pass in info about driver, event, and trip
       //maybe data should be an object with each of those properties
@@ -19,6 +27,7 @@ module.exports = models = {
         email: data.email,
         phone: data.phone
       }).then(function(user) {
+        cb(user)
         //What if the event exists in db already?
         if (serverHelpers.eventExists) {
         }
@@ -47,6 +56,7 @@ module.exports = models = {
           })
         })
       })
+      */
     }
   }
 }

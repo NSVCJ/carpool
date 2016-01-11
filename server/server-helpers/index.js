@@ -1,9 +1,9 @@
 var db = require("../db");
 
-var eventExist = function(eventName) {
+var eventExist = function(eventId) {
   return db.Event.findAll({
     where: {
-      name: eventName
+      eventful_id: eventId
     }
   });
 }
