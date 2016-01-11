@@ -6,7 +6,7 @@ var Event = React.createClass({
     return (
       <div className="event">
         <h3>{this.props.name}</h3>
-        <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}</h4>
+        <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
         <h4>Driver | Rider</h4>
       </div>
     );
@@ -62,7 +62,7 @@ var EventList = React.createClass({
   render: function() {
     var eventNodes = this.props.data.map(function(event) {
       return (
-        <Event key={event.id} name={event.title} startTime={event.start_time} venue={event.venue_name} city={event.city_name} />
+        <Event key={event.id} name={event.title} startTime={event.start_time} venue={event.venue_name} city={event.city_name} region={event.region_abbr} />
       );
     });
     return (
