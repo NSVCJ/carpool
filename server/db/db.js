@@ -62,3 +62,4 @@ exports.Message = Trip;
 exports.Event = Event;
 exports.TripUser = TripUser;
 exports.EventUser = EventUser;
+exports.orm = orm;
