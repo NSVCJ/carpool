@@ -1,36 +1,15 @@
 {
-  "name": "react-tutorial",
-  "version": "0.0.0",
-  "description": "Code from the React tutorial.",
-  "main": "server.js",
-  "dependencies": {
-    "body-parser": "^1.4.3",
-    "cors": "^2.7.1",
-    "express": "^4.4.5",
-    "mysql": "^2.10.0",
-    "sequelize": "^3.17.1"
-  },
-  "devDependencies": {},
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/reactjs/react-tutorial.git"
-  },
-  "keywords": [
-    "react",
-    "tutorial",
-    "comment",
-    "example"
-  ],
-  "author": "petehunt",
-  "bugs": {
-    "url": "https://github.com/reactjs/react-tutorial/issues"
-  },
-  "homepage": "https://github.com/reactjs/react-tutorial",
-  "engines": {
-    "node": "0.12.x"
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3"
   }
 }
