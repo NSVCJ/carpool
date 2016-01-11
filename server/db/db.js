@@ -17,6 +17,7 @@ var Trip = orm.define("Trip", {
 });
 
 var Event = orm.define("Event", {
+  eventful_id: Sequelize.STRING,
   name: Sequelize.STRING,
   location_lat: Sequelize.DECIMAL(20,18),
   location_long: Sequelize.DECIMAL(20,17),
@@ -39,11 +40,12 @@ Event.hasMany(Trip);
 Trip.belongsToMany(User, {through: 'TripUser'});
 User.belongsToMany(Trip, {through: 'TripUser'});
 
+
 //Alternative Triple join table;
-var EventUser = orm.define("EventUser", {});
-EventUser.hasMany(Event);
-EventUser.hasMany(User);
-EventUser.hasMany(Trip);
+// var EventUser = orm.define("EventUser", {});
+// EventUser.hasMany(Event);
+// EventUser.hasMany(User);
+// EventUser.hasMany(Trip);
 
 // Trip.belongsToMany(User, {through: 'EventUser'});
 // User.belongsToMany(Trip, {through: 'EventUser'});
@@ -51,15 +53,17 @@ EventUser.hasMany(Trip);
 //Triple Join is weird. Not recipricating all relationships, but I'm not sure if
 //it's really necessary
 
+//Or we could not.
+
 User.sync();
 Trip.sync();
 Event.sync();
 TripUser.sync();
-EventUser.sync();
+//EventUser.sync();
 
 exports.User = User;
 exports.Message = Trip;
 exports.Event = Event;
 exports.TripUser = TripUser;
-exports.EventUser = EventUser;
+//exports.EventUser = EventUser;
 exports.orm = orm;
