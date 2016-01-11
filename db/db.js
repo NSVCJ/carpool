@@ -1,21 +1,56 @@
+var Sequelize = require("sequelize");
 
-var Sequelize = require("sequelize")
+var orm = new Sequelize("carpool", "root", "");
 
-var sequelize = new Sequelize("carpool", "root", "");
-
-var User = sequelize.define("User", {
+var User = orm.define("User", {
   name: Sequelize.STRING,
   email: Sequelize.STRING,
   phone: Sequelize.STRING,
-  profilePicture: Sequelize.BLOB('long'),
+  profile_picture: Sequelize.BLOB('long'),
   rating: Sequelize.FLOAT(4),
-  numberOfRatings: Sequelize.INTEGER
+  ratings_count: Sequelize.INTEGER
 });
 
-var Trip = sequelize.define("Trip", {
-  startTime: Sequelize.DATE(),
+var Trip = orm.define("Trip", {
+  start_time: Sequelize.DATE(),
   price: Sequelize.DECIMAL(7,2)
-})
+});
 
-Trip.belongsToMany(User, {through: 'TripUsers'});
-User.belongsToMany(Trip, {through: 'TripUsers'});
+var Event = orm.define("Event", {
+  name: Sequelize.STRING,
+  location_lat: Sequelize.DECIMAL(20,18),
+  location_long: Sequelize.DECIMAL(20,17),
+  //Examine the api to know for sure
+  start_time: Sequelize.DATE(),
+  type: Sequelize.STRING,
+  description: Sequelize.STRING
+  //URL to more info?
+  //URL to tickets?
+});
+
+var TripUser = orm.define("TripUser", {
+  start_lat: Sequelize.DECIMAL(20,18),
+  start_long: Sequelize.DECIMAL(20,17),
+  role: Sequelize.STRING
+});
+
+Event.hasMany(Trip);
+
+Trip.belongsToMany(User, {through: 'TripUser'});
+User.belongsToMany(Trip, {through: 'TripUser'});
+
+Trip.belongsToMany(User, {through: 'EventUser'});
+User.belongsToMany(Trip, {through: 'EventUser'});
+Event.belongToMany(User, {through: 'EventUser'});
+
+User.sync();
+Trip.sync();
+Event.sync();
+TripUser.sync();
+EventUser.sync();
+
+exports.User = User;
+exports.Message = Trip;
+exports.Event = Event;
+exports.TripUser = TripUser;
+exports.EventUser = EventUser;
