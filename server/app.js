@@ -25,13 +25,9 @@ app.use(function(req, res, next) {
 get request to our server
 www.oursite.com/api/something
 (something) is a generic path. prob will be user and trips
-
 CURRENTLY routing is setup for /api/users to do GET/PUT
-
 in return you will get list of drivers
-
 post driver information
-
 in return you will be able to give the information of a driver.
 */
 
