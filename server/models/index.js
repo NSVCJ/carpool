@@ -42,9 +42,9 @@ module.exports = models = {
           }).then(function(tripUser) {
             //console.log("TripUser:", tripUser); //see if I have setter functions
             callback({
-              user: user,
-              trip: trip,
-              tripUser: tripUser
+              'user': user,
+              'trip': trip,
+              'tripUser': tripUser
             });
           });
           // tripUser.setUsers([user]); //not sure if setUser is a methods here
