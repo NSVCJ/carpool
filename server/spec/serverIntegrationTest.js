@@ -1,7 +1,7 @@
 var request = require('request');
 var expect = require('../../node_modules/chai/chai').expect;
 
-//After each
+//Delete new entry after each
 
 describe('Serves Trip Requests', function() {
 
@@ -43,6 +43,7 @@ describe('Serves Trip Requests', function() {
 
     request(requestParams, function(error, response, body) {
       expect(response.statusCode).to.equal(200);
+      //var posted = JSON.parse(body).posted;
       done();
     });
   });
@@ -51,7 +52,7 @@ describe('Serves Trip Requests', function() {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/api/trips',
       json: {
-        "event": {
+        'event': {
           "id": "SecondTestParty"
         },
         "user": {
@@ -68,15 +69,18 @@ describe('Serves Trip Requests', function() {
     };
     console.log("Before Post request");
     request(requestParams, function(error, response, body) {
-      var posted = JSON.parse(body).posted;
-      console.log("Posted: ", posted);
+      //var posted = JSON.parse(body).posted;
+      var posted = body.posted;
       expect(posted.user.name).to.equal('Me');
       expect(posted.trip.price).to.equal(50.00);
       expect(posted.tripUser.long).to.equal(-158.554688);
       request('http://127.0.0.1:3000/api/trips?eventfulId=SecondTestParty', function(error, response, body) {
-          console.log("Inside second request");
-          done();
-        });
+        parsedBody = JSON.parse(body);
+        expect(parsedBody.trips[0].name).to.equal('Me');
+        expect(parsedBody.trips[0].price).to.equal(50.00);
+        expect(parsedBody.trips[0].long).to.equal(-158.554688);
+        done();
+      });
     });
   });
 
