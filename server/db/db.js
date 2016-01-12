@@ -1,48 +1,48 @@
 var Sequelize = require("sequelize");
 
-var orm = new Sequelize("carpool", "root", "");
+var sequelize = new Sequelize("carpool", "root", "");
 
-var User = orm.define("User", {
+var User = sequelize.define("User", {
   name: Sequelize.STRING,
   email: Sequelize.STRING,
   phone: Sequelize.STRING,
-  profile_picture: Sequelize.BLOB('long'),
+  profilePicture: Sequelize.BLOB('long'),
   rating: Sequelize.FLOAT(4),
-  ratings_count: Sequelize.INTEGER
+  ratingsCount: Sequelize.INTEGER
 });
 
-var Trip = orm.define("Trip", {
-  start_time: Sequelize.DATE(),
-  price: Sequelize.DECIMAL(7,2)
+var Trip = sequelize.define("Trip", {
+  price: Sequelize.DECIMAL(7,2),
+  eventfulId: Sequelize.STRING
 });
 
-var Event = orm.define("Event", {
-  eventful_id: Sequelize.STRING,
-  name: Sequelize.STRING,
-  location_lat: Sequelize.DECIMAL(20,18),
-  location_long: Sequelize.DECIMAL(20,17),
-  //Examine the api to know for sure
-  start_time: Sequelize.DATE(),
-  type: Sequelize.STRING,
-  description: Sequelize.STRING
-  //URL to more info?
-  //URL to tickets?
-});
+// var Event = sequelize.define("Event", {
+//   eventful_id: Sequelize.STRING,
+//   name: Sequelize.STRING,
+//   location_lat: Sequelize.DECIMAL(20,18),
+//   location_long: Sequelize.DECIMAL(20,17),
+//   //Examine the api to know for sure
+//   start_time: Sequelize.DATE(),
+//   type: Sequelize.STRING,
+//   description: Sequelize.STRING
+//   //URL to more info?
+//   //URL to tickets?
+// });
 
-var TripUser = orm.define("TripUser", {
-  start_lat: Sequelize.DECIMAL(20,18),
-  start_long: Sequelize.DECIMAL(20,17),
+var TripUser = sequelize.define("TripUser", {
+  lat: Sequelize.DECIMAL(20,18),
+  long: Sequelize.DECIMAL(20,17),
   role: Sequelize.STRING
 });
 
-Event.hasMany(Trip);
+//Event.hasMany(Trip);
 
 Trip.belongsToMany(User, {through: 'TripUser'});
 User.belongsToMany(Trip, {through: 'TripUser'});
 
 
 //Alternative Triple join table;
-// var EventUser = orm.define("EventUser", {});
+// var EventUser = sequelize.define("EventUser", {});
 // EventUser.hasMany(Event);
 // EventUser.hasMany(User);
 // EventUser.hasMany(Trip);
@@ -57,13 +57,13 @@ User.belongsToMany(Trip, {through: 'TripUser'});
 
 User.sync();
 Trip.sync();
-Event.sync();
+//Event.sync();
 TripUser.sync();
 //EventUser.sync();
 
 exports.User = User;
-exports.Message = Trip;
-exports.Event = Event;
+exports.Trip = Trip;
+//exports.Event = Event;
 exports.TripUser = TripUser;
 //exports.EventUser = EventUser;
-exports.orm = orm;
+exports.sequelize = sequelize;
