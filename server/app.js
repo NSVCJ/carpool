@@ -8,12 +8,6 @@ var db = require('./db/db.js');
 var app = express();
 module.exports.app = app;
 
-<<<<<<< fce5d7ba445fcec2df9eabe5b58b207bb7070d8d
-=======
-//not sure what port to set when we deploy
-// app.set('port', 3000);
-
->>>>>>> (feature) setup heroku files for delpoy
 app.use(parser.json());
 app.use('/api', router);
 app.use('/', routerSign);
@@ -41,7 +35,6 @@ in return you will be able to give the information of a driver.
 //*****************************************************************************
 
 //will need to setup a client folder
-<<<<<<< fce5d7ba445fcec2df9eabe5b58b207bb7070d8d
 app.use(express.static("./public"));
 app.set('port', process.env.PORT || 8000);
 //*****************************************************************************
@@ -51,13 +44,4 @@ db.sequelize.sync().then(function() {
   http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
   });
-=======
-app.use(express.static("../public"));
-var port = process.env.PORT || 8000;
-//*****************************************************************************
-//*****************************************************************************
-
-app.listen(port, function() {
-  console.log('Server started: http://localhost:' + port + '/');
->>>>>>> (feature) setup heroku files for delpoy
 });
