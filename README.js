@@ -12,12 +12,22 @@ create database carpool; //Must close all sql commands with semicolon!
 //How to input Test Data (Only do this once or you'll get duplicates)
 //------------
 //
-//Make sure you're in the root carpool directory
 //Enter this into terminal
 npm run data
 //This will magically enter test data into your carpool mysql database.
 //The test data is listed in server/spec/inputTestData.js
 //There will be 4 events, users, and tripUsers in your mysql carpool database
+
+
+//-----------
+//How to test server integration
+//-----------
+//
+//Enter this into terminal
+npm run test
+//This will test whether post and get requests for the MVP are working.
+
+
 
 
 //------------
