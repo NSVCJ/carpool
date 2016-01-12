@@ -15,7 +15,8 @@ create database carpool; //Must close all sql commands with semicolon!
 //Make sure you're in the root carpool directory
 //Enter this into terminal
 npm run data
-//This will magically enter in the test data listed in server/spec/inputTestData.js
+//This will magically enter test data into your carpool mysql database.
+//The test data is listed in server/spec/inputTestData.js
 //There will be 4 events, users, and tripUsers in your mysql carpool database
 
 
