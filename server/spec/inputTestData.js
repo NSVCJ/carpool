@@ -1,5 +1,4 @@
 var request = require('request');
-//var app = require('../app.js').app;
 var _ = require('lodash');
 
 var testData = [
@@ -75,5 +74,6 @@ _.each(testData, function(json) {
       return console.error('upload failed:', error);
     };
     console.log('Upload successful!  Server responded with:', body);
+    done();
   });
 });

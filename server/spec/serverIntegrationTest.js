@@ -4,6 +4,7 @@ var expect = require('../../node_modules/chai/chai').expect;
 //After each
 
 describe('Serves Trip Requests', function() {
+
   it('should respond to GET requests for /log with a 200 status code', function(done) {
     request('http://127.0.0.1:3000/api/trips', function(error, response, body) {
       expect(response.statusCode).to.equal(200);
@@ -12,10 +13,10 @@ describe('Serves Trip Requests', function() {
   });
 
   it('should send an object containing a `trips` array', function(done) {
-    request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
+    request('http://127.0.0.1:3000/api/trips', function(error, response, body) {
       parsedBody = JSON.parse(body);
       expect(parsedBody).to.be.an('object');
-      expect(parsedBody.results).to.be.an('array');
+      expect(parsedBody.trips).to.be.an('array');
       done();
     });
   });
@@ -41,22 +42,22 @@ describe('Serves Trip Requests', function() {
     };
 
     request(requestParams, function(error, response, body) {
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(200);
       done();
     });
   });
 
-  it('should respond with the user, trip, and tripUser that were previously posted', function(done) {
+  it('should respond with the user, trip, and tripUser rows that were previously posted', function(done) {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/api/trips',
       json: {
         "event": {
-          "id": "TestParty"
+          "id": "SecondTestParty"
         },
         "user": {
           "name": "Me",
-          "email": "google@google.com",
-          "phone": "1-234-567-8900"
+          "email": "something@gmail.com",
+          "phone": "0010100110"
         },
         "trip": {
           "price": 50.00,
@@ -65,14 +66,18 @@ describe('Serves Trip Requests', function() {
         }
       }
     };
-
+    console.log("Before Post request");
     request(requestParams, function(error, response, body) {
-      request('http://127.0.0.1:3000/api/trips', function(error, response, body) {
-          var trips = JSON.parse(body).results;
-          expect(trips[0].user.name).to.equal('Me');
-          expect(trips[0].trip.price).to.equal(50.00);
-          expect(trips[0].trip.price).to.equal(50.00);
+      var posted = JSON.parse(body).posted;
+      console.log("Posted: ", posted);
+      expect(posted.user.name).to.equal('Me');
+      expect(posted.trip.price).to.equal(50.00);
+      expect(posted.tripUser.long).to.equal(-158.554688);
+      request('http://127.0.0.1:3000/api/trips?eventfulId=SecondTestParty', function(error, response, body) {
+          console.log("Inside second request");
           done();
         });
     });
   });
+
+});
