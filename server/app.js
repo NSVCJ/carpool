@@ -7,7 +7,7 @@ var app = express();
 module.exports.app = app;
 
 //not sure what port to set when we deploy
-app.set('port', 3000);
+// app.set('port', 3000);
 
 app.use(parser.json());
 app.use('/api', router);
@@ -36,10 +36,10 @@ in return you will be able to give the information of a driver.
 
 //will need to setup a client folder
 app.use(express.static("../public"));
-
+var port = process.env.PORT || 8000;
 //*****************************************************************************
 //*****************************************************************************
 
-app.listen(app.get('port'), function() {
-  console.log('Server started: http://localhost:' + app.get('port') + '/');
+app.listen(port, function() {
+  console.log('Server started: http://localhost:' + port + '/');
 });
