@@ -1,5 +1,5 @@
-// var db = require("../db/db.js");
-//var serverHelpers = require("../server-helpers");
+var db = require("../db/db.js");
+var serverHelpers = require("../server-helpers");
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
@@ -9,16 +9,18 @@ module.exports = models = {
     post: function(){}
   },
   trips: {
-    get: function(callback, userData) {
-      var data = userData;
-      // somefunction on db(){
-      //
-      // }.then(data){
-      //   callback(data);
-      // }
+    get: function(callback, params) {
+      console.log("Them params", params);
+      db.sequelize.query(
+        "select TripUsers.lat, TripUsers.long, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+      {type: db.sequelize.QueryTypes.SELECT})
+      .then(function(data){
+        console.log("Inside models.trips.get", data);
+        callback(data);
+      })
     },
     post: function(callback, data) {
-
+      //console.log("Here is your post data", data);
       //MVP: no profile associated, so a new user is created for every post.
       //data must pass in info about driver, event, and trip
       //maybe data should be an object with each of those properties
@@ -28,24 +30,26 @@ module.exports = models = {
         phone: data.user.phone
       }).then(function(user) {
         db.Trip.create( {
-          start_time: data.trip.startTime,
           price: data.trip.price,
-          eventful_id: data.event.id
+          eventfulId: data.event.id
         }).then(function(trip) {
-          db.TripUser.create( {
+          tripUser = db.TripUser.create( {
             lat: data.trip.lat,
             long: data.trip.long,
-            role: "Driver"
+            role: "Driver",
+            UserId: user.id,
+            TripId: trip.id
           }).then(function(tripUser) {
-            console.log(tripUser); //see if I have setter functions
-            tripUser.setUser(user); //not sure if setUser is a methods here
-            tripUser.setTrip(trip);
+            //console.log("TripUser:", tripUser); //see if I have setter functions
             callback({
               user: user,
               trip: trip,
               tripUser: tripUser
             });
           });
+          // tripUser.setUsers([user]); //not sure if setUser is a methods here
+          // tripUser.setTrips([trip]);
+          // tripUser.save();
         });
       });
     }

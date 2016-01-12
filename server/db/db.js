@@ -1,8 +1,8 @@
 var Sequelize = require("sequelize");
 
-var orm = new Sequelize("carpool", "root", "");
+var sequelize = new Sequelize("carpool", "root", "");
 
-var User = orm.define("User", {
+var User = sequelize.define("User", {
   name: Sequelize.STRING,
   email: Sequelize.STRING,
   phone: Sequelize.STRING,
@@ -11,13 +11,12 @@ var User = orm.define("User", {
   ratingsCount: Sequelize.INTEGER
 });
 
-var Trip = orm.define("Trip", {
-  startTime: Sequelize.DATE(),
+var Trip = sequelize.define("Trip", {
   price: Sequelize.DECIMAL(7,2),
   eventfulId: Sequelize.STRING
 });
 
-// var Event = orm.define("Event", {
+// var Event = sequelize.define("Event", {
 //   eventful_id: Sequelize.STRING,
 //   name: Sequelize.STRING,
 //   location_lat: Sequelize.DECIMAL(20,18),
@@ -30,7 +29,7 @@ var Trip = orm.define("Trip", {
 //   //URL to tickets?
 // });
 
-var TripUser = orm.define("TripUser", {
+var TripUser = sequelize.define("TripUser", {
   lat: Sequelize.DECIMAL(20,18),
   long: Sequelize.DECIMAL(20,17),
   role: Sequelize.STRING
@@ -43,7 +42,7 @@ User.belongsToMany(Trip, {through: 'TripUser'});
 
 
 //Alternative Triple join table;
-// var EventUser = orm.define("EventUser", {});
+// var EventUser = sequelize.define("EventUser", {});
 // EventUser.hasMany(Event);
 // EventUser.hasMany(User);
 // EventUser.hasMany(Trip);
@@ -63,8 +62,8 @@ TripUser.sync();
 //EventUser.sync();
 
 exports.User = User;
-exports.Message = Trip;
+exports.Trip = Trip;
 //exports.Event = Event;
 exports.TripUser = TripUser;
 //exports.EventUser = EventUser;
-exports.orm = orm;
+exports.sequelize = sequelize;
