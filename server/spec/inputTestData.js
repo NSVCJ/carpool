@@ -74,6 +74,5 @@ _.each(testData, function(json) {
       return console.error('upload failed:', error);
     };
     console.log('Upload successful!  Server responded with:', body);
-    done();
   });
 });
