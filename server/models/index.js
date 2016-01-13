@@ -24,12 +24,12 @@ module.exports = models = {
   riderConfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Rider' AND TripUsers.TripId = Trips.id",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Rider' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
       .spread(function(riderInfo){
         var queries = riderInfo.map(function(trip) {
           db.sequelize.query(
-            "select Users.*, TripUsers.lat, TripUsers.long from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
+            "select Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
           {type: db.sequelize.QueryTypes.SELECT})
         })
         Promise.all(queries)
@@ -44,12 +44,12 @@ module.exports = models = {
   riderUnconfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.TripId = Trips.id",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
       .spread(function(riderInfo){
         var queries = riderInfo.map(function(trip) {
           db.sequelize.query(
-            "select Users.*, TripUsers.lat, TripUsers.long from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
+            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
           {type: db.sequelize.QueryTypes.SELECT})
         })
         Promise.all(queries)
@@ -64,12 +64,12 @@ module.exports = models = {
   driverConfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
       .spread(function(driverInfo){
         var queries = riderInfo.map(function(trip) {
           db.sequelize.query(
-            "select Users.*, TripUsers.lat, TripUsers.long from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Rider'",
+            "select Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Rider'",
           {type: db.sequelize.QueryTypes.SELECT})
         })
         Promise.all(queries)
@@ -84,12 +84,12 @@ module.exports = models = {
   driverUnconfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
       .spread(function(driverInfo){
         var queries = riderInfo.map(function(trip) {
           db.sequelize.query(
-            "select Users.*, TripUsers.lat, TripUsers.long from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed'",
+            "select Users.*, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed'",
           {type: db.sequelize.QueryTypes.SELECT})
         })
         Promise.all(queries)
@@ -107,7 +107,7 @@ module.exports = models = {
     //For use on event-Rider page
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.lat, TripUsers.long, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.startLocation, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         callback(data);
@@ -134,8 +134,7 @@ module.exports = models = {
           eventfulId: data.event.id
         }).then(function(trip) {
           tripUser = db.TripUser.create( {
-            lat: data.trip.lat,
-            long: data.trip.long,
+            startLocation: data.trip.startLocation,
             role: "Driver",
             UserId: user.id,
             TripId: trip.id
@@ -154,7 +153,7 @@ module.exports = models = {
   trips: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.lat, TripUsers.long, Trips.price, Users.* from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.startLocation, Trips.price, Users.* from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         console.log("Inside models.trips.get", data);
@@ -173,8 +172,7 @@ module.exports = models = {
           eventfulId: data.event.id
         }).then(function(trip) {
           tripUser = db.TripUser.create( {
-            lat: data.trip.lat,
-            long: data.trip.long,
+            startLocation: data.trip.startLocation,
             role: "Driver",
             UserId: user.id,
             TripId: trip.id
