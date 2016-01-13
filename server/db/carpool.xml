@@ -48,7 +48,7 @@
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="phone" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
+<datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="rating" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
@@ -63,7 +63,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="988" y="319" name="Trips">
+<table x="1061" y="334" name="Trips">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -71,7 +71,7 @@
 <datatype>DECIMAL</datatype>
 <default>NULL</default></row>
 <row name="eventfulId" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
+<datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
@@ -86,11 +86,8 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Users" row="id" />
 </row>
-<row name="lat" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
-<default>NULL</default></row>
-<row name="long" null="1" autoincrement="0">
-<datatype>DECIMAL</datatype>
+<row name="startLocation" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="role" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
