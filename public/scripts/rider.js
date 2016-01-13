@@ -1,4 +1,4 @@
-var DriverInfo = React.createClass({
+export const DriverInfo = React.createClass({
   render: function() {
     return (
       <div className="driver col-md-4">
@@ -13,7 +13,7 @@ var DriverInfo = React.createClass({
   }
 });
 
-var DriversList = React.createClass({
+export const DriversList = React.createClass({
   componentDidMount: function() {
     console.log('DriversList, componentDidMount');
   },
@@ -43,7 +43,7 @@ var DriversList = React.createClass({
   }
 });
 
-var GetDriversData = React.createClass({
+export const GetDriversData = React.createClass({
   componentDidMount: function() {
     console.log('GetDriversData, componentDidMount');
     this.getDrivers();
