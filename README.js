@@ -55,13 +55,13 @@ req.url = localhost:3000/api/trips
 //------------
 //
 //Use this address as your request url so our server can get it
-req.url = localhost:3000/api/trips
+req.url = localhost:<PORT>/api/trips
 //Get requests from Rider Page must also pass in a params object
 params: {
   "eventfulId": "[ID]" //id value from eventful api event object
 }
 //OR instead of a params object, inputing your params into the url will work too
-localhost:3000/api/trips?eventfulId=SingleDadMixer
+localhost:<PORT>/api/trips?eventfulId=SingleDadMixer
 //Test that your get requests are working by pluging in
 //"SingleDadMixer" or "PlantPhotoGallery" as your eventfulId.
 //
