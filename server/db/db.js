@@ -1,6 +1,20 @@
 var Sequelize = require("sequelize");
 
-var sequelize = new Sequelize("carpool", "root", "");
+var sequelize = null;
+
+if (process.env.HEROKU_POSTGRESQL_BRONZE_URL) {
+  // the application is executed on Heroku ... use the postgres database
+  sequelize = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL, {
+    dialect:  'postgres',
+    protocol: 'postgres',
+    port:     match[4],
+    host:     match[3],
+    logging:  true //false
+  })
+} else {
+  // the application is executed on the local machine ... use mysql
+  sequelize = new Sequelize('carpool', 'root', null)
+}
 
 var User = sequelize.define("User", {
   name: Sequelize.STRING,

@@ -3,6 +3,7 @@ var http = require("http");
 var express = require('express');
 var parser = require('body-parser');
 var router = require('./routes.js');
+var db = require('./db/db.js');
 var app = express();
 module.exports.app = app;
 
@@ -36,10 +37,16 @@ in return you will be able to give the information of a driver.
 
 //will need to setup a client folder
 app.use(express.static("./public"));
-var port = process.env.PORT || 8000;
+app.set('port', process.env.PORT || 3000);
 //*****************************************************************************
 //*****************************************************************************
 
-app.listen(port, function() {
-  console.log('Server started: http://localhost:' + port + '/');
+db.sequelize.sync().then(function() {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });
 });
+
+// app.listen(app.get('port'), function() {
+//   console.log('Server started: http://localhost:' + app.get('port') + '/');
+// });
