@@ -154,7 +154,7 @@ module.exports = models = {
   trips: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.lat, TripUsers.long, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.lat, TripUsers.long, Trips.price, Users.* from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         console.log("Inside models.trips.get", data);
