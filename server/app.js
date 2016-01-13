@@ -37,7 +37,7 @@ in return you will be able to give the information of a driver.
 
 //will need to setup a client folder
 app.use(express.static("./public"));
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 //*****************************************************************************
 //*****************************************************************************
 
@@ -46,7 +46,3 @@ db.sequelize.sync().then(function() {
     console.log('Express server listening on port ' + app.get('port'));
   });
 });
-
-// app.listen(app.get('port'), function() {
-//   console.log('Server started: http://localhost:' + app.get('port') + '/');
-// });

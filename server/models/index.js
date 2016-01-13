@@ -1,9 +1,22 @@
 var db = require("../db/db.js");
 var serverHelpers = require("../server-helpers");
+var bcrypt = require('bcrypt');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
 module.exports = models = {
+  signin:{
+    get: function(){},
+    post: function(){
+
+    }
+  },
+  signup:{
+    get: function(){},
+    post: function(){
+
+    }
+  },
   users:{
     get: function(){},
     post: function(){}
