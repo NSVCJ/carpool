@@ -45,8 +45,7 @@ How to post data from the DRIVER PAGE
   },
   "trip": {
     "price": 0.00, //Number (max is 9999.99)
-    "lat": 90.00, //Number (Where the driver is starting from)
-    "long": 90.00 //Number (Where the driver is starting from)
+    "startLocation" : "1542 Harper Ave, Redondo Beach, CA" //Address String from google maps
   }
 }
 ```
@@ -67,4 +66,25 @@ params: {
 *OR instead of a params object, inputing your params into the url will work too*
 **`localhost:<PORT>/api/trips?eventfulId=SingleDadMixer`** <br>
 *Test that your get requests are working by pluging in
-"SingleDadMixer" or "PlantPhotoGallery" as your eventfulId. The response to the get request will be an object containing an array called trips. This shows all the trips that are going to that event, including the lat, long, price, name, and contact info for the driver.*
+"SingleDadMixer" or "PlantPhotoGallery" as your eventfulId. The response to the get request will be an object containing an array called trips. The trip array will show all the info for trips going to that event. Here's what the response's returned data will look like:*
+```javascript
+{
+  trips: [
+    {
+      "startLocation": "[ADDRESS]", //Start location of the driver for the trip
+      "price": 20.00, //Price of the trip
+      "name": "Bob", //Name of the Driver for the Trip
+      "email": "email@email.com",// String
+      "phone": "1234123",// String
+      "rating": "",//null for now
+      "profilePicture": "", //null for now
+      "ratingsCount": "", //null for now
+    },
+    {
+      "startLocation": "[ADDRESS]"
+      //etc...
+    },
+    //etc...
+  ]
+}
+```

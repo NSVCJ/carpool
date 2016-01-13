@@ -6,14 +6,14 @@ var expect = require('../../node_modules/chai/chai').expect;
 describe('Serves Trip Requests', function() {
 
   it('should respond to GET requests for /log with a 200 status code', function(done) {
-    request('http://127.0.0.1:3000/api/trips', function(error, response, body) {
+    request('http://127.0.0.1:8000/api/trips', function(error, response, body) {
       expect(response.statusCode).to.equal(200);
       done();
     });
   });
 
   it('should send an object containing a `trips` array', function(done) {
-    request('http://127.0.0.1:3000/api/trips', function(error, response, body) {
+    request('http://127.0.0.1:8000/api/trips', function(error, response, body) {
       parsedBody = JSON.parse(body);
       expect(parsedBody).to.be.an('object');
       expect(parsedBody.trips).to.be.an('array');
@@ -23,7 +23,7 @@ describe('Serves Trip Requests', function() {
 
   it('should accept POST requests', function(done) {
     var requestParams = {method: 'POST',
-      uri: 'http://127.0.0.1:3000/api/trips',
+      uri: 'http://127.0.0.1:8000/api/trips',
       json: {
         "event": {
           "id": "TestParty"
@@ -35,8 +35,7 @@ describe('Serves Trip Requests', function() {
         },
         "trip": {
           "price": 50.00,
-          "lat": 60.619324,
-          "long": -158.554688
+          "startLocation": "1600 Pennsylvania Ave NW, Washington, DC 20500"
         }
       }
     };
@@ -50,7 +49,7 @@ describe('Serves Trip Requests', function() {
 
   it('should respond with the user, trip, and tripUser rows that were previously posted', function(done) {
     var requestParams = {method: 'POST',
-      uri: 'http://127.0.0.1:3000/api/trips',
+      uri: 'http://127.0.0.1:8000/api/trips',
       json: {
         'event': {
           "id": "SecondTestParty"
@@ -62,8 +61,7 @@ describe('Serves Trip Requests', function() {
         },
         "trip": {
           "price": 50.00,
-          "lat": 60.619324,
-          "long": -158.554688
+          "startLocation": "1600 Pennsylvania Ave NW, Washington, DC 20500"
         }
       }
     };
@@ -73,12 +71,12 @@ describe('Serves Trip Requests', function() {
       var posted = body.posted;
       expect(posted.user.name).to.equal('Me');
       expect(posted.trip.price).to.equal(50.00);
-      expect(posted.tripUser.long).to.equal(-158.554688);
-      request('http://127.0.0.1:3000/api/trips?eventfulId=SecondTestParty', function(error, response, body) {
+      expect(posted.tripUser.startLocation).to.equal("1600 Pennsylvania Ave NW, Washington, DC 20500");
+      request('http://127.0.0.1:8000/api/trips?eventfulId=SecondTestParty', function(error, response, body) {
         parsedBody = JSON.parse(body);
         expect(parsedBody.trips[0].name).to.equal('Me');
         expect(parsedBody.trips[0].price).to.equal(50.00);
-        expect(parsedBody.trips[0].long).to.equal(-158.554688);
+        expect(parsedBody.trips[0].startLocation).to.equal("1600 Pennsylvania Ave NW, Washington, DC 20500");
         done();
       });
     });
