@@ -54,10 +54,11 @@ export const GetDriversData = React.createClass({
       url: '/api/trips',
       method: 'GET',
       dataType: 'json',
-      data: {
+      params: {
         eventfulId: 'SpecialEventId'
       },
       success: function(data) {
+        console.log("Gotten data:", data);
         if (!data.trips) {
           this.noResults();
         } else {

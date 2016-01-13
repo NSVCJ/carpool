@@ -30,5 +30,17 @@ module.exports = {
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
     }
+  },
+  riderProfile:{
+    get: function (req, res) {
+      console.log('inside controllers trips riders');
+      models.trips.riders(function(riderInfo, driverInfo){
+        //console.log("Inside trips get", data);
+        res.send({riderInfo: riderInfo,
+                  driverInfo: driverInfo
+        });
+      }, req.query)
+    },
+    post: function (req, res) {}
   }
 };
