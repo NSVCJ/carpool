@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha server/spec/serverIntegrationTest.js",
+    "test": "mocha server/spec/serverIntegrationTest.js && node server/spec/cleanUpDb.js",
     "data": "node server/spec/inputTestData.js"
   },
   "author": "",

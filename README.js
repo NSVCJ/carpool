@@ -28,8 +28,6 @@ npm run test
 //This will test whether post and get requests for the MVP are working.
 
 
-
-
 //------------
 //How to post data from the DRIVER PAGE
 //------------
