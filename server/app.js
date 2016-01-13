@@ -35,7 +35,7 @@ in return you will be able to give the information of a driver.
 //*****************************************************************************
 
 //will need to setup a client folder
-app.use(express.static("../public"));
+app.use(express.static("./public"));
 var port = process.env.PORT || 8000;
 //*****************************************************************************
 //*****************************************************************************
