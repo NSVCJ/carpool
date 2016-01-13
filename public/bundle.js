@@ -96,14 +96,19 @@
 	        'h4',
 	        null,
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/driver', onClick: this.cacheEventData },
-	          'Driver'
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/rider', onClick: this.cacheEventData },
-	          'Rider'
+	          'span',
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/driver', onClick: this.cacheEventData },
+	            'Driver'
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/rider', onClick: this.cacheEventData },
+	            'Rider'
+	          )
 	        )
 	      )
 	    );
@@ -330,7 +335,7 @@
 	        null,
 	        this.props.data.title
 	      ),
-	      _react2.default.createElement('img', { src: 'images/winter-plants-fiberoptic-l.jpg', alt: '' }),
+	      _react2.default.createElement('img', { src: this.props.data.image.medium.url, alt: '' }),
 	      _react2.default.createElement(
 	        'h4',
 	        null,
@@ -464,6 +469,7 @@
 	        null,
 	        'Start Location',
 	        _react2.default.createElement('input', {
+	          size: '100',
 	          id: 'location',
 	          type: 'text',
 	          placeholder: 'startLocation',

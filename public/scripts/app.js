@@ -22,8 +22,11 @@ const Event = React.createClass({
         <h3>{this.props.name}</h3>
         <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
         <h4>
-          <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
-          <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
+          <span>
+            <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
+            <br />
+            <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
+          </span>
         </h4>
       </div>
     );
@@ -221,7 +224,7 @@ const EventInfo = React.createClass({
     return (
       <div className="eventInfo">
         <h3>{this.props.data.title}</h3>
-        <img src="images/winter-plants-fiberoptic-l.jpg" alt="" />
+        <img src={this.props.data.image.medium.url} alt="" />
         <h4>
           {this.props.data.start_time}<br />
           {this.props.data.venue_name}<br />
@@ -337,6 +340,7 @@ const DriverForm = React.createClass({
         <label>
           Start Location
           <input
+            size="100"
             id="location"
             type="text"
             placeholder="startLocation"
