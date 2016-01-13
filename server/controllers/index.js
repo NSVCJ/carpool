@@ -1,23 +1,8 @@
 //will need to require some fold called modles
 var models = require('../models');
+var utils = require('../server-helpers');
 
 module.exports = {
-  signin:{
-    get: function(req, res){
-
-    },
-    post: function(req, res){
-
-    }
-  },
-  signup:{
-    get: function(req, res){
-
-    },
-    post: function(req, res){
-
-    }
-  },
   users: {
     get: function (req, res) {
       console.log('inside controllers users get');
@@ -51,6 +36,7 @@ module.exports = {
       console.log('inside controllers riderConfirmed get');
       models.riderConfirmed.get(function(riderInfo, driverInfo){
         //console.log("Inside trips get", data);
+        //add utility function here to format data, combine entries
         res.send({riderInfo: riderInfo,
                   driverInfo: driverInfo
         });
@@ -97,14 +83,14 @@ module.exports = {
   eventRider: {
     get: function (req, res) {
       console.log('inside controllers eventRider get');
-      models.trips.get(function(data){
+      models.eventRider.get(function(data){
         //console.log("Inside trips get", data);
         res.send({trips: data});
       }, req.query)
     },
     post: function (req, res) {
       console.log('inside controllers eventRider post')
-      models.trips.post(function(data){
+      models.eventRider.post(function(data){
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
     }
@@ -112,12 +98,12 @@ module.exports = {
   eventDriver: {
     get: function (req, res) {
       console.log('inside controllers eventDriver');
-      models.trips.get(function(data){
+      models.eventDriver.get(function(data){
         res.send({trips: data});
       }, req.query)
     },
     post: function (req, res) {
-      models.trips.post(function(data){
+      models.eventDriver.post(function(data){
         //console.log('inside controllers trips post')
         res.send({posted: data});
       }, req.body); //some function to get data, fix later

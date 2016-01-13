@@ -7,3 +7,7 @@ var eventExist = function(eventId) {
     }
   });
 }
+
+var riderConfirmedFormat = function(riderInfo, driverInfo) {
+
+}

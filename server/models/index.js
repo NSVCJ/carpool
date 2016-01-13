@@ -107,7 +107,7 @@ module.exports = models = {
     //For use on event-Rider page
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.startLocation, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         callback(data);
@@ -115,6 +115,14 @@ module.exports = models = {
     },
     post: function(callback, data) {
       //To be continued once the rider form is completed
+      db.TripUser.create( {
+          TripId: data.trips.tripId,
+          startLocation: data.startLocation,
+          UserId: data.user.id,
+          role: 'Unconfirmed'
+      }).then(function(rider){
+        callback(rider);
+      })
     }
   },
 
@@ -153,7 +161,7 @@ module.exports = models = {
   trips: {
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.startLocation, Trips.price, Users.* from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         console.log("Inside models.trips.get", data);
