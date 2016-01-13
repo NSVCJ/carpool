@@ -1,23 +1,6 @@
-//will need to require some fold called modles
 var models = require('../models');
 
 module.exports = {
-  signin:{
-    get: function(req, res){
-
-    },
-    post: function(req, res){
-
-    }
-  },
-  signup:{
-    get: function(req, res){
-
-    },
-    post: function(req, res){
-
-    }
-  },
   users: {
     get: function (req, res) {
       console.log('inside controllers users get');
