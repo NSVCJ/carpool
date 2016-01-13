@@ -8,6 +8,24 @@ module.exports = models = {
     get: function(){},
     post: function(){}
   },
+  riderProfile: {
+    get: function(callback, params) {
+      db.sequelize.query(
+        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers = 'Rider' AND TripUsers.TripId = Trips.id",
+      {type: db.sequelize.QueryTypes.SELECT})
+      .spread(function(riderInfo){
+        var queries = riderInfo.map(function(trip) {
+          db.sequelize.query(
+            "select Users.*, TripUsers.lat, TripUsers.long from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
+          {type: db.sequelize.QueryTypes.SELECT})
+        })
+        Promise.all(queries)
+        .then(function(driverInfo){
+          callback(riderInfo, driverInfo);
+        })
+      })
+    }
+  },
   trips: {
     get: function(callback, params) {
       //console.log("Them params", params);
@@ -18,11 +36,6 @@ module.exports = models = {
         console.log("Inside models.trips.get", data);
         callback(data);
       })
-    },
-    riders: function(callback, params) {
-      db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId"
-      )
     },
     post: function(callback, data) {
       //console.log("Here is your post data", data);
