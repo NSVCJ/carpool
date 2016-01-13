@@ -42,5 +42,21 @@ module.exports = {
       }, req.query)
     },
     post: function (req, res) {}
+  },
+  signin:{
+    get: function(req, res){
+
+    },
+    post: function(req, res){
+
+    }
+  },
+  signup:{
+    get: function(req, res){
+
+    },
+    post: function(req, res){
+
+    }
   }
 };
