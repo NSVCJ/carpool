@@ -54,18 +54,25 @@
 
 	var _reactRouter = __webpack_require__(159);
 
-	var _driver = __webpack_require__(206);
-
-	var _rider = __webpack_require__(207);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// commented out because passing props between component files is difficult with react router
+	// import { DriverForm, DriverBox } from './driver';
+	// import { DriverInfo, DriversList, GetDriversData } from './rider';
 
 	var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
 	var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
+	// declare global variable to store event API data between components (this is the wrong way to do it)
+	var EventData;
+
 	var Event = _react2.default.createClass({
 	  displayName: 'Event',
 
+	  setEventData: function setEventData() {
+	    EventData = this.props;
+	    console.log('app.js', EventData);
+	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -91,13 +98,12 @@
 	        null,
 	        _react2.default.createElement(
 	          _reactRouter.Link,
-	          { to: '/driver' },
+	          { to: '/driver', onClick: this.setEventData },
 	          'Driver'
 	        ),
-	        ' ',
 	        _react2.default.createElement(
 	          _reactRouter.Link,
-	          { to: '/rider' },
+	          { to: '/rider', onClick: this.setEventData },
 	          'Rider'
 	        )
 	      )
@@ -109,7 +115,7 @@
 	  displayName: 'SearchBox',
 
 	  getInitialState: function getInitialState() {
-	    return { location: '', keywords: '' };
+	    return { location: 'Los Angeles', keywords: 'Lakers' };
 	  },
 	  handleLocationChange: function handleLocationChange(e) {
 	    this.setState({ location: e.target.value });
@@ -251,14 +257,280 @@
 	  }
 	});
 
-	var routes = {
-	  path: '/',
-	  component: App,
-	  indexRoute: { component: EventBox },
-	  childRoutes: [{ path: '/driver', component: _driver.DriverForm }, { path: '/rider', component: _rider.DriverInfo }]
-	};
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	// driver.js
+	var DriverBox = _react2.default.createClass({
+	  displayName: 'DriverBox',
 
-	ReactDOM.render(_react2.default.createElement(_reactRouter.Router, { routes: routes }), document.getElementById('content'));
+	  handleInfoSubmit: function handleInfoSubmit(info) {
+	    $.ajax({
+	      url: '/api/trips',
+	      dataType: 'json',
+	      type: 'POST',
+	      data: info,
+	      success: function (data) {
+	        console.log('success');
+	        this.setState({ data: data });
+	      }.bind(this),
+	      error: function (xhr, status, err) {
+	        this.setState({ data: info });
+	        console.error(this.props.url, status, err.toString());
+	      }.bind(this)
+	    });
+	  },
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'driverForm' },
+	      _react2.default.createElement(DriverForm, { onInfoSubmit: this.handleInfoSubmit })
+	    );
+	  }
+	});
+
+	var DriverForm = _react2.default.createClass({
+	  displayName: 'DriverForm',
+
+	  getInitialState: function getInitialState() {
+	    return { name: "", email: "", phone: "", startTime: "", startLocation: "", rate: "" };
+	  },
+	  handleNameChange: function handleNameChange(e) {
+	    this.setState({ name: e.target.value });
+	  },
+	  handleEmailChange: function handleEmailChange(e) {
+	    this.setState({ email: e.target.value });
+	  },
+	  handlePhoneChange: function handlePhoneChange(e) {
+	    this.setState({ phone: e.target.value });
+	  },
+	  handleStartTimeChange: function handleStartTimeChange(e) {
+	    this.setState({ startTime: e.target.value });
+	  },
+	  handleStartLocationChange: function handleStartLocationChange(e) {
+	    this.setState({ startLocation: e.target.value });
+	  },
+	  handleRateChange: function handleRateChange(e) {
+	    this.setState({ rate: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    console.log(EventData);
+	    e.preventDefault();
+	    var name = this.state.name.trim();
+	    var email = this.state.email.trim();
+	    var phone = this.state.phone.trim();
+	    var startTime = this.state.startTime.trim();
+	    var startLocation = this.state.startLocation.trim();
+	    var rate = this.state.rate.trim();
+	    if (!name || !email || !phone || !startTime || !startLocation || !rate) {
+	      return;
+	    }
+	    this.props.onInfoSubmit({
+	      'event': EventData,
+	      "user": {
+	        "name": name,
+	        "email": email,
+	        "phone": phone
+	      },
+	      "trip": {
+	        "price": 0.00,
+	        "lat": 90.00,
+	        "long": 90.00
+	      }
+	    });
+	    this.setState({ name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { className: 'driverForm', onSubmit: this.handleSubmit },
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'name',
+	        value: this.state.name,
+	        onChange: this.handleNameChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'email',
+	        value: this.state.email,
+	        onChange: this.handleEmailChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'phone',
+	        value: this.state.phone,
+	        onChange: this.handlePhoneChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'startTime',
+	        value: this.state.startTime,
+	        onChange: this.handleStartTimeChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'startLocation',
+	        value: this.state.startLocation,
+	        onChange: this.handleStartLocationChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'rate',
+	        value: this.state.rate,
+	        onChange: this.handleRateChange
+	      }),
+	      _react2.default.createElement('input', { type: 'submit', value: 'Confirm Driver' })
+	    );
+	  }
+	});
+
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	// rider.js
+	var DriverInfo = _react2.default.createClass({
+	  displayName: 'DriverInfo',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'driver col-md-4' },
+	      _react2.default.createElement(
+	        'h2',
+	        { className: 'name' },
+	        'Name: ',
+	        this.props.name
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'email' },
+	        'Email: ',
+	        this.props.email
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'phone' },
+	        'Phone: ',
+	        this.props.phone
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'price' },
+	        'Price: ',
+	        this.props.price
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'lat' },
+	        'Lat: ',
+	        this.props.lat
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'long' },
+	        'Long: ',
+	        this.props.long
+	      )
+	    );
+	  }
+	});
+
+	var DriversList = _react2.default.createClass({
+	  displayName: 'DriversList',
+
+	  componentDidMount: function componentDidMount() {
+	    // console.log('DriversList, componentDidMount');
+	  },
+
+	  getInitialState: function getInitialState() {
+	    // console.log('DriversList getInitialState:');
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    var driverNodes = this.props.data.map(function (driver) {
+	      // console.log(driver);
+	      return _react2.default.createElement(DriverInfo, { name: driver.name,
+	        email: driver.email,
+	        phone: driver.phone,
+	        price: driver.price,
+	        lat: driver.lat,
+	        long: driver.long });
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row driver-list' },
+	      driverNodes
+	    );
+	  }
+	});
+
+	var GetDriversData = _react2.default.createClass({
+	  displayName: 'GetDriversData',
+
+	  componentDidMount: function componentDidMount() {
+	    // console.log('GetDriversData, componentDidMount');
+	    this.getDrivers();
+	  },
+
+	  getDrivers: function getDrivers() {
+	    $.ajax({
+	      url: '/api/trips',
+	      method: 'GET',
+	      dataType: 'json',
+	      data: {
+	        eventfulId: 'SpecialEventId'
+	      },
+	      success: function (data) {
+	        if (!data.trips) {
+	          this.noResults();
+	        } else {
+	          // this.setState({data: data.trips});
+	          // console.log('data trips:', this.state);
+	        }
+	      }.bind(this),
+	      error: function (err) {
+	        console.error('error:', err);
+	      }.bind(this)
+	    });
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    return _react2.default.createElement(DriversList, { data: this.state.data });
+	  }
+	});
+
+	ReactDOM.render(_react2.default.createElement(
+	  _reactRouter.Router,
+	  null,
+	  _react2.default.createElement(
+	    _reactRouter.Route,
+	    { path: '/', component: App },
+	    _react2.default.createElement(_reactRouter.IndexRoute, { component: EventBox }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/driver', component: DriverBox }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: DriverInfo })
+	  )
+	), document.getElementById('content'));
 
 /***/ },
 /* 1 */
@@ -24187,278 +24459,6 @@
 
 	exports['default'] = useBasename;
 	module.exports = exports['default'];
-
-/***/ },
-/* 206 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	//**Display of chosen event
-
-	var DriverForm = exports.DriverForm = React.createClass({
-	  displayName: "DriverForm",
-
-	  getInitialState: function getInitialState() {
-	    return { name: "", email: "", phone: "", startTime: "", startLocation: "", rate: "" };
-	  },
-	  handleNameChange: function handleNameChange(e) {
-	    this.setState({ name: e.target.value });
-	  },
-	  handleEmailChange: function handleEmailChange(e) {
-	    this.setState({ email: e.target.value });
-	  },
-	  handlePhoneChange: function handlePhoneChange(e) {
-	    this.setState({ phone: e.target.value });
-	  },
-	  handleStartTimeChange: function handleStartTimeChange(e) {
-	    this.setState({ startTime: e.target.value });
-	  },
-	  handleStartLocationChange: function handleStartLocationChange(e) {
-	    this.setState({ startLocation: e.target.value });
-	  },
-	  handleRateChange: function handleRateChange(e) {
-	    this.setState({ rate: e.target.value });
-	  },
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    var name = this.state.name.trim();
-	    var email = this.state.email.trim();
-	    var phone = this.state.phone.trim();
-	    var startTime = this.state.startTime.trim();
-	    var startLocation = this.state.startLocation.trim();
-	    var rate = this.state.rate.trim();
-	    if (!name || !email || !phone || !startTime || !startLocation || !rate) {
-	      return;
-	    }
-	    this.props.onCommentSubmit({ name: name, email: email, phone: phone, startTime: startTime, startLocation: startLocation, rate: rate });
-	    this.setState({ name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      "form",
-	      { className: "driverForm", onSubmit: this.handleSubmit },
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "name",
-	        value: this.state.name,
-	        onChange: this.handleNameChange
-	      }),
-	      React.createElement("br", null),
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "email",
-	        value: this.state.email,
-	        onChange: this.handleEmailChange
-	      }),
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "phone",
-	        value: this.state.phone,
-	        onChange: this.handlePhoneChange
-	      }),
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "startTime",
-	        value: this.state.startTime,
-	        onChange: this.handleStartTimeChange
-	      }),
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "startLocation",
-	        value: this.state.startLocation,
-	        onChange: this.handleStartLocationChange
-	      }),
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "rate",
-	        value: this.state.rate,
-	        onChange: this.handleRateChange
-	      }),
-	      React.createElement("input", { type: "submit", value: "Confirm Driver" })
-	    );
-	  }
-	});
-	//**Event List
-	var EventList = exports.EventList = React.createClass({
-	  displayName: "EventList",
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-	  render: function render() {
-	    var eventNodes = this.props.data.map(function (event) {
-	      return React.createElement(Event, { key: event.id, name: event.title, startTime: event.start_time, venue: event.venue_name, city: event.city_name, region: event.region_abbr });
-	    });
-	    return React.createElement(
-	      "div",
-	      { className: "eventList" },
-	      eventNodes
-	    );
-	  }
-	});
-	// root component
-	var DriverBox = exports.DriverBox = React.createClass({
-	  displayName: "DriverBox",
-
-	  noResults: function noResults() {
-	    console.log('no results');
-	  },
-	  handleQuerySubmit: function handleQuerySubmit(query) {
-	    $.ajax({
-	      url: EventfulAPI + '&name=' + query.name + '&name=' + query.email + '&name=' + query.phone + '&name=' + query.startTime + '&name=' + query.startLocation + '&rate=' + query.rate,
-	      method: 'POST',
-	      dataType: 'jsonp',
-	      success: function (data) {
-	        this.setState({ data: data.events.event });
-	        console.log("posted successfully");
-	      }.bind(this),
-	      error: function (err) {
-	        console.log("error");
-	        console.error(err);
-	      }.bind(this)
-	    });
-	  },
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "driverForm" },
-	      React.createElement(DriverForm, { onCommentSubmit: this.handleQuerySubmit }),
-	      React.createElement(EventList, { data: this.state.data })
-	    );
-	  }
-	});
-	//form data
-	// <DriverForm onCommentSubmit={this.handleQuerySubmit} />
-	//**event data passed in
-	// <EventList data={this.state.data} />
-	ReactDOM.render(React.createElement(DriverBox, null),
-	//<EventBox />,
-	document.getElementById('content'));
-
-/***/ },
-/* 207 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var DriverInfo = exports.DriverInfo = React.createClass({
-	  displayName: "DriverInfo",
-
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "driver col-md-4" },
-	      React.createElement(
-	        "h2",
-	        { className: "name" },
-	        "Name: ",
-	        this.props.name
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "email" },
-	        "Email: ",
-	        this.props.email
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "phone" },
-	        "Phone: ",
-	        this.props.phone
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "price" },
-	        "Price: ",
-	        this.props.price
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "lat" },
-	        "Lat: ",
-	        this.props.lat
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "long" },
-	        "Long: ",
-	        this.props.long
-	      )
-	    );
-	  }
-	});
-
-	var DriversList = exports.DriversList = React.createClass({
-	  displayName: "DriversList",
-
-	  componentDidMount: function componentDidMount() {},
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    var driverNodes = this.props.data.map(function (driver) {
-	      return React.createElement(DriverInfo, { name: driver.name,
-	        email: driver.email,
-	        phone: driver.phone,
-	        price: driver.price,
-	        lat: driver.lat,
-	        long: driver.long });
-	    });
-	    return React.createElement(
-	      "div",
-	      { className: "row driver-list" },
-	      driverNodes
-	    );
-	  }
-	});
-
-	var GetDriversData = exports.GetDriversData = React.createClass({
-	  displayName: "GetDriversData",
-
-	  componentDidMount: function componentDidMount() {
-	    this.getDrivers();
-	  },
-
-	  getDrivers: function getDrivers() {
-	    $.ajax({
-	      url: '/api/trips',
-	      method: 'GET',
-	      dataType: 'json',
-	      params: {
-	        "eventfulId": "SingleDadMixer" //id value from eventful api event object
-	      },
-	      success: function (data) {
-	        console.log(data.trips);
-	      }.bind(this),
-	      error: function (err) {
-	        console.error(err);
-	      }.bind(this)
-	    });
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    return React.createElement(DriversList, { data: this.state.data });
-	  }
-	});
-
-	ReactDOM.render(React.createElement(GetDriversData, null), document.getElementById('content'));
 
 /***/ }
 /******/ ]);
