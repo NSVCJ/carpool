@@ -45,6 +45,14 @@ db.sequelize.sync().then(function() {
   http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
   });
+
+app.use(express.static("../public"));
+var port = process.env.PORT || 8000;
+//*****************************************************************************
+//*****************************************************************************
+
+app.listen(port, function() {
+  console.log('Server started: http://localhost:' + port + '/');
 });
 
 // app.listen(app.get('port'), function() {
