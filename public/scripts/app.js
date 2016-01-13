@@ -150,17 +150,13 @@ const RiderView = React.createClass({
   }
 });
 
-const routes = {
-  path: '/',
-  component: App,
-  indexRoute: { component: EventBox },
-  childRoutes: [
-    { path: '/driver', component: DriverForm },
-    { path: '/rider', component: DriverInfo }
-  ]
-}
-
 ReactDOM.render(
-  <Router routes={routes} />,
+  <Router>
+    <Route path='/' component={App}>
+      <IndexRoute component={Home}/>
+      <Route path='/driver' component={EventBox}/>
+      <Route path='/rider' component={Statements}/>
+    </Route>
+  </Router>,
   document.getElementById('content')
 );
