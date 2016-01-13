@@ -136,19 +136,31 @@
 	    return _react2.default.createElement(
 	      'form',
 	      { className: 'searchBox', onSubmit: this.handleSubmit },
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'location',
-	        value: this.state.location,
-	        onChange: this.handleLocationChange
-	      }),
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'query',
-	        value: this.state.keywords,
-	        onChange: this.handleKeywordsChange,
-	        autoFocus: true
-	      }),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'location (city or zip)',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'location',
+	          value: this.state.location,
+	          onChange: this.handleLocationChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'keywords',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'query',
+	          value: this.state.keywords,
+	          onChange: this.handleKeywordsChange,
+	          autoFocus: true
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
 	      _react2.default.createElement('input', { type: 'submit', value: 'Search' })
 	    );
 	  }
@@ -288,27 +300,6 @@
 	    $.ajax(settings).done(function (response) {
 	      console.log(response);
 	    });
-	    // $.ajax({
-	    //   async: true,
-	    //   crossDomain: true,
-	    //   url: "http://localhost:3000/api/trips",
-	    //   method: "POST",
-	    //   headers: {
-	    //     "content-type": "application/json",
-	    //     "cache-control": "no-cache",
-	    //     "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
-	    //   },
-	    //   processData: false,
-	    //   data: info,
-	    //   success: function(data) {
-	    //     console.log('success');
-	    //     this.setState({data: data});
-	    //   }.bind(this),
-	    //   error: function(xhr, status, err) {
-	    //     this.setState({data: info});
-	    //     console.error(this.props.url, status, err.toString());
-	    //   }.bind(this)
-	    // });
 	  },
 	  getInitialState: function getInitialState() {
 	    return { data: [] };
@@ -318,7 +309,39 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'driverForm' },
+	      _react2.default.createElement(EventInfo, { data: EventDataCache }),
 	      _react2.default.createElement(DriverForm, { onInfoSubmit: this.handleInfoSubmit })
+	    );
+	  }
+	});
+
+	var EventInfo = _react2.default.createClass({
+	  displayName: 'EventInfo',
+
+	  // componentDidMount: function() {
+	  //   this.props = EventDataCache;
+	  // },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'eventInfo' },
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        this.props.data.title
+	      ),
+	      _react2.default.createElement('img', { src: 'images/winter-plants-fiberoptic-l.jpg', alt: '' }),
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        this.props.data.start_time,
+	        _react2.default.createElement('br', null),
+	        this.props.data.venue_name,
+	        _react2.default.createElement('br', null),
+	        this.props.data.venue_address,
+	        ', ',
+	        this.props.data.region_abbr
+	      )
 	    );
 	  }
 	});
@@ -328,6 +351,16 @@
 
 	  getInitialState: function getInitialState() {
 	    return { name: "", email: "", phone: "", startTime: "", startLocation: "", rate: "" };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    var thiz = this;
+	    var input = document.getElementById('location');
+	    var autocomplete = new google.maps.places.Autocomplete(input);
+	    autocomplete.addListener('place_changed', function () {
+	      var place = autocomplete.getPlace();
+	      thiz.setState({ startLocation: place.formatted_address });
+	      console.log(place);
+	    });
 	  },
 	  handleNameChange: function handleNameChange(e) {
 	    this.setState({ name: e.target.value });
@@ -360,17 +393,16 @@
 	    }
 	    this.props.onInfoSubmit(JSON.stringify({
 	      "event": {
-	        "id": "SingleDadMixer"
+	        "id": EventDataCache.id
 	      },
 	      "user": {
-	        "name": "Barack Obama",
-	        "email": "president@whitehouse.gov",
-	        "phone": "202-456-1111"
+	        "name": name,
+	        "email": email,
+	        "phone": phone
 	      },
 	      "trip": {
-	        "price": 5.00,
-	        "lat": 38.897660,
-	        "long": -77.036487
+	        "price": rate,
+	        "startLocation": startLocation
 	      }
 	    }));
 	    this.setState({ name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
@@ -379,42 +411,79 @@
 	    return _react2.default.createElement(
 	      'form',
 	      { className: 'driverForm', onSubmit: this.handleSubmit },
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'name',
-	        value: this.state.name,
-	        onChange: this.handleNameChange
-	      }),
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'email',
-	        value: this.state.email,
-	        onChange: this.handleEmailChange
-	      }),
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'phone',
-	        value: this.state.phone,
-	        onChange: this.handlePhoneChange
-	      }),
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'startTime',
-	        value: this.state.startTime,
-	        onChange: this.handleStartTimeChange
-	      }),
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'startLocation',
-	        value: this.state.startLocation,
-	        onChange: this.handleStartLocationChange
-	      }),
-	      _react2.default.createElement('input', {
-	        type: 'text',
-	        placeholder: 'rate',
-	        value: this.state.rate,
-	        onChange: this.handleRateChange
-	      }),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'Name',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'name',
+	          value: this.state.name,
+	          onChange: this.handleNameChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'Email',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'email',
+	          value: this.state.email,
+	          onChange: this.handleEmailChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'Phone',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'phone',
+	          value: this.state.phone,
+	          onChange: this.handlePhoneChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'Departure Time',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'startTime',
+	          value: this.state.startTime,
+	          onChange: this.handleStartTimeChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'Start Location',
+	        _react2.default.createElement('input', {
+	          id: 'location',
+	          type: 'text',
+	          placeholder: 'startLocation',
+	          value: this.state.startLocation,
+	          onChange: this.handleStartLocationChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'label',
+	        null,
+	        'Rate',
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: 'rate',
+	          value: this.state.rate,
+	          onChange: this.handleRateChange
+	        })
+	      ),
+	      _react2.default.createElement('br', null),
 	      _react2.default.createElement('input', { type: 'submit', value: 'Confirm Driver' })
 	    );
 	  }
