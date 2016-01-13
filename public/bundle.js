@@ -64,14 +64,13 @@
 	var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
 	// declare global variable to store event API data between components (this is the wrong way to do it)
-	var EventData;
+	var EventDataCache;
 
 	var Event = _react2.default.createClass({
 	  displayName: 'Event',
 
-	  setEventData: function setEventData() {
-	    EventData = this.props;
-	    console.log('app.js', EventData);
+	  cacheEventData: function cacheEventData() {
+	    EventDataCache = this.props.data;
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -98,12 +97,12 @@
 	        null,
 	        _react2.default.createElement(
 	          _reactRouter.Link,
-	          { to: '/driver', onClick: this.setEventData },
+	          { to: '/driver', onClick: this.cacheEventData },
 	          'Driver'
 	        ),
 	        _react2.default.createElement(
 	          _reactRouter.Link,
-	          { to: '/rider', onClick: this.setEventData },
+	          { to: '/rider', onClick: this.cacheEventData },
 	          'Rider'
 	        )
 	      )
@@ -147,7 +146,8 @@
 	        type: 'text',
 	        placeholder: 'query',
 	        value: this.state.keywords,
-	        onChange: this.handleKeywordsChange
+	        onChange: this.handleKeywordsChange,
+	        autoFocus: true
 	      }),
 	      _react2.default.createElement('input', { type: 'submit', value: 'Search' })
 	    );
@@ -163,7 +163,7 @@
 
 	  render: function render() {
 	    var eventNodes = this.props.data.map(function (event) {
-	      return _react2.default.createElement(Event, { key: event.id, name: event.title, startTime: event.start_time, venue: event.venue_name, city: event.city_name, region: event.region_abbr });
+	      return _react2.default.createElement(Event, { data: event, key: event.id, name: event.title, startTime: event.start_time, venue: event.venue_name, city: event.city_name, region: event.region_abbr });
 	    });
 	    return _react2.default.createElement(
 	      'div',
@@ -290,6 +290,7 @@
 	    return { data: [] };
 	  },
 	  render: function render() {
+	    console.log('driver.js', EventDataCache);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'driverForm' },
@@ -323,7 +324,7 @@
 	    this.setState({ rate: e.target.value });
 	  },
 	  handleSubmit: function handleSubmit(e) {
-	    console.log(EventData);
+	    console.log(EventDataCache);
 	    e.preventDefault();
 	    var name = this.state.name.trim();
 	    var email = this.state.email.trim();
@@ -335,7 +336,7 @@
 	      return;
 	    }
 	    this.props.onInfoSubmit({
-	      'event': EventData,
+	      'event': EventDataCache,
 	      "user": {
 	        "name": name,
 	        "email": email,

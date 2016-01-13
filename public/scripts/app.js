@@ -10,12 +10,11 @@ var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
 var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
 // declare global variable to store event API data between components (this is the wrong way to do it)
-var EventData;
+var EventDataCache;
 
 const Event = React.createClass({
-  setEventData: function() {
-    EventData = this.props;
-    console.log('app.js', EventData);
+  cacheEventData: function() {
+    EventDataCache = this.props.data;
   },
   render: function() {
     return (
@@ -23,8 +22,8 @@ const Event = React.createClass({
         <h3>{this.props.name}</h3>
         <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
         <h4>
-          <Link to="/driver" onClick={this.setEventData}>Driver</Link>
-          <Link to="/rider" onClick={this.setEventData}>Rider</Link>
+          <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
+          <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
         </h4>
       </div>
     );
@@ -65,6 +64,7 @@ const SearchBox = React.createClass({
           placeholder="query"
           value={this.state.keywords}
           onChange={this.handleKeywordsChange}
+          autoFocus
         />
         <input type="submit" value="Search" />
       </form>
@@ -80,7 +80,7 @@ const EventList = React.createClass({
   render: function() {
     var eventNodes = this.props.data.map(function(event) {
       return (
-        <Event key={event.id} name={event.title} startTime={event.start_time} venue={event.venue_name} city={event.city_name} region={event.region_abbr} />
+        <Event data={event} key={event.id} name={event.title} startTime={event.start_time} venue={event.venue_name} city={event.city_name} region={event.region_abbr} />
       );
     });
     return (
@@ -161,7 +161,6 @@ const RiderView = React.createClass({
   }
 });
 
-<<<<<<< HEAD
 // driver.js
 // driver.js
 // driver.js
@@ -193,6 +192,7 @@ const DriverBox = React.createClass({
     return {data: []};
   },
   render: function() {
+    console.log('driver.js', EventDataCache);
     return (
       <div className="driverForm">
         <DriverForm onInfoSubmit={this.handleInfoSubmit} />
@@ -224,7 +224,7 @@ const DriverForm = React.createClass({
     this.setState({rate: e.target.value});
   },
   handleSubmit: function(e) {
-    console.log(EventData);
+    console.log(EventDataCache);
     e.preventDefault();
     var name = this.state.name.trim();
     var email = this.state.email.trim();
@@ -236,7 +236,7 @@ const DriverForm = React.createClass({
       return;
     }
     this.props.onInfoSubmit({
-      'event': EventData,
+      'event': EventDataCache,
       "user": {
         "name": name,
         "email": email,
