@@ -161,6 +161,7 @@ const RiderView = React.createClass({
   }
 });
 
+<<<<<<< HEAD
 // driver.js
 // driver.js
 // driver.js
