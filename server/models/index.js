@@ -19,6 +19,11 @@ module.exports = models = {
         callback(data);
       })
     },
+    riders: function(callback, params) {
+      db.sequelize.query(
+        "select TripUsers.TripId, TripUsers.lat, TripUsers.long, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId"
+      )
+    },
     post: function(callback, data) {
       //console.log("Here is your post data", data);
       //MVP: no profile associated, so a new user is created for every post.
