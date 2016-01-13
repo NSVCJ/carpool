@@ -22,8 +22,11 @@ const Event = React.createClass({
         <h3>{this.props.name}</h3>
         <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
         <h4>
-          <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
-          <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
+          <span>
+            <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
+            <br />
+            <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
+          </span>
         </h4>
       </div>
     );
@@ -53,19 +56,27 @@ const SearchBox = React.createClass({
   render: function() {
     return (
       <form className="searchBox" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="location"
-          value={this.state.location}
-          onChange={this.handleLocationChange}
-        />
-        <input
-          type="text"
-          placeholder="query"
-          value={this.state.keywords}
-          onChange={this.handleKeywordsChange}
-          autoFocus
-        />
+        <label>
+          location (city or zip)
+          <input
+            type="text"
+            placeholder="location"
+            value={this.state.location}
+            onChange={this.handleLocationChange}
+          />
+        </label>
+        <br />
+        <label>
+          keywords
+          <input
+            type="text"
+            placeholder="query"
+            value={this.state.keywords}
+            onChange={this.handleKeywordsChange}
+            autoFocus
+          />
+        </label>
+        <br />
         <input type="submit" value="Search" />
       </form>
     );
@@ -190,27 +201,6 @@ const DriverBox = React.createClass({
     $.ajax(settings).done(function (response) {
       console.log(response);
     });
-    // $.ajax({
-    //   async: true,
-    //   crossDomain: true,
-    //   url: "http://localhost:3000/api/trips",
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //     "cache-control": "no-cache",
-    //     "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
-    //   },
-    //   processData: false,
-    //   data: info,
-    //   success: function(data) {
-    //     console.log('success');
-    //     this.setState({data: data});
-    //   }.bind(this),
-    //   error: function(xhr, status, err) {
-    //     this.setState({data: info});
-    //     console.error(this.props.url, status, err.toString());
-    //   }.bind(this)
-    // });
   },
   getInitialState: function() {
     return {data: []};
@@ -219,15 +209,45 @@ const DriverBox = React.createClass({
     // console.log('driver.js', EventDataCache);
     return (
       <div className="driverForm">
+        <EventInfo data={EventDataCache} />
         <DriverForm onInfoSubmit={this.handleInfoSubmit} />
       </div>
     )
   }
 });
 
+const EventInfo = React.createClass({
+  // componentDidMount: function() {
+  //   this.props = EventDataCache;
+  // },
+  render: function() {
+    return (
+      <div className="eventInfo">
+        <h3>{this.props.data.title}</h3>
+        <img src={this.props.data.image.medium.url} alt="" />
+        <h4>
+          {this.props.data.start_time}<br />
+          {this.props.data.venue_name}<br />
+          {this.props.data.venue_address}, {this.props.data.region_abbr}
+        </h4>
+      </div>
+    );
+  }
+});
+
 const DriverForm = React.createClass({
   getInitialState: function() {
     return {name: "", email: "", phone: "", startTime: "", startLocation: "", rate: ""};
+  },
+  componentDidMount: function() {
+    var thiz = this;
+    var input = document.getElementById('location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      thiz.setState({startLocation: place.formatted_address});
+      console.log(place);
+    });
   },
   handleNameChange: function(e) {
     this.setState({name: e.target.value});
@@ -260,17 +280,16 @@ const DriverForm = React.createClass({
     }
     this.props.onInfoSubmit(JSON.stringify({
       "event": {
-        "id": "SingleDadMixer"
+        "id": EventDataCache.id
       },
       "user": {
-        "name": "Barack Obama",
-        "email": "president@whitehouse.gov",
-        "phone": "202-456-1111"
+        "name": name,
+        "email": email,
+        "phone": phone
       },
       "trip": {
-        "price": 5.00,
-        "lat": 38.897660,
-        "long": -77.036487
+        "price": rate,
+        "startLocation": startLocation,
       }
     }));
     this.setState({name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
@@ -278,42 +297,68 @@ const DriverForm = React.createClass({
   render: function() {
     return (
       <form className="driverForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="name"
-          value={this.state.name}
-          onChange={this.handleNameChange}
-        />
-       <input
-          type="text"
-          placeholder="email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-        />
-        <input
-          type="text"
-          placeholder="phone"
-          value={this.state.phone}
-          onChange={this.handlePhoneChange}
-        />
-        <input
-          type="text"
-          placeholder="startTime"
-          value={this.state.startTime}
-          onChange={this.handleStartTimeChange}
-        />
-        <input
-          type="text"
-          placeholder="startLocation"
-          value={this.state.startLocation}
-          onChange={this.handleStartLocationChange}
-        />
-        <input
-          type="text"
-          placeholder="rate"
-          value={this.state.rate}
-          onChange={this.handleRateChange}
-        />
+        <label>
+          Name
+          <input
+            type="text"
+            placeholder="name"
+            value={this.state.name}
+            onChange={this.handleNameChange}
+          />
+        </label>
+        <br />
+        <label>
+          Email
+          <input
+            type="text"
+            placeholder="email"
+            value={this.state.email}
+            onChange={this.handleEmailChange}
+          />
+        </label>
+        <br />
+        <label>
+          Phone
+          <input
+            type="text"
+            placeholder="phone"
+            value={this.state.phone}
+            onChange={this.handlePhoneChange}
+          />
+        </label>
+        <br />
+        <label>
+          Departure Time
+          <input
+            type="text"
+            placeholder="startTime"
+            value={this.state.startTime}
+            onChange={this.handleStartTimeChange}
+          />
+        </label>
+        <br />
+        <label>
+          Start Location
+          <input
+            size="100"
+            id="location"
+            type="text"
+            placeholder="startLocation"
+            value={this.state.startLocation}
+            onChange={this.handleStartLocationChange}
+          />
+        </label>
+        <br />
+        <label>
+          Rate
+          <input
+            type="text"
+            placeholder="rate"
+            value={this.state.rate}
+            onChange={this.handleRateChange}
+          />
+        </label>
+        <br />
         <input type="submit" value="Confirm Driver" />
       </form>
     );
