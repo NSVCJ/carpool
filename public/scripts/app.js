@@ -173,26 +173,50 @@ const RiderView = React.createClass({
 // driver.js
 const DriverBox = React.createClass({
   handleInfoSubmit: function(info) {
-    $.ajax({
-      url: '/api/trips',
-      dataType: 'json',
-      type: 'POST',
-      data: info,
-      success: function(data) {
-        console.log('success');
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        this.setState({data: info});
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
+    var settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "/api/trips",
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
+      },
+      "processData": false,
+      "data": info
+    }
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
     });
+    // $.ajax({
+    //   async: true,
+    //   crossDomain: true,
+    //   url: "http://localhost:3000/api/trips",
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //     "cache-control": "no-cache",
+    //     "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
+    //   },
+    //   processData: false,
+    //   data: info,
+    //   success: function(data) {
+    //     console.log('success');
+    //     this.setState({data: data});
+    //   }.bind(this),
+    //   error: function(xhr, status, err) {
+    //     this.setState({data: info});
+    //     console.error(this.props.url, status, err.toString());
+    //   }.bind(this)
+    // });
   },
   getInitialState: function() {
     return {data: []};
   },
   render: function() {
-    console.log('driver.js', EventDataCache);
+    // console.log('driver.js', EventDataCache);
     return (
       <div className="driverForm">
         <DriverForm onInfoSubmit={this.handleInfoSubmit} />
@@ -224,7 +248,6 @@ const DriverForm = React.createClass({
     this.setState({rate: e.target.value});
   },
   handleSubmit: function(e) {
-    console.log(EventDataCache);
     e.preventDefault();
     var name = this.state.name.trim();
     var email = this.state.email.trim();
@@ -235,19 +258,21 @@ const DriverForm = React.createClass({
     if (!name || !email || !phone || !startTime || !startLocation || !rate ) {
       return;
     }
-    this.props.onInfoSubmit({
-      'event': EventDataCache,
+    this.props.onInfoSubmit(JSON.stringify({
+      "event": {
+        "id": "SingleDadMixer"
+      },
       "user": {
-        "name": name,
-        "email": email,
-        "phone": phone,
+        "name": "Barack Obama",
+        "email": "president@whitehouse.gov",
+        "phone": "202-456-1111"
       },
       "trip": {
-        "price": 0.00,
-        "lat": 90.00,
-        "long": 90.00
+        "price": 5.00,
+        "lat": 38.897660,
+        "long": -77.036487
       }
-    });
+    }));
     this.setState({name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
   },
   render: function() {
