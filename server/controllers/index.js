@@ -27,7 +27,7 @@ module.exports = {
     post: function (req, res) {
       models.trips.post(function(data){
         //console.log('inside controllers trips post')
-        res.send(data);
+        res.send({posted: data});
       }, req.body); //some function to get data, fix later
     }
   }

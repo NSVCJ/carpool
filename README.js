@@ -12,12 +12,22 @@ create database carpool; //Must close all sql commands with semicolon!
 //How to input Test Data (Only do this once or you'll get duplicates)
 //------------
 //
-//Make sure you're in the root carpool directory
 //Enter this into terminal
 npm run data
 //This will magically enter test data into your carpool mysql database.
 //The test data is listed in server/spec/inputTestData.js
 //There will be 4 events, users, and tripUsers in your mysql carpool database
+
+
+//-----------
+//How to test server integration
+//-----------
+//
+//Enter this into terminal
+npm run test
+//This will test whether post and get requests for the MVP are working.
+
+
 
 
 //------------
@@ -52,9 +62,11 @@ req.url = localhost:3000/api/trips
 params: {
   "eventfulId": "[ID]" //id value from eventful api event object
 }
+//OR instead of a params object, inputing your params into the url will work too
+localhost:3000/api/trips?eventfulId=SingleDadMixer
 //Test that your get requests are working by pluging in
 //"SingleDadMixer" or "PlantPhotoGallery" as your eventfulId.
 //
-//The response to the get request will be an object containing an array called test.
+//The response to the get request will be an object containing an array called trips.
 //This shows all the trips that are going to that event, including the
 //lat, long, price, name, and contact info for the driver.

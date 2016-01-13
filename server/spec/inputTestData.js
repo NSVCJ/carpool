@@ -1,5 +1,4 @@
 var request = require('request');
-//var app = require('../app.js').app;
 var _ = require('lodash');
 
 var testData = [
