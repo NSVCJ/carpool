@@ -1,19 +1,26 @@
-var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
+import React from 'react'
+import { render } from 'react-dom'
+import { Router, Route, Link, browserHistory } from 'react-router'
 
-var Event = React.createClass({
+import { DriverForm, DriverBox } from './driver'
+import { DriverInfo, DriversList, GetDriversData } from './rider'
+
+var EventfulAPIKey = 'bMhbgh3kzp8mTZtC'
+var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey
+
+const Event = React.createClass({
   render: function() {
     return (
       <div className="event">
         <h3>{this.props.name}</h3>
         <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
-        <h4>Driver | Rider</h4>
+        <h4><Link to="/driver">Driver</Link> <Link to="/rider">Rider</Link></h4>
       </div>
     );
   }
 });
 
-var SearchBox = React.createClass({
+const SearchBox = React.createClass({
   getInitialState: function() {
     return {location: '', keywords: ''};
   },
@@ -54,7 +61,7 @@ var SearchBox = React.createClass({
   }
 });
 
-var EventList = React.createClass({
+const EventList = React.createClass({
   getInitialState: function() {
     return {data: []};
   },
@@ -74,7 +81,7 @@ var EventList = React.createClass({
 });
 
 // root component
-var EventBox = React.createClass({
+const EventBox = React.createClass({
   noResults: function() {
     console.log('no results');
   },
@@ -113,7 +120,47 @@ var EventBox = React.createClass({
   }
 });
 
+const App = React.createClass({
+  render: function() {
+    return (
+      <div className="driverView">
+        {this.props.children}
+      </div>
+    );
+  }
+});
+
+const DriverView = React.createClass({
+  render: function() {
+    return (
+      <div className="driverView">
+        <h4>DriverView</h4>
+      </div>
+    );
+  }
+});
+
+const RiderView = React.createClass({
+  render: function() {
+    return (
+      <div className="riderView">
+        <h4>RiderView</h4>
+      </div>
+    );
+  }
+});
+
+const routes = {
+  path: '/',
+  component: App,
+  indexRoute: { component: EventBox },
+  childRoutes: [
+    { path: '/driver', component: DriverForm },
+    { path: '/rider', component: DriverInfo }
+  ]
+}
+
 ReactDOM.render(
-  <EventBox />,
+  <Router routes={routes} />,
   document.getElementById('content')
 );
