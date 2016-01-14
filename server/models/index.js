@@ -49,6 +49,26 @@ module.exports = models = {
     put: function(callback, data) {}
   },
 
+  riderProfile: {
+    get: function(callback, params) {
+      utils.getConfirmedRiders(function(riderInfo, driverInfo){
+        utils.riderConfirmedFormat(riderInfo, driverInfo,
+          function(confirmedTrips) {
+            utils.getUnconfirmedRiders(function(riderInfo, driverInfo) {
+              utils.riderUnconfirmedFormat(riderInfo, driverInfo,
+                function(unconfirmedTrips) {
+                  callback(confirmedTrips, unconfirmedTrips)
+                }
+              )
+            }, params)
+          }
+        )
+      }, params)
+    },
+    post: function(){},
+    put: function(callback, data) {}
+  },
+
   riderUnconfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
@@ -58,7 +78,7 @@ module.exports = models = {
         var queries = [];
         _.map(riderInfo, function(trip) {
           queries.push(db.sequelize.query(
-            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where (TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver' AND TripUsers.UserId = Users.id)",
+            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver' AND TripUsers.UserId = Users.id",
           {type: db.sequelize.QueryTypes.SELECT})
         )});
         Promise.all(queries)

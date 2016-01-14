@@ -33,6 +33,19 @@ module.exports = {
     },
     put: function(callback, data) {}
   },
+  riderProfile: {
+    get: function (req, res) {
+      console.log('inside controllers riderProfile get');
+      models.riderProfile.get(function(confirmed, unconfirmed) {
+        res.send({
+          confirmed: confirmed,
+          unconfirmed: unconfirmed
+        });
+      }, req.query);
+    },
+    post: function (req, res) {},
+    put: function(callback, data) {}
+  },
   riderConfirmed:{
     get: function (req, res) {
       console.log('inside controllers riderConfirmed get');
