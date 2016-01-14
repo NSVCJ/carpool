@@ -8,9 +8,6 @@ var db = require('./db/db.js');
 var app = express();
 module.exports.app = app;
 
-//not sure what port to set when we deploy
-// app.set('port', 8000);
-
 app.use(parser.json());
 app.use('/api', router);
 app.use('/', routerSign);
