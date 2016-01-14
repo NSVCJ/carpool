@@ -1,5 +1,4 @@
 var db = require("../db/db.js");
-var signHelper = require("../helperFunctions/signHelpers");
 var serverHelpers = require("../server-helpers");
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
@@ -7,19 +6,8 @@ var utils = require('../server-helpers');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
-var setSignin = function(callback, email, password){
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(password, salt, function(err, hash) {
-      var user = {
-        username: email,
-        password: hash
-      };
-      db.sequelize.query("insert into users (email, password) values ('" + user.username + "','" + user.password + "')")
-    });
-  })
-}
-
 module.exports = models = {
+<<<<<<< dd06245ec1d630b5f9ef06c854dbfa3efb057e61
   signin:{
     get: function(){},
 <<<<<<< 52529f1c669e9ab0fcbdb8520e2fd6576d4b3452
@@ -47,6 +35,8 @@ module.exports = models = {
     }
 >>>>>>> (feature) added routes for signin/signup
   },
+=======
+>>>>>>> (refactor) modulamodularized controllers and models
   users:{
     get: function(){},
     post: function(){},

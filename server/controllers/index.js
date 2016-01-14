@@ -1,5 +1,6 @@
 var models = require('../models');
 var utils = require('../server-helpers');
+var models = require('../models/index.js');
 
 module.exports = {
   users: {

@@ -1,5 +1,5 @@
 //will need to require some fold called modles
-var models = require('../models');
+var models = require('../models/signIndex.js');
 
 module.exports = {
   signin:{
