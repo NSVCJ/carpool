@@ -1,44 +1,46 @@
 var db = require("../db/db.js");
 var serverHelpers = require("../server-helpers");
 var bcrypt = require('bcrypt');
+var _ = require('lodash');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
 module.exports = models = {
   signin:{
     get: function(){},
-    post: function(){
-
-    }
+    post: function(){},
+    put: function(callback, data) {}
   },
   signup:{
     get: function(){},
-    post: function(){
-
-    }
+    post: function(){},
+    put: function(callback, data) {}
   },
   users:{
     get: function(){},
-    post: function(){}
+    post: function(){},
+    put: function(callback, data) {}
   },
   riderConfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
         "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Rider' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
-      .spread(function(riderInfo){
-        var queries = riderInfo.map(function(trip) {
-          db.sequelize.query(
-            "select Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
+      .then(function(riderInfo){
+        var queries = [];
+        _.map(riderInfo, function(trip) {
+          queries.push(db.sequelize.query(
+            "select Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver' AND TripUsers.UserId = Users.id",
           {type: db.sequelize.QueryTypes.SELECT})
-        })
+        )})
         Promise.all(queries)
         .then(function(driverInfo){
           callback(riderInfo, driverInfo);
         })
       })
     },
-    post: function(){}
+    post: function(){},
+    put: function(callback, data) {}
   },
 
   riderUnconfirmed: {
@@ -46,19 +48,21 @@ module.exports = models = {
       db.sequelize.query(
         "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
-      .spread(function(riderInfo){
-        var queries = riderInfo.map(function(trip) {
-          db.sequelize.query(
-            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver'",
+      .then(function(riderInfo){
+        var queries = [];
+        _.map(riderInfo, function(trip) {
+          queries.push(db.sequelize.query(
+            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where (TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver' AND TripUsers.UserId = Users.id)",
           {type: db.sequelize.QueryTypes.SELECT})
-        })
+        )});
         Promise.all(queries)
         .then(function(driverInfo){
           callback(riderInfo, driverInfo);
         })
       })
     },
-    post: function(){}
+    post: function(){},
+    put: function(callback, data) {}
   },
 
   driverConfirmed: {
@@ -69,7 +73,7 @@ module.exports = models = {
       .spread(function(driverInfo){
         var queries = riderInfo.map(function(trip) {
           db.sequelize.query(
-            "select Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Rider'",
+            "select Users.id, Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Rider'",
           {type: db.sequelize.QueryTypes.SELECT})
         })
         Promise.all(queries)
@@ -77,6 +81,9 @@ module.exports = models = {
           callback(riderInfo, driverInfo);
         })
       })
+    },
+    put: function(callback, data) {
+      //THIS IS WHERE WE BEGIN AGAIN
     },
     post: function(){}
   },
@@ -98,7 +105,8 @@ module.exports = models = {
         })
       })
     },
-    post: function(){}
+    post: function(){},
+    put: function(callback, data) {}
   },
 
 
@@ -123,7 +131,8 @@ module.exports = models = {
       }).then(function(rider){
         callback(rider);
       })
-    }
+    },
+    put: function(callback, data) {}
   },
 
   eventDriver: {
@@ -155,7 +164,8 @@ module.exports = models = {
           });
         });
       });
-    }
+    },
+    put: function(callback, data) {}
   },
   //Will be depreciated after MVP
   trips: {
@@ -193,6 +203,7 @@ module.exports = models = {
           });
         });
       });
-    }
+    },
+    put: function(callback, data) {}
   }
 }

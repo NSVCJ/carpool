@@ -15,7 +15,8 @@ module.exports = {
         console.log('inside controllers users post')
         res.send(data);
       })
-    }
+    },
+    put: function(callback, data) {}
   },
   trips:{
     get: function (req, res) {
@@ -29,7 +30,8 @@ module.exports = {
       models.trips.post(function(data){
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
-    }
+    },
+    put: function(callback, data) {}
   },
   riderConfirmed:{
     get: function (req, res) {
@@ -42,19 +44,20 @@ module.exports = {
         });
       }, req.query)
     },
-    post: function (req, res) {}
+    post: function (req, res) {},
+    put: function(callback, data) {}
   },
   riderUnconfirmed:{
     get: function (req, res) {
       console.log('inside controllers riderUnconfirmed get');
       models.riderUnconfirmed.get(function(riderInfo, driverInfo){
         //console.log("Inside trips get", data);
-        res.send({riderInfo: riderInfo,
-                  driverInfo: driverInfo
-        });
+        var riderUnconfirmedArr = utils.riderUnconfirmedFormat(riderInfo, driverInfo);
+        res.send(riderUnconfirmedArr);
       }, req.query)
     },
-    post: function (req, res) {}
+    post: function (req, res) {},
+    put: function(callback, data) {}
   },
   driverConfirmed:{
     get: function (req, res) {
@@ -66,7 +69,8 @@ module.exports = {
         });
       }, req.query)
     },
-    post: function (req, res) {}
+    post: function (req, res) {},
+    put: function(callback, data) {}
   },
   driverUnconfirmed:{
     get: function (req, res) {
@@ -78,7 +82,8 @@ module.exports = {
         });
       }, req.query)
     },
-    post: function (req, res) {}
+    post: function (req, res) {},
+    put: function(callback, data) {}
   },
   eventRider: {
     get: function (req, res) {
@@ -93,7 +98,8 @@ module.exports = {
       models.eventRider.post(function(data){
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
-    }
+    },
+    put: function(callback, data) {}
   },
   eventDriver: {
     get: function (req, res) {
@@ -107,6 +113,7 @@ module.exports = {
         //console.log('inside controllers trips post')
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
-    }
+    },
+    put: function(callback, data) {}
   }
 };
