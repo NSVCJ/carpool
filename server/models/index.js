@@ -2,6 +2,7 @@ var db = require("../db/db.js");
 var serverHelpers = require("../server-helpers");
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
+var utils = require('../server-helpers');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
@@ -82,9 +83,7 @@ module.exports = models = {
         })
       })
     },
-    put: function(callback, data) {
-      //THIS IS WHERE WE BEGIN AGAIN
-    },
+    put: utils.toggleConfirm,
     post: function(){}
   },
 
@@ -105,8 +104,8 @@ module.exports = models = {
         })
       })
     },
-    post: function(){},
-    put: function(callback, data) {}
+    put: utils.toggleConfirm,
+    post: function(){}
   },
 
 
