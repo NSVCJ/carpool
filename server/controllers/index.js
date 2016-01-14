@@ -70,7 +70,13 @@ module.exports = {
       }, req.query)
     },
     post: function (req, res) {},
-    put: function(callback, data) {}
+    put: function(req, res) {
+      console.log('inside controllers driverConfirmed put');
+      console.log("Here's the body", req.body);
+      models.driverConfirmed.put(function(newRole){
+        res.send({"newRole": newRole});
+      }, req.body);
+    }
   },
   driverUnconfirmed:{
     get: function (req, res) {
@@ -83,7 +89,12 @@ module.exports = {
       }, req.query)
     },
     post: function (req, res) {},
-    put: function(callback, data) {}
+    put: function(req, res) {
+      console.log('inside controllers driverConfirmed put');
+      models.driverConfirmed.put(function(record){
+        res.send({"updated": record});
+      }, req.body);
+    }
   },
   eventRider: {
     get: function (req, res) {
