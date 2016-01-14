@@ -24,6 +24,9 @@ var User = sequelize.define("User", {
   profilePicture: Sequelize.BLOB('long'),
   rating: Sequelize.FLOAT(4),
   ratingsCount: Sequelize.INTEGER
+},{
+  createdAt: false,
+  updatedAt: false
 });
 
 var Trip = sequelize.define("Trip", {

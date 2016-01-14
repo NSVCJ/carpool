@@ -7,6 +7,7 @@ module.exports = {
     post: function(req, res){
       console.log('inside controller signin post');
       models.signin.post(function(data){
+        console.log('res data: ', data);
         res.send(data);
       },req.body)
     }
@@ -16,8 +17,9 @@ module.exports = {
     post: function(req, res){
       console.log('inside controller signup post');
       models.signup.post(function(data){
+        console.log('res data: ', data);
         res.send(data);
-      })
+      },req.body)
     }
   }
 };
