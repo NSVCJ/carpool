@@ -1,5 +1,6 @@
 var db = require("../db/db.js");
 var bcrypt = require('bcrypt');
+var jwt  = require('jwt-simple');
 
 var comparePassword = function(userPass, dataPass, callback){
   bcrypt.compare(userPass, dataPass, function(err, loggedin) {
@@ -32,8 +33,10 @@ module.exports = {
           }])
           .then(function(){
             return db.User.find({where: {email: params.email}});
-          }).then(function(users){
-            callback(users);
+          }).then(function(userData){
+            var token = jwt.encode(params.name, 'secret');
+            userData.dataValues.token = token;
+            callback(userData);
           })
         })
       }else{
@@ -50,6 +53,8 @@ module.exports = {
         var userData = data;
         comparePassword(params.password,data.password,function(response){
           if(response){
+            var token = jwt.encode(params.name, 'secret');
+            userData.dataValues.token = token;
             callback(userData);
           }else{
             callback(response);

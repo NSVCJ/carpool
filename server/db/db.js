@@ -43,8 +43,8 @@ var TripUser = sequelize.define("TripUser", {
   role: Sequelize.STRING
 });
 
-Trip.belongsToMany(User, {through: 'TripUser'});
-User.belongsToMany(Trip, {through: 'TripUser'});
+Trip.belongsToMany(User, {through: 'TripUsers'});
+User.belongsToMany(Trip, {through: 'TripUsers'});
 
 User.sync();
 Trip.sync();
