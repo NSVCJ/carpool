@@ -7,36 +7,6 @@ var utils = require('../server-helpers');
 //with under_scores. You have been warned.
 
 module.exports = models = {
-<<<<<<< dd06245ec1d630b5f9ef06c854dbfa3efb057e61
-  signin:{
-    get: function(){},
-<<<<<<< 52529f1c669e9ab0fcbdb8520e2fd6576d4b3452
-    post: function(){},
-    put: function(callback, data) {}
-  },
-  signup:{
-    get: function(){},
-    post: function(){},
-    put: function(callback, data) {}
-=======
-    post: function(callback, params){
-      console.log('inside models signin post');
-      var email = params.email;
-      var password = params.password;
-      console.log(email + ' ' + password);
-      signHelper.setSignin(callback, params);
-    }
-  },
-  signup:{
-    get: function(){},
-    post: function(callback, params){
-      console.log('inside models signup post');
-      signHelper.setSignup(callback, params);
-    }
->>>>>>> (feature) added routes for signin/signup
-  },
-=======
->>>>>>> (refactor) modulamodularized controllers and models
   users:{
     get: function(){},
     post: function(){},
