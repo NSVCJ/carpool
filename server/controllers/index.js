@@ -1,4 +1,3 @@
-//will need to require some fold called modles
 var models = require('../models');
 var utils = require('../server-helpers');
 

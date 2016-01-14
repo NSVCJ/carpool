@@ -19,6 +19,7 @@ if (process.env.HEROKU_POSTGRESQL_BRONZE_URL) {
 var User = sequelize.define("User", {
   name: Sequelize.STRING,
   email: Sequelize.STRING,
+  password: Sequelize.STRING,
   phone: Sequelize.STRING,
   profilePicture: Sequelize.BLOB('long'),
   rating: Sequelize.FLOAT(4),

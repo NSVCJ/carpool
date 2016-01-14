@@ -5,10 +5,26 @@ var _ = require('lodash');
 var utils = require('../server-helpers');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
+var setPassword = function(){
+
+}
+
+var hashSalt = function(callback, email, password){
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(password, salt, function(err, hash) {
+      var user = {
+        username: email,
+        password: hash
+      };
+      // db.sequelize.query("insert into ")
+    });
+  })
+}
 
 module.exports = models = {
   signin:{
     get: function(){},
+<<<<<<< 52529f1c669e9ab0fcbdb8520e2fd6576d4b3452
     post: function(){},
     put: function(callback, data) {}
   },
@@ -16,6 +32,21 @@ module.exports = models = {
     get: function(){},
     post: function(){},
     put: function(callback, data) {}
+=======
+    post: function(callback, params){
+      console.log('inside models signin post');
+      var email = params.email;
+      var password = params.password;
+      console.log(email + ' ' + password);
+      hashSalt(callback, email, password);
+    }
+  },
+  signup:{
+    get: function(){},
+    post: function(){
+      console.log('inside models signup post');
+    }
+>>>>>>> (feature) added routes for signin/signup
   },
   users:{
     get: function(){},
