@@ -29,3 +29,21 @@ exports.riderUnconfirmedFormat = function(riderInfo, driverInfo) {
   });
   return riderUnconfirmedArr;
 }
+
+exports.toggleConfirm = function(callback, data) {
+  db.sequelize.query(
+    "select role from TripUsers where TripId = "+data.TripId+" AND UserId = "+data.UserId,
+  {type: db.sequelize.QueryTypes.SELECT})
+  .then(function(role) {
+    var newRole = "Unconfirmed";
+    if (role[0].role === "Unconfirmed") {
+      newRole = "Confirmed"
+    }
+    db.sequelize.query(
+      "update TripUsers set role ='"+newRole+"' where TripId = "+data.TripId+" AND UserId = "+data.UserId,
+    {type: db.sequelize.QueryTypes.UPDATE})
+    .then(function(record) {
+      callback(newRole);
+    })
+  })
+}
