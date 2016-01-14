@@ -22,25 +22,6 @@ var hashSalt = function(callback, email, password){
 }
 
 module.exports = models = {
-<<<<<<< HEAD
-=======
-  signin:{
-    get: function(){},
-    post: function(callback, params){
-      console.log('inside models signin post');
-      var email = params.email;
-      var password = params.password;
-      console.log(email + ' ' + password);
-      hashSalt(callback, email, password);
-    }
-  },
-  signup:{
-    get: function(){},
-    post: function(){
-      console.log('inside models signup post');
-    }
-  },
->>>>>>> 0978ca4c5f419dc03242f1bc9853ce18858fe00b
   users:{
     get: function(){},
     post: function(){},
