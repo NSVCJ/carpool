@@ -6,7 +6,6 @@
   "scripts": {
     "test": "mocha server/spec/serverIntegrationTest.js && node server/spec/cleanUpDb.js",
     "data": "node server/spec/inputTestData.js",
-    "postinstall": "bower cache clean && bower install"
   },
   "author": "",
   "license": "ISC",
