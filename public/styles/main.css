@@ -8,9 +8,29 @@
 }
 
 
-/* Event Search Page */
+/* Event Info box on Driver page */
+.event-info{
+  border: 1px solid #000;
+  margin-bottom: 15px;
+  padding: 10px;
+}
 
+.event-image-display img{
+  float: left;
+  margin-right: 10px;
+}
+
+.event-info-description{
+  float: left;
+}
+.event-info-description h3{
+  margin: 0 0 5px 0;
+}
+
+
+/* Event Search Page */
 .event{
+  border-bottom: 1px solid #000;
   padding: 10px;
 }
 .event h3{
@@ -18,17 +38,4 @@
 }
 .event:nth-child(even){
   background-color: rgba(192, 192, 192, 0.4);
-};
-
-
-
-/* Event Info box on Driver page */
-.event-image-display{
-  float: left;
-  margin: 10px;
-}
-
-.event-info-description{
-  float: left;
-  margin: 10px;
 }

@@ -55,23 +55,35 @@ const SearchBox = React.createClass({
   },
   render: function() {
     return (
-      <form className="search-box" onSubmit={this.handleSubmit}>
-        <label>Location (city or zip code)</label>
-        <input
-          type="text"
-          placeholder="location"
-          value={this.state.location}
-          onChange={this.handleLocationChange}
-          autoFocus />
-        <br />
-        <label>Keywords</label>
-          <input
-            type="text"
-            placeholder="keywords"
-            value={this.state.keywords}
-            onChange={this.handleKeywordsChange} />
-        <br />
-        <input className="btn btn-default" type="submit" value="Search" />
+      <form className="search-box form-horizontal" onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <label className="control-label col-sm-3">Location (city/zip code)</label>
+          <div className="col-sm-9">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Location"
+              value={this.state.location}
+              onChange={this.handleLocationChange}
+              autoFocus />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-3">Event</label>
+          <div className="col-sm-9">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Event"
+              value={this.state.keywords}
+              onChange={this.handleKeywordsChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="col-sm-offset-2 col-sm-10">
+            <input className="btn btn-primary" type="submit" value="Search" />
+          </div>
+        </div>
       </form>
     );
   }
@@ -297,8 +309,9 @@ const DriverForm = React.createClass({
       <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <label className="control-label col-sm-2">Name</label>
-          <div className="col-sm-10">
+          <div className="col-sm-7">
             <input
+              className="form-control"
               type="text"
               placeholder="name"
               value={this.state.name}
@@ -307,8 +320,9 @@ const DriverForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="control-label col-sm-2">Email</label>
-          <div className="col-sm-10">
+          <div className="col-sm-7">
             <input
+              className="form-control"
               type="text"
               placeholder="email"
               value={this.state.email}
@@ -317,8 +331,9 @@ const DriverForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="control-label col-sm-2">Phone</label>
-          <div className="col-sm-10">
+          <div className="col-sm-7">
             <input
+              className="form-control"
               type="text"
               placeholder="phone"
               value={this.state.phone}
@@ -327,8 +342,9 @@ const DriverForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="control-label col-sm-2">Departure Time</label>
-          <div className="col-sm-10">
+          <div className="col-sm-7">
             <input
+              className="form-control"
               type="text"
               placeholder="startTime"
               value={this.state.startTime}
@@ -337,8 +353,9 @@ const DriverForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="control-label col-sm-2">Start Location</label>
-          <div className="col-sm-10">
+          <div className="col-sm-7">
             <input
+              className="form-control"
               size="100"
               id="location"
               type="text"
@@ -349,8 +366,9 @@ const DriverForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="control-label col-sm-2">Rate</label>
-          <div className="col-sm-10">
+          <div className="col-sm-7">
             <input
+              className="form-control"
               type="text"
               placeholder="rate"
               value={this.state.rate}
@@ -358,7 +376,7 @@ const DriverForm = React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-10">
+          <div className="col-sm-offset-2 col-sm-7">
             <input className="btn btn-success" type="submit" value="Confirm Driver" />
           </div>
         </div>
