@@ -3,21 +3,7 @@ var utils = require('../server-helpers');
 var models = require('../models/index.js');
 
 module.exports = {
-  users: {
-    get: function (req, res) {
-      console.log('inside controllers users get');
-      models.users.get(function(data){
-        res.send(data);
-      })
-    },
-    post: function (req, res) {
-      models.users.post(function(data){
-        console.log('inside controllers users post')
-        res.send(data);
-      })
-    },
-    put: function(callback, data) {}
-  },
+
   trips:{
     get: function (req, res) {
       console.log('inside controllers trips get');
@@ -31,8 +17,9 @@ module.exports = {
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
     },
-    put: function(callback, data) {}
+    put: function(req, res) {}
   },
+
   riderProfile: {
     get: function (req, res) {
       console.log('inside controllers riderProfile get');
@@ -44,73 +31,26 @@ module.exports = {
       }, req.query);
     },
     post: function (req, res) {},
-    put: function(callback, data) {}
+    put: function(req, res) {}
   },
-  riderConfirmed:{
-    get: function (req, res) {
-      console.log('inside controllers riderConfirmed get');
-      models.riderConfirmed.get(function(riderInfo, driverInfo){
-        //console.log("Inside trips get", data);
-        //add utility function here to format data, combine entries
-        res.send({riderInfo: riderInfo,
-                  driverInfo: driverInfo
-        });
-      }, req.query)
-    },
-    post: function (req, res) {},
-    put: function(callback, data) {}
-  },
-  riderUnconfirmed:{
-    get: function (req, res) {
-      console.log('inside controllers riderUnconfirmed get');
-      models.riderUnconfirmed.get(function(riderInfo, driverInfo){
-        //console.log("Inside trips get", data);
-        var riderUnconfirmedArr = utils.riderUnconfirmedFormat(riderInfo, driverInfo);
-        res.send(riderUnconfirmedArr);
-      }, req.query)
-    },
-    post: function (req, res) {},
-    put: function(callback, data) {}
-  },
-  driverConfirmed:{
-    get: function (req, res) {
-      console.log('inside controllers driverConfirmed get');
-      models.driverConfirmed.get(function(riderInfo, driverInfo){
-        //console.log("Inside trips get", data);
-        res.send({riderInfo: riderInfo,
-                  driverInfo: driverInfo
-        });
-      }, req.query)
-    },
-    post: function (req, res) {},
-    put: function(req, res) {
-      console.log('inside controllers driverConfirmed put');
-      console.log("Here's the body", req.body);
-      models.driverConfirmed.put(function(newRole){
-        res.send({"newRole": newRole});
-      }, req.body);
-    }
-  },
+
   driverProfile:{
     get: function (req, res) {
       console.log('inside controllers driverProfile get');
       models.driverProfile.get(function(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo){
         var driverProfileInfo = utils.driverProfileFormat(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo);
-        res.send({"driverProfileInfo": driverProfileInfo});
-        // res.send({driverProfileInfo: driverInfo,
-        //           riderConfirmedInfo: riderConfirmedInfo,
-        //           riderUnconfirmedInfo: riderUnconfirmedInfo
-        // });
+        res.send({"trips": driverProfileInfo});
       }, req.query)
     },
-    post: function (req, res) {},
     put: function(req, res) {
       console.log('inside controllers driverConfirmed put');
       models.driverConfirmed.put(function(record){
         res.send({"updated": record});
       }, req.body);
-    }
+    },
+    post: function (req, res) {}
   },
+
   eventRider: {
     get: function (req, res) {
       console.log('inside controllers eventRider get');
@@ -125,21 +65,17 @@ module.exports = {
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
     },
-    put: function(callback, data) {}
+    put: function(req, res) {}
   },
+
   eventDriver: {
-    get: function (req, res) {
-      console.log('inside controllers eventDriver');
-      models.eventDriver.get(function(data){
-        res.send({trips: data});
-      }, req.query)
-    },
+    get: function (req, res) {},
     post: function (req, res) {
       models.eventDriver.post(function(data){
         //console.log('inside controllers trips post')
         res.send({posted: data});
       }, req.body); //some function to get data, fix later
     },
-    put: function(callback, data) {}
+    put: function(req, res) {}
   }
 };

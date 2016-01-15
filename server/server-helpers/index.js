@@ -50,8 +50,10 @@ exports.driverProfileFormat = function(driverInfo, riderConfirmedInfo, riderUnco
   var driverProfileArr = [];
   _.each(driverInfo, function(trip, index){
     var driverProfileObj = {};
+    driverProfileObj.TripId = trip.TripId;
     driverProfileObj.eventfulId = trip.eventfulId;
     driverProfileObj.startLocation = trip.startLocation;
+    var pending = riderUnconfirmedInfo[index];
     driverProfileObj.unconfirmedRiders = riderUnconfirmedInfo[index];
     driverProfileObj.confirmedRiders = riderConfirmedInfo[index];
     driverProfileArr.push(driverProfileObj);
