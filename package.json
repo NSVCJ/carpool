@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install",
     "test": "mocha server/spec/serverIntegrationTest.js && node server/spec/cleanUpDb.js",
     "data": "node server/spec/inputTestData.js"
   },
