@@ -21,11 +21,11 @@ module.exports = models = {
     },
     post: function(callback, data) {
       //MVP: no profile associated, so a new user is created for every post.
-      db.User.create( {
-        name: data.user.name,
-        email: data.user.email,
-        phone: data.user.phone
-      }).then(function(user) {
+      // db.User.create( {
+      //   name: data.user.name,
+      //   email: data.user.email,
+      //   phone: data.user.phone
+      // }).then(function(user) {
         db.Trip.create( {
           price: data.trip.price,
           eventfulId: data.event.id
@@ -33,17 +33,17 @@ module.exports = models = {
           tripUser = db.TripUser.create( {
             startLocation: data.trip.startLocation,
             role: "Driver",
-            UserId: user.id,
+            UserId: data.user.id,
             TripId: trip.id
           }).then(function(tripUser) {
             callback({
-              'user': user,
+              'user': data.user,
               'trip': trip,
               'tripUser': tripUser
             });
           });
         });
-      });
+      // });
     },
     put: function(callback, data) {}
   },
@@ -136,11 +136,11 @@ module.exports = models = {
       //Post that you want to be a driver for an event/
       //For use on event-Driver page
       //MVP: no profile associated, so a new user is created for every post.
-      db.User.create( {
-        name: data.user.name,
-        email: data.user.email,
-        phone: data.user.phone
-      }).then(function(user) {
+      // db.User.create( {
+      //   name: data.user.name,
+      //   email: data.user.email,
+      //   phone: data.user.phone
+      // }).then(function(user) {
         db.Trip.create( {
           price: data.trip.price,
           eventfulId: data.event.id
@@ -158,7 +158,7 @@ module.exports = models = {
             });
           });
         });
-      });
+      // });
     },
     put: function(callback, data) {}
   }

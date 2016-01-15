@@ -1,14 +1,6 @@
 var db = require("../db/db.js");
 var _ = require('lodash');
 
-var eventExist = function(eventId) {
-  return db.Event.findAll({
-    where: {
-      eventful_id: eventId
-    }
-  });
-}
-
 exports.riderConfirmedFormat = function(riderInfo, driverInfo, callback) {
   var confirmedTrips = [];
   _.each(riderInfo, function(trip, index){
