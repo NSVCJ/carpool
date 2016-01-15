@@ -1,15 +1,19 @@
 var Sequelize = require("sequelize");
 
 var sequelize = null;
-
-if (process.env.HEROKU_POSTGRESQL_BRONZE_URL) {
+if (process.env.DATABASE_UR) {
+  var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
+  console.log('+++line5 match: ', match);
   // the application is executed on Heroku ... use the postgres database
-  sequelize = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL, {
-    dialect:  'postgres',
+  sequelize = new Sequelize(match[5],match[1],match[2],{
+    dialect: 'postgres',
     protocol: 'postgres',
-    port:     match[4],
-    host:     match[3],
-    logging:  true //false
+    host: match[3],
+    logging: false,
+    port: match[4],
+    dialectOptions: {
+        ssl: true
+    }
   })
 } else {
   // the application is executed on the local machine ... use mysql
@@ -39,8 +43,8 @@ var TripUser = sequelize.define("TripUser", {
   role: Sequelize.STRING
 });
 
-Trip.belongsToMany(User, {through: 'TripUser'});
-User.belongsToMany(Trip, {through: 'TripUser'});
+Trip.belongsToMany(User, {through: 'TripUsers'});
+User.belongsToMany(Trip, {through: 'TripUsers'});
 
 User.sync();
 Trip.sync();

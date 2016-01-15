@@ -1,5 +1,6 @@
 var db = require("../db/db.js");
 var bcrypt = require('bcrypt');
+var jwt  = require('jwt-simple');
 
 var comparePassword = function(userPass, dataPass, callback){
   bcrypt.compare(userPass, dataPass, function(err, loggedin) {
@@ -31,9 +32,11 @@ module.exports = {
             phone: params.phone
           }])
           .then(function(){
-            return db.User.find({where: {email: params.email}});
-          }).then(function(users){
-            callback(users);
+            return db.User.find({attributes: ['id', 'name', 'email','phone']},{where: {email: params.email}});
+          }).then(function(userData){
+            var token = jwt.encode(params.email, 'secret');
+            userData.dataValues.token = token;
+            callback(userData);
           })
         })
       }else{
@@ -50,11 +53,28 @@ module.exports = {
         var userData = data;
         comparePassword(params.password,data.password,function(response){
           if(response){
-            callback(userData);
+            db.User.find({attributes: ['id', 'name', 'email','phone']}, {where: {email: params.email}})
+            .then(function(data){
+              var token = jwt.encode(params.email, 'secret');
+              data.dataValues.token = token;
+              callback(data);
+            })
           }else{
             callback(response);
           }
         })
+      }else{
+        callback(false);
+      }
+    })
+  },
+
+  findUser: function(callback, username){
+    console.log('inside helperfunction findUser');
+    db.User.find({where: {email: username}})
+    .then(function(data){
+      if(data){
+        callback(true);
       }else{
         callback(false);
       }

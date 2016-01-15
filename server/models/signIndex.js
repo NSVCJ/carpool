@@ -8,9 +8,6 @@ module.exports = models = {
     get: function(){},
     post: function(callback, params){
       console.log('inside models signin post');
-      var email = params.email;
-      var password = params.password;
-      console.log(email + ' ' + password);
       signHelper.setSignin(callback, params);
     }
   },
@@ -21,4 +18,11 @@ module.exports = models = {
       signHelper.setSignup(callback, params);
     }
   },
+  checkAuth:{
+    get: function(){},
+    post: function(callback, parmas){
+      console.log('inside models checkAuth post');
+      signHelper.findUser(callback, params);
+    }
+  }
 }
