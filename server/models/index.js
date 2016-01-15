@@ -8,47 +8,6 @@ var utils = require('../server-helpers');
 
 module.exports = models = {
 
-  //Will be depreciated after MVP
-  trips: {
-    get: function(callback, params) {
-      db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
-      {type: db.sequelize.QueryTypes.SELECT})
-      .then(function(data){
-        console.log("Inside models.trips.get", data);
-        callback(data);
-      })
-    },
-    post: function(callback, data) {
-      //MVP: no profile associated, so a new user is created for every post.
-      // db.User.create( {
-      //   name: data.user.name,
-      //   email: data.user.email,
-      //   phone: data.user.phone
-      // }).then(function(user) {
-      console.log("WHAT IS INSIDE DATAAAAAA", data);
-        db.Trip.create( {
-          price: data.trip.price,
-          eventfulId: data.event.id
-        }).then(function(trip) {
-          tripUser = db.TripUser.create( {
-            startLocation: data.trip.startLocation,
-            role: "Driver",
-            UserId: data.user.id,
-            TripId: trip.id
-          }).then(function(tripUser) {
-            callback({
-              'user': data.user,
-              'trip': trip,
-              'tripUser': tripUser
-            });
-          });
-        });
-      // });
-    },
-    put: function(callback, data) {}
-  },
-
   riderProfile: {
     get: function(callback, params) {
       utils.getConfirmedRiders(function(riderInfo, driverInfo){
@@ -120,8 +79,8 @@ module.exports = models = {
     },
     post: function(callback, data) {
       db.TripUser.create( {
-          TripId: data.trips.tripId,
-          startLocation: data.startLocation,
+          TripId: data.trip.TripId,
+          startLocation: data.trip.startLocation,
           UserId: data.user.id,
           role: 'Unconfirmed'
       }).then(function(rider){
@@ -149,11 +108,11 @@ module.exports = models = {
           tripUser = db.TripUser.create( {
             startLocation: data.trip.startLocation,
             role: "Driver",
-            UserId: user.id,
+            UserId: data.user.id,
             TripId: trip.id
           }).then(function(tripUser) {
             callback({
-              'user': user,
+              'user': data.user,
               'trip': trip,
               'tripUser': tripUser
             });
