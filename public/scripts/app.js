@@ -55,29 +55,26 @@ const SearchBox = React.createClass({
   },
   render: function() {
     return (
-      <form className="searchBox" onSubmit={this.handleSubmit}>
-        <label>
-          location (city or zip)
-          <input
-            type="text"
-            placeholder="location"
-            value={this.state.location}
-            onChange={this.handleLocationChange}
-          />
-        </label>
+      <form className="search-box" onSubmit={this.handleSubmit}>
+        <label>Location (city or zip code)</label>
+        <input
+          type="text"
+          placeholder="location"
+          value={this.state.location}
+          onChange={this.handleLocationChange}
+          autoFocus />
         <br />
-        <label>
-          keywords
+        <label>Keywords</label>
           <input
             type="text"
-            placeholder="query"
+            placeholder="keywords"
             value={this.state.keywords}
-            onChange={this.handleKeywordsChange}
-            autoFocus
-          />
-        </label>
+            onChange={this.handleKeywordsChange} />
         <br />
-        <input type="submit" value="Search" />
+        <input className="btn btn-default" type="submit" value="Search" />
+
+
+
       </form>
     );
   }
@@ -95,7 +92,7 @@ const EventList = React.createClass({
       );
     });
     return (
-      <div className="eventList">
+      <div className="event-list">
         {eventNodes}
       </div>
     );
@@ -134,7 +131,7 @@ const EventBox = React.createClass({
 
   render: function() {
     return (
-      <div className="eventBox">
+      <div className="event-box">
         <SearchBox onCommentSubmit={this.handleQuerySubmit} />
         <EventList data={this.state.data} />
       </div>
@@ -145,7 +142,7 @@ const EventBox = React.createClass({
 const App = React.createClass({
   render: function() {
     return (
-      <div className="driverView">
+      <div className="event-view">
         {this.props.children}
       </div>
     );
@@ -155,7 +152,7 @@ const App = React.createClass({
 const DriverView = React.createClass({
   render: function() {
     return (
-      <div className="driverView">
+      <div className="driver-view">
         <h4>DriverView</h4>
       </div>
     );
@@ -165,7 +162,7 @@ const DriverView = React.createClass({
 const RiderView = React.createClass({
   render: function() {
     return (
-      <div className="riderView">
+      <div className="rider-view">
         <h4>RiderView</h4>
       </div>
     );
