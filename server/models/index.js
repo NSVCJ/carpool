@@ -26,6 +26,7 @@ module.exports = models = {
       //   email: data.user.email,
       //   phone: data.user.phone
       // }).then(function(user) {
+      console.log("WHAT IS INSIDE DATAAAAAA", data);
         db.Trip.create( {
           price: data.trip.price,
           eventfulId: data.event.id
