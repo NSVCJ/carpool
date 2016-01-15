@@ -5,21 +5,6 @@ var _ = require('lodash');
 var utils = require('../server-helpers');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
-var setPassword = function(){
-
-}
-
-var hashSalt = function(callback, email, password){
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(password, salt, function(err, hash) {
-      var user = {
-        username: email,
-        password: hash
-      };
-      // db.sequelize.query("insert into ")
-    });
-  })
-}
 
 module.exports = models = {
 
