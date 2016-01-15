@@ -33,6 +33,19 @@ module.exports = {
     },
     put: function(callback, data) {}
   },
+  riderProfile: {
+    get: function (req, res) {
+      console.log('inside controllers riderProfile get');
+      models.riderProfile.get(function(confirmed, unconfirmed) {
+        res.send({
+          confirmed: confirmed,
+          unconfirmed: unconfirmed
+        });
+      }, req.query);
+    },
+    post: function (req, res) {},
+    put: function(callback, data) {}
+  },
   riderConfirmed:{
     get: function (req, res) {
       console.log('inside controllers riderConfirmed get');
@@ -78,14 +91,16 @@ module.exports = {
       }, req.body);
     }
   },
-  driverUnconfirmed:{
+  driverProfile:{
     get: function (req, res) {
-      console.log('inside controllers driverUnconfirmed get');
-      models.driverUnconfirmed.get(function(riderInfo, driverInfo){
-        //console.log("Inside trips get", data);
-        res.send({riderInfo: riderInfo,
-                  driverInfo: driverInfo
-        });
+      console.log('inside controllers driverProfile get');
+      models.driverProfile.get(function(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo){
+        var driverProfileInfo = utils.driverProfileFormat(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo);
+        res.send({"driverProfileInfo": driverProfileInfo});
+        // res.send({driverProfileInfo: driverInfo,
+        //           riderConfirmedInfo: riderConfirmedInfo,
+        //           riderUnconfirmedInfo: riderUnconfirmedInfo
+        // });
       }, req.query)
     },
     post: function (req, res) {},

@@ -49,6 +49,26 @@ module.exports = models = {
     put: function(callback, data) {}
   },
 
+  riderProfile: {
+    get: function(callback, params) {
+      utils.getConfirmedRiders(function(riderInfo, driverInfo){
+        utils.riderConfirmedFormat(riderInfo, driverInfo,
+          function(confirmedTrips) {
+            utils.getUnconfirmedRiders(function(riderInfo, driverInfo) {
+              utils.riderUnconfirmedFormat(riderInfo, driverInfo,
+                function(unconfirmedTrips) {
+                  callback(confirmedTrips, unconfirmedTrips)
+                }
+              )
+            }, params)
+          }
+        )
+      }, params)
+    },
+    post: function(){},
+    put: function(callback, data) {}
+  },
+
   riderUnconfirmed: {
     get: function(callback, params) {
       db.sequelize.query(
@@ -58,7 +78,7 @@ module.exports = models = {
         var queries = [];
         _.map(riderInfo, function(trip) {
           queries.push(db.sequelize.query(
-            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where (TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver' AND TripUsers.UserId = Users.id)",
+            "select Users.name, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Driver' AND TripUsers.UserId = Users.id",
           {type: db.sequelize.QueryTypes.SELECT})
         )});
         Promise.all(queries)
@@ -79,7 +99,7 @@ module.exports = models = {
       .spread(function(driverInfo){
         var queries = riderInfo.map(function(trip) {
           db.sequelize.query(
-            "select Users.id, Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Rider'",
+            "select Users.id, Users.name, Users.email, Users.phone, Users.rating, Users.profilePicture, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Rider' AND TripUsers.UserId = Users.id",
           {type: db.sequelize.QueryTypes.SELECT})
         })
         Promise.all(queries)
@@ -92,20 +112,37 @@ module.exports = models = {
     post: function(){}
   },
 
-  driverUnconfirmed: {
+  driverProfile: {
     get: function(callback, params) {
       db.sequelize.query(
         "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
-      .spread(function(driverInfo){
-        var queries = riderInfo.map(function(trip) {
-          db.sequelize.query(
-            "select Users.*, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed'",
-          {type: db.sequelize.QueryTypes.SELECT})
+      .then(function(driverInfo){
+        // console.log("1111111111111");
+        var queries = [];
+        _.map(driverInfo, function(trip) {
+          queries.push(
+            db.sequelize.query(
+              "select Users.*, TripUsers.startLocation from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.UserId = Users.id",
+            {type: db.sequelize.QueryTypes.SELECT})
+          )
         })
         Promise.all(queries)
-        .then(function(riderInfo){
-          callback(riderInfo, driverInfo);
+        .then(function(riderUnconfirmedInfo){
+          // console.log("22222222222222");
+          var queries = [];
+          _.map(driverInfo, function(trip) {
+            queries.push(
+              db.sequelize.query(
+                "select Users.*, TripUsers.startLocation from Users, TripUsers where TripUsers.role = 'Rider' AND TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.UserId = Users.id",
+              {type: db.sequelize.QueryTypes.SELECT})
+            )
+          })
+          Promise.all(queries)
+          .then(function(riderConfirmedInfo) {
+            console.log("What is our callback", callback);
+            callback(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo);
+          })
         })
       })
     },
