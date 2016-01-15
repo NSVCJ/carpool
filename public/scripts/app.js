@@ -55,29 +55,23 @@ const SearchBox = React.createClass({
   },
   render: function() {
     return (
-      <form className="searchBox" onSubmit={this.handleSubmit}>
-        <label>
-          location (city or zip)
-          <input
-            type="text"
-            placeholder="location"
-            value={this.state.location}
-            onChange={this.handleLocationChange}
-          />
-        </label>
+      <form className="search-box" onSubmit={this.handleSubmit}>
+        <label>Location (city or zip code)</label>
+        <input
+          type="text"
+          placeholder="location"
+          value={this.state.location}
+          onChange={this.handleLocationChange}
+          autoFocus />
         <br />
-        <label>
-          keywords
+        <label>Keywords</label>
           <input
             type="text"
-            placeholder="query"
+            placeholder="keywords"
             value={this.state.keywords}
-            onChange={this.handleKeywordsChange}
-            autoFocus
-          />
-        </label>
+            onChange={this.handleKeywordsChange} />
         <br />
-        <input type="submit" value="Search" />
+        <input className="btn btn-default" type="submit" value="Search" />
       </form>
     );
   }
@@ -95,7 +89,7 @@ const EventList = React.createClass({
       );
     });
     return (
-      <div className="eventList">
+      <div className="event-list">
         {eventNodes}
       </div>
     );
@@ -134,7 +128,7 @@ const EventBox = React.createClass({
 
   render: function() {
     return (
-      <div className="eventBox">
+      <div className="event-box">
         <SearchBox onCommentSubmit={this.handleQuerySubmit} />
         <EventList data={this.state.data} />
       </div>
@@ -145,7 +139,7 @@ const EventBox = React.createClass({
 const App = React.createClass({
   render: function() {
     return (
-      <div className="driverView">
+      <div className="event-view">
         {this.props.children}
       </div>
     );
@@ -155,7 +149,7 @@ const App = React.createClass({
 const DriverView = React.createClass({
   render: function() {
     return (
-      <div className="driverView">
+      <div className="driver-view">
         <h4>DriverView</h4>
       </div>
     );
@@ -165,7 +159,7 @@ const DriverView = React.createClass({
 const RiderView = React.createClass({
   render: function() {
     return (
-      <div className="riderView">
+      <div className="rider-view">
         <h4>RiderView</h4>
       </div>
     );
@@ -208,7 +202,7 @@ const DriverBox = React.createClass({
   render: function() {
     // console.log('driver.js', EventDataCache);
     return (
-      <div className="driverForm">
+      <div>
         <EventInfo data={EventDataCache} />
         <DriverForm onInfoSubmit={this.handleInfoSubmit} />
       </div>
@@ -222,14 +216,18 @@ const EventInfo = React.createClass({
   // },
   render: function() {
     return (
-      <div className="eventInfo">
-        <h3>{this.props.data.title}</h3>
-        <img src={this.props.data.image.medium.url} alt="" />
-        <h4>
-          {this.props.data.start_time}<br />
-          {this.props.data.venue_name}<br />
-          {this.props.data.venue_address}, {this.props.data.region_abbr}
-        </h4>
+      <div className="event-info container">
+        <div className="event-image-display">
+          <img src={this.props.data.image.medium.url} alt="" />
+        </div>
+        <div className="event-info-description">
+          <h3>{this.props.data.title}</h3>
+          <p>
+            {this.props.data.start_time}<br />
+            {this.props.data.venue_name}<br />
+            {this.props.data.venue_address}, {this.props.data.region_abbr}
+          </p>
+        </div>
       </div>
     );
   }
@@ -296,70 +294,74 @@ const DriverForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="driverForm" onSubmit={this.handleSubmit}>
-        <label>
-          Name
-          <input
-            type="text"
-            placeholder="name"
-            value={this.state.name}
-            onChange={this.handleNameChange}
-          />
-        </label>
-        <br />
-        <label>
-          Email
-          <input
-            type="text"
-            placeholder="email"
-            value={this.state.email}
-            onChange={this.handleEmailChange}
-          />
-        </label>
-        <br />
-        <label>
-          Phone
-          <input
-            type="text"
-            placeholder="phone"
-            value={this.state.phone}
-            onChange={this.handlePhoneChange}
-          />
-        </label>
-        <br />
-        <label>
-          Departure Time
-          <input
-            type="text"
-            placeholder="startTime"
-            value={this.state.startTime}
-            onChange={this.handleStartTimeChange}
-          />
-        </label>
-        <br />
-        <label>
-          Start Location
-          <input
-            size="100"
-            id="location"
-            type="text"
-            placeholder="startLocation"
-            value={this.state.startLocation}
-            onChange={this.handleStartLocationChange}
-          />
-        </label>
-        <br />
-        <label>
-          Rate
-          <input
-            type="text"
-            placeholder="rate"
-            value={this.state.rate}
-            onChange={this.handleRateChange}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Confirm Driver" />
+      <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Name</label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              placeholder="name"
+              value={this.state.name}
+              onChange={this.handleNameChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Email</label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              placeholder="email"
+              value={this.state.email}
+              onChange={this.handleEmailChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Phone</label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              placeholder="phone"
+              value={this.state.phone}
+              onChange={this.handlePhoneChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Departure Time</label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              placeholder="startTime"
+              value={this.state.startTime}
+              onChange={this.handleStartTimeChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Start Location</label>
+          <div className="col-sm-10">
+            <input
+              size="100"
+              id="location"
+              type="text"
+              placeholder="startLocation"
+              value={this.state.startLocation}
+              onChange={this.handleStartLocationChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Rate</label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              placeholder="rate"
+              value={this.state.rate}
+              onChange={this.handleRateChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="col-sm-offset-2 col-sm-10">
+            <input className="btn btn-success" type="submit" value="Confirm Driver" />
+          </div>
+        </div>
       </form>
     );
   }
