@@ -1,11 +1,24 @@
 exports.testUsers = [
   {
+    "name": "Barack Obama",
+    "email": "bo@whitehouse.gov",
+    "phone": "434-231-9008",
+    "password": "password"
+  },
+  {
     "name": "Bob Loblaw",
     "email": "bow@loblaw.com",
     "phone": "555-555-5555",
     "password": "password"
-  }
-,
+  },
+{
+
+  "name": "Tom Hardy",
+  "email": "tom@hardy.com",
+  "phone": "208-208-3945",
+  "password": "password"
+
+},
 {
     "name": "Bart Simpson",
     "email": "bart@simpson.com",
@@ -18,14 +31,6 @@ exports.testUsers = [
     "name": "Alice Kingsley",
     "email": "alice@kingsley.com",
     "phone": "383-294-1037",
-    "password": "password"
-
-},
-{
-
-    "name": "Tom Hardy",
-    "email": "tom@hardy.com",
-    "phone": "208-208-3945",
     "password": "password"
 
 },

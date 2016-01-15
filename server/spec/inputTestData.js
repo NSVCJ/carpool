@@ -1,48 +1,62 @@
-var request = require('request');
 var _ = require('lodash');
+var Promise = require('bluebird');
+var request = require('request');
+var rp = require('request-promise');
+
 var signups = require('./testUsers.js').testUsers;
 var driverPosts = require('./testDriverPosts.js').testDriverPosts;
-var Promise = require('bluebird');
-
-// console.log("Things are working fine!!!!");
-// console.log("signUps are", signUps);
-var users = [];
+var drivers = require('./testDrivers.js').testDrivers;
+var riderPosts = require('./testRiderPosts.js').testRiderPosts;
 var signupQueries = [];
+var tripPostQueries = [];
 
 _.each(signups, function(json) {
+  console.log("What is json?", json);
   signupQueries.push(
-    request({
+    rp({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/signup',
       json: json
-    }, function(error, res, body) {
-      if (error) {
-        return console.error('upload failed:', error);
-      }
-      users.push(body);
-      console.log('User signup successful!  Server responded with:', body);
     })
   )
-})
-Promise.all(signupQueries)
-.then(function(){
-  console.log("Users are", users);
-
-  _.each(driverPosts, function(json, index) {
-    json.user = users[index];
-    console.log("~~~~~~~~~~~~~NEW JSON IS~~~~~~~~~", json);
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/api/trips',
-      json: json
-    }, function(error, response, body) {
-      if (error) {
-        return console.error('upload failed:', error);
-      }
-      console.log('Trip post successful!  Server responded with:', body);
-    });
-  });
 });
 
-
-//Not going in order. It's doing the trip each loop before starting the user post request.
+Promise.all(signupQueries)
+.then(function(){
+  _.each(driverPosts, function(json, index) {
+    // console.log("Index is", index, "for", json);
+    // console.log("The driver for this trip is", drivers[index]);
+    // json.user = drivers[index];
+    var options = {
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/api/eventDriver',
+      json: json,
+      transform: function(body, res) {
+        // console.log("Trip Post successful! Responded with", body);
+      }
+    }
+    tripPostQueries.push(rp(options));
+  });
+  Promise.all(tripPostQueries)
+  .then(function(){
+    // console.log("Everything has been posted, great job.");
+  })
+})
+/*
+.then(function(){
+  var riderPostQueries = []
+  _.each(riderPosts, function(json) {
+    riderPostQueries.push(
+      rp({
+        method: 'POST',
+        uri: 'http://127.0.0.1:8000/api/eventRider',
+        json: json
+      })
+    )
+  });
+  Promise.all(riderPostQueries)
+  .then(function(){
+    console.log("Everything has been posted and is working great.");
+  })
+})
+*/
