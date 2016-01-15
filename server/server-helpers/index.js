@@ -46,6 +46,19 @@ exports.riderUnconfirmedFormat = function(riderInfo, driverInfo, callback) {
   callback(riderUnconfirmedArr);
 }
 
+exports.driverProfileFormat = function(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo) {
+  var driverProfileArr = [];
+  _.each(driverInfo, function(trip, index){
+    var driverProfileObj = {};
+    driverProfileObj.eventfulId = trip.eventfulId;
+    driverProfileObj.startLocation = trip.startLocation;
+    driverProfileObj.unconfirmedRiders = riderUnconfirmedInfo[index];
+    driverProfileObj.confirmedRiders = riderConfirmedInfo[index];
+    driverProfileArr.push(driverProfileObj);
+  });
+  return driverProfileArr;
+}
+
 exports.toggleConfirm = function(callback, data) {
   db.sequelize.query(
     "select role from TripUsers where TripId = "+data.TripId+" AND UserId = "+data.UserId,

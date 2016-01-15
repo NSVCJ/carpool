@@ -91,14 +91,16 @@ module.exports = {
       }, req.body);
     }
   },
-  driverUnconfirmed:{
+  driverProfile:{
     get: function (req, res) {
-      console.log('inside controllers driverUnconfirmed get');
-      models.driverUnconfirmed.get(function(riderInfo, driverInfo){
-        //console.log("Inside trips get", data);
-        res.send({riderInfo: riderInfo,
-                  driverInfo: driverInfo
-        });
+      console.log('inside controllers driverProfile get');
+      models.driverProfile.get(function(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo){
+        var driverProfileInfo = utils.driverProfileFormat(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo);
+        res.send({"driverProfileInfo": driverProfileInfo});
+        // res.send({driverProfileInfo: driverInfo,
+        //           riderConfirmedInfo: riderConfirmedInfo,
+        //           riderUnconfirmedInfo: riderUnconfirmedInfo
+        // });
       }, req.query)
     },
     post: function (req, res) {},
