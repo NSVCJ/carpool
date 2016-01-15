@@ -1,20 +1,19 @@
 var Sequelize = require("sequelize");
 
 var sequelize = null;
-if (process.env.DATABASE_UR) {
+if (process.env.DATABASE_URL) {
   var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
-  console.log('+++line5 match: ', match);
-  // the application is executed on Heroku ... use the postgres database
-  sequelize = new Sequelize(match[5],match[1],match[2],{
-    dialect: 'postgres',
-    protocol: 'postgres',
-    host: match[3],
-    logging: false,
-    port: match[4],
-    dialectOptions: {
-        ssl: true
-    }
-  })
+  sequelize = new Sequelize(match[5], match[1], match[2], {
+      dialect:  'postgres',
+      protocol: 'postgres',
+      port:     match[4],
+      host:     match[3],
+      logging: false,
+      dialectOptions: {
+          ssl: true
+      }
+  });
+
 } else {
   // the application is executed on the local machine ... use mysql
   sequelize = new Sequelize('carpool', 'root', null)
