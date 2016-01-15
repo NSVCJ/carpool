@@ -32,9 +32,9 @@ module.exports = {
             phone: params.phone
           }])
           .then(function(){
-            return db.User.find({where: {email: params.email}});
+            return db.User.find({attributes: ['id', 'name', 'email','phone']},{where: {email: params.email}});
           }).then(function(userData){
-            var token = jwt.encode(params.name, 'secret');
+            var token = jwt.encode(params.email, 'secret');
             userData.dataValues.token = token;
             callback(userData);
           })
@@ -53,13 +53,28 @@ module.exports = {
         var userData = data;
         comparePassword(params.password,data.password,function(response){
           if(response){
-            var token = jwt.encode(params.name, 'secret');
-            userData.dataValues.token = token;
-            callback(userData);
+            db.User.find({attributes: ['id', 'name', 'email','phone']}, {where: {email: params.email}})
+            .then(function(data){
+              var token = jwt.encode(params.email, 'secret');
+              data.dataValues.token = token;
+              callback(data);
+            })
           }else{
             callback(response);
           }
         })
+      }else{
+        callback(false);
+      }
+    })
+  },
+
+  findUser: function(callback, username){
+    console.log('inside helperfunction findUser');
+    db.User.find({where: {email: username}})
+    .then(function(data){
+      if(data){
+        callback(true);
       }else{
         callback(false);
       }

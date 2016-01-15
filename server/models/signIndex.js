@@ -18,4 +18,11 @@ module.exports = models = {
       signHelper.setSignup(callback, params);
     }
   },
+  checkAuth:{
+    get: function(){},
+    post: function(callback, parmas){
+      console.log('inside models checkAuth post');
+      signHelper.findUser(callback, params);
+    }
+  }
 }
