@@ -3,52 +3,84 @@ import { render } from 'react-dom';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import { DriverBox, DriverForm, EventInfo } from './driver';
 import { DriverInfo, DriversList, GetDriversData } from './rider';
-import { EventfulAPIKey } from './config';
 import { Profile } from './profile';
 import { RiderForm, RiderBox } from './request';
 import { SignInForm, SignInBox } from './signin';
-import { SignUpForm, SignUpBox } from './profile';
+import { SignUpForm, SignUpBox } from './signup';
+import { EventfulAPIKey } from './config';
 
 var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
-const Event = React.createClass({
-  cacheEventData: function() {
-    EventDataCache = this.props.data;
-  },
+const App = React.createClass({
   render: function() {
     return (
       <div>
-        <nav class="navbar navbar-inverse">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+        <nav className="navbar navbar-inverse">
+          <div className="container">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Free Loader</a>
+              <a className="navbar-brand" href="#">Free Loader</a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav navbar-right">
+            <div id="navbar" className="navbar-collapse collapse">
+              <ul className="nav navbar-nav navbar-right">
                 <li><a href="#">Sign Up</a></li>
                 <li><a href="#">Log In</a></li>
-                <li><Link to="/profile">Profile</Link></li>
+                <li><Link to="/profile">profile</Link></li>
+                <li><Link to="/request">request</Link></li>
+                <li><Link to="/signin">signin</Link></li>
+                <li><Link to="/signup">signup</Link></li>
               </ul>
             </div>
           </div>
         </nav>
-        <div className="event">
-          <h3>{this.props.name}</h3>
-          <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
-          <h4>
-            <span>
-              <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
-              <br />
-              <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
-            </span>
-          </h4>
+        <h2>Find people in your area who are going to the big game! Pictures of plants while you wait.</h2>
+        <div className="event-view">
+          {this.props.children}
         </div>
+      </div>
+    );
+  }
+});
+
+const EventBox = React.createClass({
+  noResults: function() {
+    console.log('no results');
+  },
+
+  handleQuerySubmit: function(query) {
+    $.ajax({
+      url: EventfulAPI +
+        '&location=' + query.location +
+        '&keywords=' + query.keywords,
+      method: 'GET',
+      dataType: 'jsonp',
+      success: function(data) {
+        if (!data.events) {
+          this.noResults()
+        } else {
+          this.setState({data: data.events.event});
+        }
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+      }.bind(this)
+    })
+  },
+
+  getInitialState: function() {
+    return {data: []};
+  },
+
+  render: function() {
+    return (
+      <div className="event-box">
+        <SearchBox onCommentSubmit={this.handleQuerySubmit} />
+        <EventList data={this.state.data} />
       </div>
     )
   }
@@ -129,73 +161,24 @@ const EventList = React.createClass({
   }
 });
 
-// root component
-const EventBox = React.createClass({
-  noResults: function() {
-    console.log('no results');
+const Event = React.createClass({
+  cacheEventData: function() {
+    EventDataCache = this.props.data;
   },
-
-  handleQuerySubmit: function(query) {
-    $.ajax({
-      url: EventfulAPI +
-        '&location=' + query.location +
-        '&keywords=' + query.keywords,
-      method: 'GET',
-      dataType: 'jsonp',
-      success: function(data) {
-        if (!data.events) {
-          this.noResults()
-        } else {
-          this.setState({data: data.events.event});
-        }
-      }.bind(this),
-      error: function(err) {
-        console.error(err);
-      }.bind(this)
-    })
-  },
-
-  getInitialState: function() {
-    return {data: []};
-  },
-
   render: function() {
     return (
-      <div className="event-box">
-        <SearchBox onCommentSubmit={this.handleQuerySubmit} />
-        <EventList data={this.state.data} />
+      <div className="event">
+        <h3>{this.props.name}</h3>
+        <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
+        <h4>
+          <span>
+            <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
+            <br />
+            <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
+          </span>
+        </h4>
       </div>
     )
-  }
-});
-
-const App = React.createClass({
-  render: function() {
-    return (
-      <div className="event-view">
-        {this.props.children}
-      </div>
-    );
-  }
-});
-
-const DriverView = React.createClass({
-  render: function() {
-    return (
-      <div className="driver-view">
-        <h4>DriverView</h4>
-      </div>
-    );
-  }
-});
-
-const RiderView = React.createClass({
-  render: function() {
-    return (
-      <div className="rider-view">
-        <h4>RiderView</h4>
-      </div>
-    );
   }
 });
 
@@ -204,8 +187,11 @@ ReactDOM.render(
     <Route path='/' component={App}>
       <IndexRoute component={EventBox}/>
       <Route path='/driver' component={DriverBox}/>
-      <Route path='/rider' component={DriverInfo}/>
+      <Route path='/rider' component={GetDriversData}/>
       <Route path='/profile' component={Profile}/>
+      <Route path='/request' component={RiderBox}/>
+      <Route path='/signin' component={SignInBox}/>
+      <Route path='/signup' component={SignUpBox}/>
     </Route>
   </Router>,
   document.getElementById('content')

@@ -56,63 +56,62 @@
 
 	var _driver = __webpack_require__(206);
 
-	var _rider = __webpack_require__(208);
+	var _rider = __webpack_require__(207);
 
-	var _config = __webpack_require__(207);
+	var _profile = __webpack_require__(208);
 
-	var _profile = __webpack_require__(209);
+	var _request = __webpack_require__(209);
 
-	var _request = __webpack_require__(210);
+	var _signin = __webpack_require__(210);
 
-	var _signin = __webpack_require__(211);
+	var _signup = __webpack_require__(211);
+
+	var _config = __webpack_require__(212);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + _config.EventfulAPIKey;
 
-	var Event = _react2.default.createClass({
-	  displayName: 'Event',
+	var App = _react2.default.createClass({
+	  displayName: 'App',
 
-	  cacheEventData: function cacheEventData() {
-	    EventDataCache = this.props.data;
-	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      _react2.default.createElement(
 	        'nav',
-	        { 'class': 'navbar navbar-inverse' },
+	        { className: 'navbar navbar-inverse' },
 	        _react2.default.createElement(
 	          'div',
-	          { 'class': 'container' },
+	          { className: 'container' },
 	          _react2.default.createElement(
 	            'div',
-	            { 'class': 'navbar-header' },
+	            { className: 'navbar-header' },
 	            _react2.default.createElement(
 	              'button',
-	              { type: 'button', 'class': 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
+	              { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
 	              _react2.default.createElement(
 	                'span',
-	                { 'class': 'sr-only' },
+	                { className: 'sr-only' },
 	                'Toggle navigation'
 	              ),
-	              _react2.default.createElement('span', { 'class': 'icon-bar' }),
-	              _react2.default.createElement('span', { 'class': 'icon-bar' }),
-	              _react2.default.createElement('span', { 'class': 'icon-bar' })
+	              _react2.default.createElement('span', { className: 'icon-bar' }),
+	              _react2.default.createElement('span', { className: 'icon-bar' }),
+	              _react2.default.createElement('span', { className: 'icon-bar' })
 	            ),
 	            _react2.default.createElement(
 	              'a',
-	              { 'class': 'navbar-brand', href: '#' },
+	              { className: 'navbar-brand', href: '#' },
 	              'Free Loader'
 	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'navbar', 'class': 'navbar-collapse collapse' },
+	            { id: 'navbar', className: 'navbar-collapse collapse' },
 	            _react2.default.createElement(
 	              'ul',
-	              { 'class': 'nav navbar-nav navbar-right' },
+	              { className: 'nav navbar-nav navbar-right' },
 	              _react2.default.createElement(
 	                'li',
 	                null,
@@ -137,7 +136,34 @@
 	                _react2.default.createElement(
 	                  _reactRouter.Link,
 	                  { to: '/profile' },
-	                  'Profile'
+	                  'profile'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/request' },
+	                  'request'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/signin' },
+	                  'signin'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/signup' },
+	                  'signup'
 	                )
 	              )
 	            )
@@ -145,44 +171,54 @@
 	        )
 	      ),
 	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Find people in your area who are going to the big game! Pictures of plants while you wait.'
+	      ),
+	      _react2.default.createElement(
 	        'div',
-	        { className: 'event' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          this.props.name
-	        ),
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          this.props.startTime,
-	          ', ',
-	          this.props.venue,
-	          ', ',
-	          this.props.city,
-	          ', ',
-	          this.props.region
-	        ),
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/driver', onClick: this.cacheEventData },
-	              'Driver'
-	            ),
-	            _react2.default.createElement('br', null),
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/rider', onClick: this.cacheEventData },
-	              'Rider'
-	            )
-	          )
-	        )
+	        { className: 'event-view' },
+	        this.props.children
 	      )
+	    );
+	  }
+	});
+
+	var EventBox = _react2.default.createClass({
+	  displayName: 'EventBox',
+
+	  noResults: function noResults() {
+	    console.log('no results');
+	  },
+
+	  handleQuerySubmit: function handleQuerySubmit(query) {
+	    $.ajax({
+	      url: EventfulAPI + '&location=' + query.location + '&keywords=' + query.keywords,
+	      method: 'GET',
+	      dataType: 'jsonp',
+	      success: function (data) {
+	        if (!data.events) {
+	          this.noResults();
+	        } else {
+	          this.setState({ data: data.events.event });
+	        }
+	      }.bind(this),
+	      error: function (err) {
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'event-box' },
+	      _react2.default.createElement(SearchBox, { onCommentSubmit: this.handleQuerySubmit }),
+	      _react2.default.createElement(EventList, { data: this.state.data })
 	    );
 	  }
 	});
@@ -284,85 +320,50 @@
 	  }
 	});
 
-	// root component
-	var EventBox = _react2.default.createClass({
-	  displayName: 'EventBox',
+	var Event = _react2.default.createClass({
+	  displayName: 'Event',
 
-	  noResults: function noResults() {
-	    console.log('no results');
+	  cacheEventData: function cacheEventData() {
+	    EventDataCache = this.props.data;
 	  },
-
-	  handleQuerySubmit: function handleQuerySubmit(query) {
-	    $.ajax({
-	      url: EventfulAPI + '&location=' + query.location + '&keywords=' + query.keywords,
-	      method: 'GET',
-	      dataType: 'jsonp',
-	      success: function (data) {
-	        if (!data.events) {
-	          this.noResults();
-	        } else {
-	          this.setState({ data: data.events.event });
-	        }
-	      }.bind(this),
-	      error: function (err) {
-	        console.error(err);
-	      }.bind(this)
-	    });
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'event-box' },
-	      _react2.default.createElement(SearchBox, { onCommentSubmit: this.handleQuerySubmit }),
-	      _react2.default.createElement(EventList, { data: this.state.data })
-	    );
-	  }
-	});
-
-	var App = _react2.default.createClass({
-	  displayName: 'App',
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'event-view' },
-	      this.props.children
-	    );
-	  }
-	});
-
-	var DriverView = _react2.default.createClass({
-	  displayName: 'DriverView',
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'driver-view' },
+	      { className: 'event' },
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        this.props.name
+	      ),
 	      _react2.default.createElement(
 	        'h4',
 	        null,
-	        'DriverView'
-	      )
-	    );
-	  }
-	});
-
-	var RiderView = _react2.default.createClass({
-	  displayName: 'RiderView',
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'rider-view' },
+	        this.props.startTime,
+	        ', ',
+	        this.props.venue,
+	        ', ',
+	        this.props.city,
+	        ', ',
+	        this.props.region
+	      ),
 	      _react2.default.createElement(
 	        'h4',
 	        null,
-	        'RiderView'
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/driver', onClick: this.cacheEventData },
+	            'Driver'
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/rider', onClick: this.cacheEventData },
+	            'Rider'
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -376,8 +377,11 @@
 	    { path: '/', component: App },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: EventBox }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/driver', component: _driver.DriverBox }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: _rider.DriverInfo }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _profile.Profile })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: _rider.GetDriversData }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _profile.Profile }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/request', component: _request.RiderBox }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/signin', component: _signin.SignInBox }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup.SignUpBox })
 	  )
 	), document.getElementById('content'));
 
@@ -24328,8 +24332,6 @@
 
 	var _reactRouter = __webpack_require__(159);
 
-	var _config = __webpack_require__(207);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var DriverBox = exports.DriverBox = _react2.default.createClass({
@@ -24603,14 +24605,6 @@
 
 /***/ },
 /* 207 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-
-/***/ },
-/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24627,8 +24621,6 @@
 	var _reactDom = __webpack_require__(158);
 
 	var _reactRouter = __webpack_require__(159);
-
-	var _config = __webpack_require__(207);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24749,7 +24741,7 @@
 	});
 
 /***/ },
-/* 209 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25291,7 +25283,7 @@
 	});
 
 /***/ },
-/* 210 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25381,7 +25373,7 @@
 	});
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25480,6 +25472,141 @@
 	    );
 	  }
 	});
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SignUpBox = exports.SignUpForm = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SignUpForm = exports.SignUpForm = _react2.default.createClass({
+	  displayName: 'SignUpForm',
+
+	  getInitialState: function getInitialState() {
+	    return { name: "", email: "", password: "", phone: "" };
+	  },
+	  handleNameChange: function handleNameChange(e) {
+	    this.setState({ name: e.target.value });
+	  },
+	  handleEmailChange: function handleEmailChange(e) {
+	    this.setState({ email: e.target.value });
+	  },
+	  handlePasswordChange: function handlePasswordChange(e) {
+	    this.setState({ password: e.target.value });
+	  },
+	  handlePhoneChange: function handlePhoneChange(e) {
+	    this.setState({ phone: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var name = this.state.name.trim();
+	    var email = this.state.email.trim();
+	    var password = this.state.password.trim();
+	    var phone = this.state.phone.trim();
+	    if (!name || !email || !password || !phone) {
+	      return;
+	    }
+	    this.props.onCommentSubmit({ name: name, email: email, password: password, phone: phone });
+	    this.setState({ name: '', email: '', password: '', phone: '' });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { className: 'sign-up-form', onSubmit: this.handleSubmit },
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'name',
+	        value: this.state.name,
+	        onChange: this.handleNameChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'email',
+	        value: this.state.email,
+	        onChange: this.handleEmailChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'password',
+	        value: this.state.password,
+	        onChange: this.handlePasswordChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'phone',
+	        value: this.state.phone,
+	        onChange: this.handlePhoneChange
+	      }),
+	      _react2.default.createElement('input', { type: 'submit', value: 'Sign Up' })
+	    );
+	  }
+	});
+
+	var SignUpBox = exports.SignUpBox = _react2.default.createClass({
+	  displayName: 'SignUpBox',
+
+	  noResults: function noResults() {
+	    console.log('no results');
+	  },
+	  handleQuerySubmit: function handleQuerySubmit(query) {
+	    $.ajax({
+	      url: '/signup',
+	      method: 'POST',
+	      dataType: 'jsonp',
+	      data: {
+	        name: query.name,
+	        email: query.email,
+	        password: query.password,
+	        phone: query.phone
+	      },
+	      success: function (data) {
+	        this.setState({ data: data.event });
+	        console.log("posted successfully");
+	      }.bind(this),
+	      error: function (err) {
+	        console.log("error");
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'sign-up-container' },
+	      _react2.default.createElement(SignUpForm, { onCommentSubmit: this.handleQuerySubmit })
+	    );
+	  }
+	});
+
+/***/ },
+/* 212 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
+	exports.EventfulAPIKey = EventfulAPIKey;
 
 /***/ }
 /******/ ]);
