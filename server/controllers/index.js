@@ -55,6 +55,7 @@ module.exports = {
   eventDriver: {
     get: function (req, res) {},
     post: function (req, res) {
+      console.log('inside controllers eventDriver post')
       models.eventDriver.post(function(data){
         //console.log('inside controllers trips post')
         res.send({posted: data});

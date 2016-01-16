@@ -7,11 +7,12 @@ var signups = require('./testUsers.js').testUsers;
 var driverPosts = require('./testDriverPosts.js').testDriverPosts;
 var drivers = require('./testDrivers.js').testDrivers;
 var riderPosts = require('./testRiderPosts.js').testRiderPosts;
+var confirmRiders = require('./testRiderConfirms.js').confirmRiders;
 var signupQueries = [];
 var tripPostQueries = [];
+var riderConfirmations = [];
 
 _.each(signups, function(json) {
-  // console.log("What is json?", json);
   signupQueries.push(
     rp({
       method: 'POST',
@@ -24,9 +25,6 @@ _.each(signups, function(json) {
 Promise.all(signupQueries)
 .then(function(){
   _.each(driverPosts, function(json, index) {
-    // console.log("Index is", index, "for", json);
-    // console.log("The driver for this trip is", drivers[index]);
-    // json.user = drivers[index];
     var options = {
       method: 'POST',
       uri: 'http://127.0.0.1:8000/api/eventDriver',
@@ -39,27 +37,39 @@ Promise.all(signupQueries)
   });
   Promise.all(tripPostQueries)
   .then(function(){
-    // console.log("Everything has been posted, great job.");
-  })
-})
-
-.then(function(){
-  var riderPostQueries = []
-  _.each(riderPosts, function(json) {
-    riderPostQueries.push(
-      rp({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/api/eventRider',
-        json: json
+    var riderPostQueries = []
+    _.each(riderPosts, function(json) {
+      riderPostQueries.push(
+        rp({
+          method: 'POST',
+          uri: 'http://127.0.0.1:8000/api/eventRider',
+          json: json
+        })
+      )
+    });
+    Promise.all(riderPostQueries)
+    .then(function(){
+      _.each(confirmRiders, function(json){
+        riderConfirmations.push(
+          rp({
+            method: 'PUT',
+            uri: 'http://127.0.0.1:8000/api/driverProfile',
+            json: json
+          })
+        )
+      });
+      Promise.all(riderConfirmations)
+      .then(function(){
+        console.log('Wow everything works, great job Nick!')
       })
-    )
-  });
-  Promise.all(riderPostQueries)
-  .then(function(){
-    console.log("Everything has been posted and is working great.");
-  })
-  .catch(function(err){
-    console.log("++++line:62 caught error")
-    console.log(err)
+      .catch(function(err){
+        console.log("++++line:84 caught error")
+        console.log(err)
+      })
+    })
+    .catch(function(err){
+      console.log("++++line:62 caught error")
+      console.log(err)
+    })
   })
 })
