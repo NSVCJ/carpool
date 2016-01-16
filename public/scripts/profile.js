@@ -142,7 +142,7 @@ var test = {
   ]
 }
 
-const Profile = React.createClass({
+export const Profile = React.createClass({
   componentWillMount: function () {
     this.setState({data: test})
   },
@@ -157,7 +157,7 @@ const Profile = React.createClass({
   }
 })
 
-const UserInfo = React.createClass({
+export const UserInfo = React.createClass({
   render: function () {
     return (
       <div>
@@ -169,7 +169,7 @@ const UserInfo = React.createClass({
   }
 })
 
-const DriverBox = React.createClass({
+export const DriverBox = React.createClass({
   render: function () {
     return (
       <div>
@@ -180,7 +180,7 @@ const DriverBox = React.createClass({
   }
 })
 
-const DriverTrips = React.createClass({
+export const DriverTrips = React.createClass({
   render: function () {
      var trips = this.props.trips.map(function (trip) {
        for (var i = 0; i < trip.users.length; i++) {
@@ -199,7 +199,7 @@ const DriverTrips = React.createClass({
   }
 })
 
-const TripAsDriver = React.createClass({
+export const TripAsDriver = React.createClass({
   getInitialState: function() {
     return {
       eventful: null
@@ -237,7 +237,7 @@ const TripAsDriver = React.createClass({
   }
 })
 
-const TripAsDriverList = React.createClass({
+export const TripAsDriverList = React.createClass({
   render: function () {
     var users = this.props.users.map(function (user) {
       if (user.role !== 'Driver') {
@@ -254,7 +254,7 @@ const TripAsDriverList = React.createClass({
   }
 })
 
-const User = React.createClass({
+export const User = React.createClass({
   getInitialState: function () {
     return {
       status: this.props.data.role
@@ -330,7 +330,7 @@ const User = React.createClass({
   }
 })
 
-const RiderBox = React.createClass({
+export const RiderBox = React.createClass({
   render: function () {
     return (
       <div>
@@ -341,7 +341,7 @@ const RiderBox = React.createClass({
   }
 })
 
-const RiderTrips = React.createClass({
+export const RiderTrips = React.createClass({
   render: function () {
      var trips = this.props.trips.map(function (trip) {
        for (var i = 0; i < trip.users.length; i++) {
@@ -360,7 +360,7 @@ const RiderTrips = React.createClass({
   }
 })
 
-const TripAsRider = React.createClass({
+export const TripAsRider = React.createClass({
   getInitialState: function() {
     return {
       eventful: null
@@ -398,7 +398,7 @@ const TripAsRider = React.createClass({
   }
 })
 
-const TripAsRiderList = React.createClass({
+export const TripAsRiderList = React.createClass({
   render: function () {
     var users = this.props.users.map(function (user) {
       return (
@@ -412,8 +412,3 @@ const TripAsRiderList = React.createClass({
     )
   }
 })
-
-ReactDOM.render(
-  <Profile />,
-  document.getElementById('content')
-);

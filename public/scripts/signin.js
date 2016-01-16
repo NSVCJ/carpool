@@ -1,3 +1,7 @@
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+
 export const SignInForm = React.createClass({
   getInitialState: function() {
     return {email: "", password: ""};
@@ -73,7 +77,3 @@ export const SignInBox = React.createClass({
     )
   }
 });
-ReactDOM.render(
-  <SignInBox />,
-  document.getElementById('content')
-);

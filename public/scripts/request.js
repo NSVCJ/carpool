@@ -1,3 +1,7 @@
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+
 export const RiderForm = React.createClass({
   getInitialState: function() {
     return {startLocation: ""};
@@ -29,7 +33,6 @@ export const RiderForm = React.createClass({
   }
 });
 
-// root component
 export const RiderBox = React.createClass({
   noResults: function() {
     console.log('no results');
@@ -64,8 +67,3 @@ export const RiderBox = React.createClass({
     )
   }
 });
-
-ReactDOM.render(
-  <RiderBox />,
-  document.getElementById('content')
-);
