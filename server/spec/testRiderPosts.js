@@ -97,14 +97,15 @@ exports.testRiderPosts = [
       "TripId" : 6
     },
     "startLocation" : "1600 Pennsylvania Ave NW, Washington, DC 20500"
-  },
-  {
-    "user": {
-      "id": 1
-    },
-    "trip" : {
-      "TripId" : 7
-    },
-    "startLocation" : "1600 Pennsylvania Ave NW, Washington, DC 20500"
   }
+  // ,
+  // {
+  //   "user": {
+  //     "id": 1
+  //   },
+  //   "trip" : {
+  //     "TripId" : 7
+  //   },
+  //   "startLocation" : "1600 Pennsylvania Ave NW, Washington, DC 20500"
+  // }
 ]

@@ -377,7 +377,7 @@
 	    { path: '/', component: App },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: EventBox }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/driver', component: _driver.DriverBox }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: _rider.GetDriversData }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: _rider.DriversList }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _profile.Profile }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/request', component: _request.RiderBox }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/signin', component: _signin.SignInBox }),
@@ -24338,22 +24338,23 @@
 	  displayName: 'DriverBox',
 
 	  handleInfoSubmit: function handleInfoSubmit(info) {
-	    var settings = {
+	    $.ajax({
 	      "async": true,
 	      "crossDomain": true,
-	      "url": "/api/trips",
+	      "url": "http://localhost:8000/api/eventDriver",
 	      "method": "POST",
 	      "headers": {
 	        "content-type": "application/json",
 	        "cache-control": "no-cache",
-	        "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
+	        "postman-token": "12a26ba3-d72a-0da8-0962-d7de77f897f3"
 	      },
 	      "processData": false,
-	      "data": info
-	    };
-
-	    $.ajax(settings).done(function (response) {
-	      console.log(response);
+	      "data": info,
+	      success: function (data) {}.bind(this),
+	      error: function (err) {
+	        console.log("error");
+	        console.error(err);
+	      }.bind(this)
 	    });
 	  },
 	  getInitialState: function getInitialState() {
@@ -24459,9 +24460,7 @@
 	        "id": EventDataCache.id
 	      },
 	      "user": {
-	        "name": name,
-	        "email": email,
-	        "phone": phone
+	        "id": localStorage.id
 	      },
 	      "trip": {
 	        "price": rate,
@@ -24612,7 +24611,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.GetDriversData = exports.DriversList = exports.DriverInfo = undefined;
+	exports.DriverInfo = exports.DriversList = undefined;
 
 	var _react = __webpack_require__(1);
 
@@ -24624,9 +24623,99 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var DriversList = exports.DriversList = _react2.default.createClass({
+	  displayName: 'DriversList',
+
+	  componentDidMount: function componentDidMount() {
+	    this.getTripData();
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  getTripData: function getTripData() {
+	    $.ajax({
+	      "async": true,
+	      "crossDomain": true,
+	      "url": "http://localhost:8000/api/eventRider?eventfulId=" + EventDataCache.id,
+	      "method": "GET",
+	      "headers": {
+	        "content-type": "application/json",
+	        "cache-control": "no-cache",
+	        "postman-token": "12a26ba3-d72a-0da8-0962-d7de77f897f3"
+	      },
+	      success: function (data) {
+	        if (!data.trips) {
+	          this.setState({ message: "There are no trips to this event yet. Drive to this event!" });
+	        } else {
+	          this.setState({ data: data.trips });
+	        }
+	      }.bind(this),
+	      error: function (err) {
+	        console.log("error");
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+
+	  render: function render() {
+	    if (this.state.data.length === 0) {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'There are no trips to this event yet.'
+	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/driver' },
+	          'Drive to this event!'
+	        )
+	      );
+	    }
+	    var driverNodes = this.state.data.map(function (driver) {
+	      return _react2.default.createElement(DriverInfo, {
+	        key: driver.TripId,
+	        email: driver.email,
+	        phone: driver.phone,
+	        price: driver.price,
+	        name: driver.driver,
+	        startLocation: driver.startLocation });
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row driver-list' },
+	      driverNodes
+	    );
+	  }
+	});
+
 	var DriverInfo = exports.DriverInfo = _react2.default.createClass({
 	  displayName: 'DriverInfo',
 
+	  requestRide: function requestRide() {
+	    $.ajax({
+	      "async": true,
+	      "crossDomain": true,
+	      "url": "http://localhost:8000/api/eventDriver",
+	      "method": "POST",
+	      "headers": {
+	        "content-type": "application/json",
+	        "cache-control": "no-cache",
+	        "postman-token": "12a26ba3-d72a-0da8-0962-d7de77f897f3"
+	      },
+	      "processData": false,
+	      "data": info,
+	      success: function (data) {}.bind(this),
+	      error: function (err) {
+	        console.log("error");
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -24639,15 +24728,8 @@
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'email' },
-	        'Email: ',
-	        this.props.email
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'phone' },
-	        'Phone: ',
-	        this.props.phone
+	        { className: 'profilePicture' },
+	        _react2.default.createElement('img', { src: 'public/images/iu1f7brY.png' })
 	      ),
 	      _react2.default.createElement(
 	        'div',
@@ -24657,86 +24739,18 @@
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'lat' },
+	        { className: 'startLocation' },
 	        'Lat: ',
-	        this.props.lat
+	        this.props.startLocation
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'long' },
+	        { className: 'rating' },
 	        'Long: ',
-	        this.props.long
-	      )
+	        this.props.rating
+	      ),
+	      _react2.default.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Request to Join Ride', onClick: this.requestRide })
 	    );
-	  }
-	});
-
-	var DriversList = exports.DriversList = _react2.default.createClass({
-	  displayName: 'DriversList',
-
-	  componentDidMount: function componentDidMount() {
-	    console.log('DriversList, componentDidMount');
-	  },
-
-	  getInitialState: function getInitialState() {
-	    console.log('DriversList getInitialState:');
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    var driverNodes = this.props.data.map(function (driver) {
-	      console.log(driver);
-	      return _react2.default.createElement(DriverInfo, { name: driver.name,
-	        email: driver.email,
-	        phone: driver.phone,
-	        price: driver.price,
-	        lat: driver.lat,
-	        long: driver.long });
-	    });
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'row driver-list' },
-	      driverNodes
-	    );
-	  }
-	});
-
-	var GetDriversData = exports.GetDriversData = _react2.default.createClass({
-	  displayName: 'GetDriversData',
-
-	  componentDidMount: function componentDidMount() {
-	    console.log('GetDriversData, componentDidMount');
-	    this.getDrivers();
-	  },
-
-	  getDrivers: function getDrivers() {
-	    $.ajax({
-	      url: '/api/trips',
-	      method: 'GET',
-	      dataType: 'json',
-	      data: {
-	        eventfulId: 'SpecialEventId'
-	      },
-	      success: function (data) {
-	        if (!data.trips) {
-	          this.noResults();
-	        } else {
-	          this.setState({ data: data.trips });
-	          console.log('data trips:', this.state);
-	        }
-	      }.bind(this),
-	      error: function (err) {
-	        console.error('error:', err);
-	      }.bind(this)
-	    });
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    return _react2.default.createElement(DriversList, { data: this.state.data });
 	  }
 	});
 
@@ -25412,7 +25426,7 @@
 	    if (!email || !password) {
 	      return;
 	    }
-	    this.props.onCommentSubmit({ email: email, password: password });
+	    this.props.onCommentSubmit(JSON.stringify({ "email": email, "password": password }));
 	    this.setState({ email: '', password: '' });
 	  },
 	  render: function render() {
@@ -25444,16 +25458,23 @@
 	  },
 	  handleQuerySubmit: function handleQuerySubmit(query) {
 	    $.ajax({
-	      url: '/signin',
-	      method: 'POST',
-	      dataType: 'jsonp',
-	      data: {
-	        email: query.email,
-	        password: query.password
+	      "async": true,
+	      "crossDomain": true,
+	      "url": "http://localhost:8000/signin",
+	      "method": "POST",
+	      "headers": {
+	        "content-type": "application/json",
+	        "cache-control": "no-cache",
+	        "postman-token": "12a26ba3-d72a-0da8-0962-d7de77f897f3"
 	      },
+	      "processData": false,
+	      "data": query,
 	      success: function (data) {
-	        this.setState({ data: data.events });
-	        console.log("posted successfully");
+	        localStorage.id = data.id;
+	        localStorage.name = data.name;
+	        localStorage.email = data.email;
+	        localStorage.phone = data.phone;
+	        localStorage.token = data.token;
 	      }.bind(this),
 	      error: function (err) {
 	        console.log("error");

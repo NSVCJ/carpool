@@ -19,7 +19,7 @@ export const SignInForm = React.createClass({
     if (!email || !password ) {
       return;
     }
-    this.props.onCommentSubmit({email: email, password: password});
+    this.props.onCommentSubmit(JSON.stringify({"email": email, "password": password}));
     this.setState({email: '', password: ''});
   },
   render: function() {
@@ -49,22 +49,29 @@ export const SignInBox = React.createClass({
   },
   handleQuerySubmit: function(query) {
     $.ajax({
-      url: '/signin',
-      method: 'POST',
-      dataType: 'jsonp',
-      data: {
-        email: query.email,
-        password: query.password
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:8000/signin",
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "postman-token": "12a26ba3-d72a-0da8-0962-d7de77f897f3"
       },
+      "processData": false,
+      "data": query,
       success: function(data) {
-          this.setState({data: data.events});
-          console.log("posted successfully")
+        localStorage.id = data.id;
+        localStorage.name = data.name;
+        localStorage.email = data.email;
+        localStorage.phone = data.phone;
+        localStorage.token = data.token;
       }.bind(this),
       error: function(err) {
         console.log("error")
         console.error(err);
       }.bind(this)
-    })
+    });
   },
   getInitialState: function() {
     return {data: []};

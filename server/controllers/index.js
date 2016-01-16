@@ -49,6 +49,8 @@ module.exports = {
   eventRider: {
     get: function (req, res) {
       console.log('inside controllers eventRider get');
+      console.log("req url", req.url);
+      console.log('What is the query', req.query);
       models.eventRider.get(function(data){
         //console.log("Inside trips get", data);
         res.send({trips: data});

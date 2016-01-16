@@ -73,7 +73,7 @@ exports.testDriverPosts = [
 },
 {
   "event": {
-    "id": "Hackathon"
+    "id": "E0-001-087449905-1"
   },
   "trip": {
     "price": 30.00,

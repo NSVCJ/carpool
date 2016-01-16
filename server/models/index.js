@@ -80,7 +80,7 @@ module.exports = models = {
     //For use on event-Rider page
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name AS driver, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name AS driver, Users.email, Users.phone, Users.rating, Users.profilePicture from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         callback(data);
