@@ -58,6 +58,7 @@ exports.toggleConfirm = function(callback, data) {
     "select role from TripUsers where TripId = "+data.TripId+" AND UserId = "+data.UserId,
   {type: db.sequelize.QueryTypes.SELECT})
   .then(function(role) {
+    console.log("HERE IS ROLE", role, "AND OUR DATA", data);
     var newRole = "Unconfirmed";
     if (role[0].role === "Unconfirmed") {
       newRole = "Rider"
