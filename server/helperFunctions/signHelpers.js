@@ -20,6 +20,7 @@ var setPassword = function(password, callback){
 module.exports = {
   setSignup: function(callback, params){
     console.log('inside helperfunction setSignup');
+    console.log('+++line23: ', params.email)
     db.User.find({where: {email: params.email}})
     .then(function(data){
       if(data === null){
@@ -32,8 +33,9 @@ module.exports = {
             phone: params.phone
           }])
           .then(function(){
-            return db.User.find({attributes: ['id', 'name', 'email','phone']},{where: {email: params.email}});
+            return db.User.find({where: {email: params.email}, attributes: ['id', 'name', 'email','phone']});
           }).then(function(userData){
+            console.log('+++line 37: ', userData);
             var token = jwt.encode(params.email, 'secret');
             userData.dataValues.token = token;
             callback(userData);
@@ -47,13 +49,14 @@ module.exports = {
 
   setSignin: function(callback, params){
     console.log('inside helperfunction setSignin');
+    console.log('+++line51: ', params.email)
     db.User.find({where: {email: params.email}})
     .then(function(data){
       if(data){
         var userData = data;
         comparePassword(params.password,data.password,function(response){
           if(response){
-            db.User.find({attributes: ['id', 'name', 'email','phone']}, {where: {email: params.email}})
+            db.User.find({where: {email: params.email}, attributes: ['id', 'name', 'email','phone']})
             .then(function(data){
               var token = jwt.encode(params.email, 'secret');
               data.dataValues.token = token;

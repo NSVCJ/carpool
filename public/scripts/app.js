@@ -7,7 +7,7 @@ import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 // import { DriverInfo, DriversList, GetDriversData } from './rider';
 
 var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
+var EventfulAPI = 'https://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
 // declare global variable to store event API data between components (this is the wrong way to do it)
 var EventDataCache;
