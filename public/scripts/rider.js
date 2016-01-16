@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
-import { EventfulAPIKey } from './config';
 
 export const DriverInfo = React.createClass({
   render: function() {
