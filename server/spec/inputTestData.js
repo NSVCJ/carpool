@@ -11,7 +11,7 @@ var signupQueries = [];
 var tripPostQueries = [];
 
 _.each(signups, function(json) {
-  console.log("What is json?", json);
+  // console.log("What is json?", json);
   signupQueries.push(
     rp({
       method: 'POST',
@@ -42,7 +42,7 @@ Promise.all(signupQueries)
     // console.log("Everything has been posted, great job.");
   })
 })
-/*
+
 .then(function(){
   var riderPostQueries = []
   _.each(riderPosts, function(json) {
@@ -58,5 +58,8 @@ Promise.all(signupQueries)
   .then(function(){
     console.log("Everything has been posted and is working great.");
   })
+  .catch(function(err){
+    console.log("++++line:62 caught error")
+    console.log(err)
+  })
 })
-*/

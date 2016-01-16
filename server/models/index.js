@@ -39,7 +39,7 @@ module.exports = models = {
         _.map(driverInfo, function(trip) {
           queries.push(
             db.sequelize.query(
-              "select Users.name, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.UserId = Users.id",
+              "select Users.id, Users.name, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.UserId = Users.id",
             {type: db.sequelize.QueryTypes.SELECT})
           )
         })
@@ -71,7 +71,7 @@ module.exports = models = {
     //For use on event-Rider page
     get: function(callback, params) {
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Users.name AS driver, Users.email, Users.phone from Trips, TripUsers, Users where eventfulId = '"+params.eventfulId+"' AND TripUsers.TripId = Trips.id AND TripUsers.role = 'Driver' AND Users.id = TripUsers.UserId",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(data){
         callback(data);
@@ -80,11 +80,20 @@ module.exports = models = {
     post: function(callback, data) {
       db.TripUser.create( {
           TripId: data.trip.TripId,
-          startLocation: data.trip.startLocation,
+          startLocation: data.startLocation,
           UserId: data.user.id,
           role: 'Unconfirmed'
       }).then(function(rider){
+        // console.log("+++line:87 with data", data)
         callback(rider);
+      })
+      .catch(function(err) {
+        console.log("++++line:91 broke with data", data)
+        console.log(err)
+        if (err.name = 'SequelizeUniqueConstraintError') {
+          console.log("I found you");
+          callback(err.name);
+        }
       })
     },
     put: function(callback, data) {}
@@ -111,12 +120,17 @@ module.exports = models = {
             UserId: data.user.id,
             TripId: trip.id
           }).then(function(tripUser) {
+            // console.log("+++line:119", data)
             callback({
               'user': data.user,
               'trip': trip,
               'tripUser': tripUser
             });
-          });
+          })
+          .catch(function(err) {
+            console.log("++++line:126 broke with data", data)
+            console.log(err)
+          })
         });
       // });
     },

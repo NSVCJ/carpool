@@ -32,7 +32,7 @@ exports.testDriverPosts = [
     "startLocation": "604 Arizona Ave #238, Santa Monica, CA 90401"
   },
   "user" : {
-    "id" : "3"
+    "id" : 3
   }
 },
 {
