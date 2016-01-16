@@ -4,6 +4,17 @@ var utils = require('../server-helpers');
 
 module.exports = {
 
+  trips: {
+    get: function (req, res){
+      console.log('inside controllers riderProfile get');
+      models.trips.get(function(data){
+        res.json(data);
+      })
+    },
+    post: function(req, res){},
+    put: function(req, res){}
+  },
+
   riderProfile: {
     get: function (req, res) {
       console.log('inside controllers riderProfile get');

@@ -2,11 +2,20 @@ var db = require("../db/db.js");
 var serverHelpers = require("../server-helpers");
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
-var utils = require('../server-helpers');
+var utils = require('../server-helpers/index.js');
+var utilsTrips = require('../server-helpers/tripsHelpers.js');
 //Someday, everything will break because I've confused camelCase
 //with under_scores. You have been warned.
 
 module.exports = models = {
+  trips: {
+    get: function(callback){
+      console.log('inside models trips');
+      utilsTrips.getTrips(callback);
+    },
+    post: function(){},
+    put: function(){}
+  },
 
   riderProfile: {
     get: function(callback, params) {
