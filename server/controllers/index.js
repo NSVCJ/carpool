@@ -4,22 +4,6 @@ var models = require('../models/index.js');
 
 module.exports = {
 
-  trips:{
-    get: function (req, res) {
-      console.log('inside controllers trips get');
-      models.trips.get(function(data){
-        res.send({trips: data});
-      }, req.query)
-    },
-    post: function (req, res) {
-      console.log('inside controllers trips post')
-      models.trips.post(function(data){
-        res.send({posted: data});
-      }, req.body); //some function to get data, fix later
-    },
-    put: function(req, res) {}
-  },
-
   riderProfile: {
     get: function (req, res) {
       console.log('inside controllers riderProfile get');

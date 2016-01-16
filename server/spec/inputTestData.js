@@ -1,74 +1,65 @@
-var request = require('request');
 var _ = require('lodash');
+var Promise = require('bluebird');
+var request = require('request');
+var rp = require('request-promise');
 
-var testData = [
-  {
-    "event": {
-      "id": "SingleDadMixer"
-    },
-    "user": {
-      "name": "Barack Obama",
-      "email": "bo@gmail.com",
-      "phone": "1-800-555-5555"
-    },
-    "trip": {
-      "price": 20.00,
-      "startLocation": "1600 Pennsylvania Ave NW, Washington, DC 20500"
-    }
-  },
-  {
-    "event": {
-      "id": "SingleDadMixer"
-    },
-    "user": {
-      "name": "Job Steves",
-      "email": "job@apple.com",
-      "phone": "1-310-903-3359"
-    },
-    "trip": {
-      "price": 1000.00,
-      "startLocation": "1542 Harper Ave, Redondo Beach, CA"
-    }
-  },
-  {
-    "event": {
-      "id": "SingleDadMixer"
-    },
-    "user": {
-      "name": "Sean Connery",
-      "email": "sean@sean.com",
-      "phone": "911"
-    },
-    "trip": {
-      "price": 0.02,
-      "startLocation": "Scotland"
-    }
-  },
-  {
-    "event": {
-      "id": "PlantPhotoGallery"
-    },
-    "user": {
-      "name": "Hugo",
-      "email": "none",
-      "phone": "867-5309"
-    },
-    "trip": {
-      "price": 3.50,
-      "startLocation": "the middle of the street"
-    }
-  }
-];
+var signups = require('./testUsers.js').testUsers;
+var driverPosts = require('./testDriverPosts.js').testDriverPosts;
+var drivers = require('./testDrivers.js').testDrivers;
+var riderPosts = require('./testRiderPosts.js').testRiderPosts;
+var signupQueries = [];
+var tripPostQueries = [];
 
-_.each(testData, function(json) {
-  request({
-    method: 'POST',
-    uri: 'http://127.0.0.1:8000/api/trips',
-    json: json
-  }, function(error, response, body) {
-    if (error) {
-      return console.error('upload failed:', error);
-    }
-    console.log('Upload successful!  Server responded with:', body);
-  });
+_.each(signups, function(json) {
+  // console.log("What is json?", json);
+  signupQueries.push(
+    rp({
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/signup',
+      json: json
+    })
+  )
 });
+
+Promise.all(signupQueries)
+.then(function(){
+  _.each(driverPosts, function(json, index) {
+    // console.log("Index is", index, "for", json);
+    // console.log("The driver for this trip is", drivers[index]);
+    // json.user = drivers[index];
+    var options = {
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/api/eventDriver',
+      json: json,
+      transform: function(body, res) {
+        // console.log("Trip Post successful! Responded with", body);
+      }
+    }
+    tripPostQueries.push(rp(options));
+  });
+  Promise.all(tripPostQueries)
+  .then(function(){
+    // console.log("Everything has been posted, great job.");
+  })
+})
+
+.then(function(){
+  var riderPostQueries = []
+  _.each(riderPosts, function(json) {
+    riderPostQueries.push(
+      rp({
+        method: 'POST',
+        uri: 'http://127.0.0.1:8000/api/eventRider',
+        json: json
+      })
+    )
+  });
+  Promise.all(riderPostQueries)
+  .then(function(){
+    console.log("Everything has been posted and is working great.");
+  })
+  .catch(function(err){
+    console.log("++++line:62 caught error")
+    console.log(err)
+  })
+})
