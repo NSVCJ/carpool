@@ -202,7 +202,7 @@ ReactDOM.render(
     <Route path='/' component={App}>
       <IndexRoute component={EventBox}/>
       <Route path='/driver' component={DriverBox}/>
-      <Route path='/rider' component={GetDriversData}/>
+      <Route path='/rider' component={DriversList}/>
       <Route path='/profile' component={Profile}/>
       <Route path='/request' component={RiderBox}/>
       <Route path='/signin' component={SignInBox}/>

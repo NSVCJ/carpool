@@ -4,22 +4,25 @@ import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 
 export const DriverBox = React.createClass({
   handleInfoSubmit: function(info) {
-    var settings = {
+    $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "/api/trips",
+      "url": "http://localhost:8000/api/eventDriver",
       "method": "POST",
       "headers": {
         "content-type": "application/json",
         "cache-control": "no-cache",
-        "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
+        "postman-token": "12a26ba3-d72a-0da8-0962-d7de77f897f3"
       },
       "processData": false,
-      "data": info
-    }
+      "data": info,
+      success: function(data) {
 
-    $.ajax(settings).done(function (response) {
-      console.log(response);
+      }.bind(this),
+      error: function(err) {
+        console.log("error")
+        console.error(err);
+      }.bind(this)
     });
   },
   getInitialState: function() {
@@ -107,9 +110,7 @@ export const DriverForm = React.createClass({
         "id": EventDataCache.id
       },
       "user": {
-        "name": name,
-        "email": email,
-        "phone": phone
+        "id": localStorage.id
       },
       "trip": {
         "price": rate,

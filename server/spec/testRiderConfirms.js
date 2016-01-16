@@ -12,7 +12,7 @@ exports.confirmRiders = [
     "UserId": 8
   },
   {
-    "TripId": 7,
+    "TripId": 6,
     "UserId": 1
   },
   {
