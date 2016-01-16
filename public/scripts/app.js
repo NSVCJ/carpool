@@ -169,7 +169,7 @@ const Event = React.createClass({
     return (
       <div className="event">
         <h3>{this.props.name}</h3>
-        <h4>{this.props.startTime}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
+        <h4>{moment(this.props.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
         <h4>
           <span>
             <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
