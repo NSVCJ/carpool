@@ -49,7 +49,7 @@ export const EventInfo = React.createClass({
         <div className="event-info-description">
           <h3>{this.props.data.title}</h3>
           <p>
-            {this.props.data.start_time}<br />
+            {moment(this.props.data.start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}<br />
             {this.props.data.venue_name}<br />
             {this.props.data.venue_address}, {this.props.data.region_abbr}
           </p>

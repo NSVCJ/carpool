@@ -338,7 +338,7 @@
 	      _react2.default.createElement(
 	        'h4',
 	        null,
-	        this.props.startTime,
+	        moment(this.props.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a'),
 	        ', ',
 	        this.props.venue,
 	        ', ',
@@ -24396,7 +24396,7 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          this.props.data.start_time,
+	          moment(this.props.data.start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a'),
 	          _react2.default.createElement('br', null),
 	          this.props.data.venue_name,
 	          _react2.default.createElement('br', null),
