@@ -1,6 +1,6 @@
 var models = require('../models');
 var utils = require('../server-helpers');
-var models = require('../models/index.js');
+// var models = require('../models/index.js');
 
 module.exports = {
 
@@ -28,7 +28,7 @@ module.exports = {
     },
     put: function(req, res) {
       console.log('inside controllers driverConfirmed put');
-      models.driverConfirmed.put(function(record){
+      models.driverProfile.put(function(record){
         res.send({"updated": record});
       }, req.body);
     },
