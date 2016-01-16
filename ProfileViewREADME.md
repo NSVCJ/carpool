@@ -31,6 +31,8 @@ params: {
 *Or you can pass in the params in the request url* <br>
 **`req.url = localhost:<PORT>/api/riderProfile?UserId=<ID>`** <br>
 
+*Test with UserId=1*
+
 *In response, you will get an object that looks like this:*
 ```javascript
 {
@@ -86,7 +88,7 @@ params: {
 ```
 *Or you can pass in the params in the request url* <br>
 **`req.url = localhost:<PORT>/api/driverProfile?UserId=<ID>`** <br>
-
+*Test with UserId=1*
 *In response, you will get an object that looks like this:*
 ```javascript
 {
@@ -209,5 +211,13 @@ params: {
 
 *In response, you will get an object that looks like this:*
 ```javascript
-//No idea, it's broken :(
+{
+  "updated": "Rider"
+}
+```
+*or*
+```javascript
+{
+  "updated": "Unconfirmed"
+}
 ```
