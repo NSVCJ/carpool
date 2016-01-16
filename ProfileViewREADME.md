@@ -209,5 +209,13 @@ params: {
 
 *In response, you will get an object that looks like this:*
 ```javascript
-//No idea, it's broken :(
+{
+  "updated": "Rider"
+}
+```
+*or*
+```javascript
+{
+  "updated": "Unconfirmed"
+}
 ```
