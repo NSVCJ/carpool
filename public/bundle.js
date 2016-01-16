@@ -140,33 +140,55 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'form',
-	      { className: 'searchBox', onSubmit: this.handleSubmit },
+	      { className: 'search-box form-horizontal', onSubmit: this.handleSubmit },
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'location (city or zip)',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'location',
-	          value: this.state.location,
-	          onChange: this.handleLocationChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-3' },
+	          'Location (city/zip code)'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-9' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'Location',
+	            value: this.state.location,
+	            onChange: this.handleLocationChange,
+	            autoFocus: true })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'keywords',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'query',
-	          value: this.state.keywords,
-	          onChange: this.handleKeywordsChange,
-	          autoFocus: true
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-3' },
+	          'Event'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-9' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'Event',
+	            value: this.state.keywords,
+	            onChange: this.handleKeywordsChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
-	      _react2.default.createElement('input', { type: 'submit', value: 'Search' })
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-offset-2 col-sm-10' },
+	          _react2.default.createElement('input', { className: 'btn btn-primary', type: 'submit', value: 'Search' })
+	        )
+	      )
 	    );
 	  }
 	});
@@ -184,7 +206,7 @@
 	    });
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'eventList' },
+	      { className: 'event-list' },
 	      eventNodes
 	    );
 	  }
@@ -223,7 +245,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'eventBox' },
+	      { className: 'event-box' },
 	      _react2.default.createElement(SearchBox, { onCommentSubmit: this.handleQuerySubmit }),
 	      _react2.default.createElement(EventList, { data: this.state.data })
 	    );
@@ -236,7 +258,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'driverView' },
+	      { className: 'event-view' },
 	      this.props.children
 	    );
 	  }
@@ -248,7 +270,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'driverView' },
+	      { className: 'driver-view' },
 	      _react2.default.createElement(
 	        'h4',
 	        null,
@@ -264,7 +286,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'riderView' },
+	      { className: 'rider-view' },
 	      _react2.default.createElement(
 	        'h4',
 	        null,
@@ -313,7 +335,7 @@
 	    // console.log('driver.js', EventDataCache);
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'driverForm' },
+	      null,
 	      _react2.default.createElement(EventInfo, { data: EventDataCache }),
 	      _react2.default.createElement(DriverForm, { onInfoSubmit: this.handleInfoSubmit })
 	    );
@@ -329,23 +351,31 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'eventInfo' },
+	      { className: 'event-info container' },
 	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        this.props.data.title
+	        'div',
+	        { className: 'event-image-display' },
+	        _react2.default.createElement('img', { src: this.props.data.image.medium.url, alt: '' })
 	      ),
-	      _react2.default.createElement('img', { src: this.props.data.image.medium.url, alt: '' }),
 	      _react2.default.createElement(
-	        'h4',
-	        null,
-	        this.props.data.start_time,
-	        _react2.default.createElement('br', null),
-	        this.props.data.venue_name,
-	        _react2.default.createElement('br', null),
-	        this.props.data.venue_address,
-	        ', ',
-	        this.props.data.region_abbr
+	        'div',
+	        { className: 'event-info-description' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          this.props.data.title
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.data.start_time,
+	          _react2.default.createElement('br', null),
+	          this.props.data.venue_name,
+	          _react2.default.createElement('br', null),
+	          this.props.data.venue_address,
+	          ', ',
+	          this.props.data.region_abbr
+	        )
 	      )
 	    );
 	  }
@@ -415,82 +445,132 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'form',
-	      { className: 'driverForm', onSubmit: this.handleSubmit },
+	      { className: 'driver-form form-horizontal', onSubmit: this.handleSubmit },
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'Name',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'name',
-	          value: this.state.name,
-	          onChange: this.handleNameChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Name'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'name',
+	            value: this.state.name,
+	            onChange: this.handleNameChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'Email',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'email',
-	          value: this.state.email,
-	          onChange: this.handleEmailChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Email'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'email',
+	            value: this.state.email,
+	            onChange: this.handleEmailChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'Phone',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'phone',
-	          value: this.state.phone,
-	          onChange: this.handlePhoneChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Phone'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'phone',
+	            value: this.state.phone,
+	            onChange: this.handlePhoneChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'Departure Time',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'startTime',
-	          value: this.state.startTime,
-	          onChange: this.handleStartTimeChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Departure Time'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'startTime',
+	            value: this.state.startTime,
+	            onChange: this.handleStartTimeChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'Start Location',
-	        _react2.default.createElement('input', {
-	          size: '100',
-	          id: 'location',
-	          type: 'text',
-	          placeholder: 'startLocation',
-	          value: this.state.startLocation,
-	          onChange: this.handleStartLocationChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Start Location'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            size: '100',
+	            id: 'location',
+	            type: 'text',
+	            placeholder: 'startLocation',
+	            value: this.state.startLocation,
+	            onChange: this.handleStartLocationChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
 	      _react2.default.createElement(
-	        'label',
-	        null,
-	        'Rate',
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: 'rate',
-	          value: this.state.rate,
-	          onChange: this.handleRateChange
-	        })
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Rate'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'rate',
+	            value: this.state.rate,
+	            onChange: this.handleRateChange })
+	        )
 	      ),
-	      _react2.default.createElement('br', null),
-	      _react2.default.createElement('input', { type: 'submit', value: 'Confirm Driver' })
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-offset-2 col-sm-7' },
+	          _react2.default.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Confirm Driver' })
+	        )
+	      )
 	    );
 	  }
 	});
