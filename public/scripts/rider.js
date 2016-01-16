@@ -1,3 +1,8 @@
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+import { EventfulAPIKey } from './config';
+
 export const DriverInfo = React.createClass({
   render: function() {
     return (
@@ -81,8 +86,3 @@ export const GetDriversData = React.createClass({
     );
   }
 });
-
-ReactDOM.render(
-  <GetDriversData />,
-  document.getElementById('content')
-);

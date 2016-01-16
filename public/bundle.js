@@ -54,17 +54,21 @@
 
 	var _reactRouter = __webpack_require__(159);
 
+	var _driver = __webpack_require__(206);
+
+	var _rider = __webpack_require__(208);
+
+	var _config = __webpack_require__(207);
+
+	var _profile = __webpack_require__(209);
+
+	var _request = __webpack_require__(210);
+
+	var _signin = __webpack_require__(211);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// commented out because passing props between component files is difficult with react router
-	// import { DriverForm, DriverBox } from './driver';
-	// import { DriverInfo, DriversList, GetDriversData } from './rider';
-
-	var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-	var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
-
-	// declare global variable to store event API data between components (this is the wrong way to do it)
-	var EventDataCache;
+	var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + _config.EventfulAPIKey;
 
 	var Event = _react2.default.createClass({
 	  displayName: 'Event',
@@ -75,39 +79,107 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'event' },
+	      null,
 	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        this.props.name
-	      ),
-	      _react2.default.createElement(
-	        'h4',
-	        null,
-	        this.props.startTime,
-	        ', ',
-	        this.props.venue,
-	        ', ',
-	        this.props.city,
-	        ', ',
-	        this.props.region
-	      ),
-	      _react2.default.createElement(
-	        'h4',
-	        null,
+	        'nav',
+	        { 'class': 'navbar navbar-inverse' },
 	        _react2.default.createElement(
-	          'span',
+	          'div',
+	          { 'class': 'container' },
+	          _react2.default.createElement(
+	            'div',
+	            { 'class': 'navbar-header' },
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', 'class': 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
+	              _react2.default.createElement(
+	                'span',
+	                { 'class': 'sr-only' },
+	                'Toggle navigation'
+	              ),
+	              _react2.default.createElement('span', { 'class': 'icon-bar' }),
+	              _react2.default.createElement('span', { 'class': 'icon-bar' }),
+	              _react2.default.createElement('span', { 'class': 'icon-bar' })
+	            ),
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'navbar-brand', href: '#' },
+	              'Free Loader'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'navbar', 'class': 'navbar-collapse collapse' },
+	            _react2.default.createElement(
+	              'ul',
+	              { 'class': 'nav navbar-nav navbar-right' },
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'Sign Up'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'Log In'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/profile' },
+	                  'Profile'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'event' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          this.props.startTime,
+	          ', ',
+	          this.props.venue,
+	          ', ',
+	          this.props.city,
+	          ', ',
+	          this.props.region
+	        ),
+	        _react2.default.createElement(
+	          'h4',
 	          null,
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/driver', onClick: this.cacheEventData },
-	            'Driver'
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/rider', onClick: this.cacheEventData },
-	            'Rider'
+	            'span',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/driver', onClick: this.cacheEventData },
+	              'Driver'
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/rider', onClick: this.cacheEventData },
+	              'Rider'
+	            )
 	          )
 	        )
 	      )
@@ -296,411 +368,6 @@
 	  }
 	});
 
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	// driver.js
-	var DriverBox = _react2.default.createClass({
-	  displayName: 'DriverBox',
-
-	  handleInfoSubmit: function handleInfoSubmit(info) {
-	    var settings = {
-	      "async": true,
-	      "crossDomain": true,
-	      "url": "/api/trips",
-	      "method": "POST",
-	      "headers": {
-	        "content-type": "application/json",
-	        "cache-control": "no-cache",
-	        "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
-	      },
-	      "processData": false,
-	      "data": info
-	    };
-
-	    $.ajax(settings).done(function (response) {
-	      console.log(response);
-	    });
-	  },
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-	  render: function render() {
-	    // console.log('driver.js', EventDataCache);
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(EventInfo, { data: EventDataCache }),
-	      _react2.default.createElement(DriverForm, { onInfoSubmit: this.handleInfoSubmit })
-	    );
-	  }
-	});
-
-	var EventInfo = _react2.default.createClass({
-	  displayName: 'EventInfo',
-
-	  // componentDidMount: function() {
-	  //   this.props = EventDataCache;
-	  // },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'event-info container' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'event-image-display' },
-	        _react2.default.createElement('img', { src: this.props.data.image.medium.url, alt: '' })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'event-info-description' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          this.props.data.title
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          this.props.data.start_time,
-	          _react2.default.createElement('br', null),
-	          this.props.data.venue_name,
-	          _react2.default.createElement('br', null),
-	          this.props.data.venue_address,
-	          ', ',
-	          this.props.data.region_abbr
-	        )
-	      )
-	    );
-	  }
-	});
-
-	var DriverForm = _react2.default.createClass({
-	  displayName: 'DriverForm',
-
-	  getInitialState: function getInitialState() {
-	    return { name: "", email: "", phone: "", startTime: "", startLocation: "", rate: "" };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    var thiz = this;
-	    var input = document.getElementById('location');
-	    var autocomplete = new google.maps.places.Autocomplete(input);
-	    autocomplete.addListener('place_changed', function () {
-	      var place = autocomplete.getPlace();
-	      thiz.setState({ startLocation: place.formatted_address });
-	      console.log(place);
-	    });
-	  },
-	  handleNameChange: function handleNameChange(e) {
-	    this.setState({ name: e.target.value });
-	  },
-	  handleEmailChange: function handleEmailChange(e) {
-	    this.setState({ email: e.target.value });
-	  },
-	  handlePhoneChange: function handlePhoneChange(e) {
-	    this.setState({ phone: e.target.value });
-	  },
-	  handleStartTimeChange: function handleStartTimeChange(e) {
-	    this.setState({ startTime: e.target.value });
-	  },
-	  handleStartLocationChange: function handleStartLocationChange(e) {
-	    this.setState({ startLocation: e.target.value });
-	  },
-	  handleRateChange: function handleRateChange(e) {
-	    this.setState({ rate: e.target.value });
-	  },
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    var name = this.state.name.trim();
-	    var email = this.state.email.trim();
-	    var phone = this.state.phone.trim();
-	    var startTime = this.state.startTime.trim();
-	    var startLocation = this.state.startLocation.trim();
-	    var rate = this.state.rate.trim();
-	    if (!name || !email || !phone || !startTime || !startLocation || !rate) {
-	      return;
-	    }
-	    this.props.onInfoSubmit(JSON.stringify({
-	      "event": {
-	        "id": EventDataCache.id
-	      },
-	      "user": {
-	        "name": name,
-	        "email": email,
-	        "phone": phone
-	      },
-	      "trip": {
-	        "price": rate,
-	        "startLocation": startLocation
-	      }
-	    }));
-	    this.setState({ name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
-	  },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'form',
-	      { className: 'driver-form form-horizontal', onSubmit: this.handleSubmit },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'control-label col-sm-2' },
-	          'Name'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-7' },
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            placeholder: 'name',
-	            value: this.state.name,
-	            onChange: this.handleNameChange })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'control-label col-sm-2' },
-	          'Email'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-7' },
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            placeholder: 'email',
-	            value: this.state.email,
-	            onChange: this.handleEmailChange })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'control-label col-sm-2' },
-	          'Phone'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-7' },
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            placeholder: 'phone',
-	            value: this.state.phone,
-	            onChange: this.handlePhoneChange })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'control-label col-sm-2' },
-	          'Departure Time'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-7' },
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            placeholder: 'startTime',
-	            value: this.state.startTime,
-	            onChange: this.handleStartTimeChange })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'control-label col-sm-2' },
-	          'Start Location'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-7' },
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            size: '100',
-	            id: 'location',
-	            type: 'text',
-	            placeholder: 'startLocation',
-	            value: this.state.startLocation,
-	            onChange: this.handleStartLocationChange })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'label',
-	          { className: 'control-label col-sm-2' },
-	          'Rate'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-7' },
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            placeholder: 'rate',
-	            value: this.state.rate,
-	            onChange: this.handleRateChange })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'form-group' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-offset-2 col-sm-7' },
-	          _react2.default.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Confirm Driver' })
-	        )
-	      )
-	    );
-	  }
-	});
-
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	// rider.js
-	var DriverInfo = _react2.default.createClass({
-	  displayName: 'DriverInfo',
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'driver col-md-4' },
-	      _react2.default.createElement(
-	        'h2',
-	        { className: 'name' },
-	        'Name: ',
-	        this.props.name
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'email' },
-	        'Email: ',
-	        this.props.email
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'phone' },
-	        'Phone: ',
-	        this.props.phone
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'price' },
-	        'Price: ',
-	        this.props.price
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'lat' },
-	        'Lat: ',
-	        this.props.lat
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'long' },
-	        'Long: ',
-	        this.props.long
-	      )
-	    );
-	  }
-	});
-
-	var DriversList = _react2.default.createClass({
-	  displayName: 'DriversList',
-
-	  componentDidMount: function componentDidMount() {
-	    // console.log('DriversList, componentDidMount');
-	  },
-
-	  getInitialState: function getInitialState() {
-	    // console.log('DriversList getInitialState:');
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    var driverNodes = this.props.data.map(function (driver) {
-	      // console.log(driver);
-	      return _react2.default.createElement(DriverInfo, { name: driver.name,
-	        email: driver.email,
-	        phone: driver.phone,
-	        price: driver.price,
-	        lat: driver.lat,
-	        long: driver.long });
-	    });
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'row driver-list' },
-	      driverNodes
-	    );
-	  }
-	});
-
-	var GetDriversData = _react2.default.createClass({
-	  displayName: 'GetDriversData',
-
-	  componentDidMount: function componentDidMount() {
-	    // console.log('GetDriversData, componentDidMount');
-	    this.getDrivers();
-	  },
-
-	  getDrivers: function getDrivers() {
-	    $.ajax({
-	      url: '/api/trips',
-	      method: 'GET',
-	      dataType: 'json',
-	      data: {
-	        eventfulId: 'SpecialEventId'
-	      },
-	      success: function (data) {
-	        if (!data.trips) {
-	          this.noResults();
-	        } else {
-	          // this.setState({data: data.trips});
-	          // console.log('data trips:', this.state);
-	        }
-	      }.bind(this),
-	      error: function (err) {
-	        console.error('error:', err);
-	      }.bind(this)
-	    });
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    return _react2.default.createElement(DriversList, { data: this.state.data });
-	  }
-	});
-
 	ReactDOM.render(_react2.default.createElement(
 	  _reactRouter.Router,
 	  null,
@@ -708,8 +375,9 @@
 	    _reactRouter.Route,
 	    { path: '/', component: App },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: EventBox }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/driver', component: DriverBox }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: DriverInfo })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/driver', component: _driver.DriverBox }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/rider', component: _rider.DriverInfo }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _profile.Profile })
 	  )
 	), document.getElementById('content'));
 
@@ -24640,6 +24308,1178 @@
 
 	exports['default'] = useBasename;
 	module.exports = exports['default'];
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.DriverForm = exports.EventInfo = exports.DriverBox = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _config = __webpack_require__(207);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var DriverBox = exports.DriverBox = _react2.default.createClass({
+	  displayName: 'DriverBox',
+
+	  handleInfoSubmit: function handleInfoSubmit(info) {
+	    var settings = {
+	      "async": true,
+	      "crossDomain": true,
+	      "url": "/api/trips",
+	      "method": "POST",
+	      "headers": {
+	        "content-type": "application/json",
+	        "cache-control": "no-cache",
+	        "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
+	      },
+	      "processData": false,
+	      "data": info
+	    };
+
+	    $.ajax(settings).done(function (response) {
+	      console.log(response);
+	    });
+	  },
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  render: function render() {
+	    // console.log('driver.js', EventDataCache);
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(EventInfo, { data: EventDataCache }),
+	      _react2.default.createElement(DriverForm, { onInfoSubmit: this.handleInfoSubmit })
+	    );
+	  }
+	});
+
+	var EventInfo = exports.EventInfo = _react2.default.createClass({
+	  displayName: 'EventInfo',
+
+	  // componentDidMount: function() {
+	  //   this.props = EventDataCache;
+	  // },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'event-info container' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'event-image-display' },
+	        _react2.default.createElement('img', { src: this.props.data.image.medium.url, alt: '' })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'event-info-description' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          this.props.data.title
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.data.start_time,
+	          _react2.default.createElement('br', null),
+	          this.props.data.venue_name,
+	          _react2.default.createElement('br', null),
+	          this.props.data.venue_address,
+	          ', ',
+	          this.props.data.region_abbr
+	        )
+	      )
+	    );
+	  }
+	});
+
+	var DriverForm = exports.DriverForm = _react2.default.createClass({
+	  displayName: 'DriverForm',
+
+	  getInitialState: function getInitialState() {
+	    return { name: "", email: "", phone: "", startTime: "", startLocation: "", rate: "" };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    var thiz = this;
+	    var input = document.getElementById('location');
+	    var autocomplete = new google.maps.places.Autocomplete(input);
+	    autocomplete.addListener('place_changed', function () {
+	      var place = autocomplete.getPlace();
+	      thiz.setState({ startLocation: place.formatted_address });
+	      console.log(place);
+	    });
+	  },
+	  handleNameChange: function handleNameChange(e) {
+	    this.setState({ name: e.target.value });
+	  },
+	  handleEmailChange: function handleEmailChange(e) {
+	    this.setState({ email: e.target.value });
+	  },
+	  handlePhoneChange: function handlePhoneChange(e) {
+	    this.setState({ phone: e.target.value });
+	  },
+	  handleStartTimeChange: function handleStartTimeChange(e) {
+	    this.setState({ startTime: e.target.value });
+	  },
+	  handleStartLocationChange: function handleStartLocationChange(e) {
+	    this.setState({ startLocation: e.target.value });
+	  },
+	  handleRateChange: function handleRateChange(e) {
+	    this.setState({ rate: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var name = this.state.name.trim();
+	    var email = this.state.email.trim();
+	    var phone = this.state.phone.trim();
+	    var startTime = this.state.startTime.trim();
+	    var startLocation = this.state.startLocation.trim();
+	    var rate = this.state.rate.trim();
+	    if (!name || !email || !phone || !startTime || !startLocation || !rate) {
+	      return;
+	    }
+	    this.props.onInfoSubmit(JSON.stringify({
+	      "event": {
+	        "id": EventDataCache.id
+	      },
+	      "user": {
+	        "name": name,
+	        "email": email,
+	        "phone": phone
+	      },
+	      "trip": {
+	        "price": rate,
+	        "startLocation": startLocation
+	      }
+	    }));
+	    this.setState({ name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { className: 'driver-form form-horizontal', onSubmit: this.handleSubmit },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Name'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'name',
+	            value: this.state.name,
+	            onChange: this.handleNameChange })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Email'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'email',
+	            value: this.state.email,
+	            onChange: this.handleEmailChange })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Phone'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'phone',
+	            value: this.state.phone,
+	            onChange: this.handlePhoneChange })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Departure Time'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'startTime',
+	            value: this.state.startTime,
+	            onChange: this.handleStartTimeChange })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Start Location'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            size: '100',
+	            id: 'location',
+	            type: 'text',
+	            placeholder: 'startLocation',
+	            value: this.state.startLocation,
+	            onChange: this.handleStartLocationChange })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'label',
+	          { className: 'control-label col-sm-2' },
+	          'Rate'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-7' },
+	          _react2.default.createElement('input', {
+	            className: 'form-control',
+	            type: 'text',
+	            placeholder: 'rate',
+	            value: this.state.rate,
+	            onChange: this.handleRateChange })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'form-group' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-offset-2 col-sm-7' },
+	          _react2.default.createElement('input', { className: 'btn btn-success', type: 'submit', value: 'Confirm Driver' })
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 207 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.GetDriversData = exports.DriversList = exports.DriverInfo = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _config = __webpack_require__(207);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var DriverInfo = exports.DriverInfo = _react2.default.createClass({
+	  displayName: 'DriverInfo',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'driver col-md-4' },
+	      _react2.default.createElement(
+	        'h2',
+	        { className: 'name' },
+	        'Name: ',
+	        this.props.name
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'email' },
+	        'Email: ',
+	        this.props.email
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'phone' },
+	        'Phone: ',
+	        this.props.phone
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'price' },
+	        'Price: ',
+	        this.props.price
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'lat' },
+	        'Lat: ',
+	        this.props.lat
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'long' },
+	        'Long: ',
+	        this.props.long
+	      )
+	    );
+	  }
+	});
+
+	var DriversList = exports.DriversList = _react2.default.createClass({
+	  displayName: 'DriversList',
+
+	  componentDidMount: function componentDidMount() {
+	    console.log('DriversList, componentDidMount');
+	  },
+
+	  getInitialState: function getInitialState() {
+	    console.log('DriversList getInitialState:');
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    var driverNodes = this.props.data.map(function (driver) {
+	      console.log(driver);
+	      return _react2.default.createElement(DriverInfo, { name: driver.name,
+	        email: driver.email,
+	        phone: driver.phone,
+	        price: driver.price,
+	        lat: driver.lat,
+	        long: driver.long });
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row driver-list' },
+	      driverNodes
+	    );
+	  }
+	});
+
+	var GetDriversData = exports.GetDriversData = _react2.default.createClass({
+	  displayName: 'GetDriversData',
+
+	  componentDidMount: function componentDidMount() {
+	    console.log('GetDriversData, componentDidMount');
+	    this.getDrivers();
+	  },
+
+	  getDrivers: function getDrivers() {
+	    $.ajax({
+	      url: '/api/trips',
+	      method: 'GET',
+	      dataType: 'json',
+	      data: {
+	        eventfulId: 'SpecialEventId'
+	      },
+	      success: function (data) {
+	        if (!data.trips) {
+	          this.noResults();
+	        } else {
+	          this.setState({ data: data.trips });
+	          console.log('data trips:', this.state);
+	        }
+	      }.bind(this),
+	      error: function (err) {
+	        console.error('error:', err);
+	      }.bind(this)
+	    });
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    return _react2.default.createElement(DriversList, { data: this.state.data });
+	  }
+	});
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.TripAsRiderList = exports.TripAsRider = exports.RiderTrips = exports.RiderBox = exports.User = exports.TripAsDriverList = exports.TripAsDriver = exports.DriverTrips = exports.DriverBox = exports.UserInfo = exports.Profile = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var user = {
+	  "id": 1,
+	  "name": "Barack Obama",
+	  "email": "bo@gmail.com",
+	  "phone": "1-800-555-5555",
+	  "profilePicture": null,
+	  "rating": null,
+	  "ratingsCount": null,
+	  "createdAt": "2016-01-13T21:15:07.000Z",
+	  "updatedAt": "2016-01-13T21:15:07.000Z",
+	  "startLocation": "123 Main St. 12244"
+	};
+
+	var test = {
+	  "trips": [{ "eventfulId": "E0-001-086400548-2",
+	    "startLocation": "1542 Harper Ave, Redondo Beach, CA",
+	    "startTime": "2016-01-13T21:15:07.000Z",
+	    "users": [{
+	      "id": 1,
+	      "name": "Barack Obama",
+	      "email": "bo@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": 1,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Driver"
+	    }, {
+	      "id": 2,
+	      "name": "Bill Gates",
+	      "email": "bg@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": 1,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Passenger"
+	    }, {
+	      "id": 3,
+	      "name": "Oprah Winfrey",
+	      "email": "bg@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": 0,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Unconfirmed"
+	    }, {
+	      "id": 4,
+	      "name": "Tom Cruise",
+	      "email": "bg@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": 0,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Passenger"
+	    }]
+	  }, { "eventfulId": "E0-001-086400371-2",
+	    "startLocation": "1542 Harper Ave, Redondo Beach, CA",
+	    "startTime": "2016-01-13T21:15:07.000Z",
+	    "users": [{
+	      "id": 1,
+	      "name": "Barack Obama",
+	      "email": "bo@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": null,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Driver"
+	    }, {
+	      "id": 2,
+	      "name": "Gates Bill",
+	      "email": "bg@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": null,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Passenger"
+	    }]
+	  }, { "eventfulId": "E0-001-086400371-2",
+	    "startLocation": "1542 Harper Ave, Redondo Beach, CA",
+	    "startTime": "2016-01-13T21:15:07.000Z",
+	    "users": [{
+	      "id": 1,
+	      "name": "Barack Obama",
+	      "email": "bo@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": null,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Passenger"
+	    }, {
+	      "id": 2,
+	      "name": "Gates Bill",
+	      "email": "bg@gmail.com",
+	      "phone": "1-800-555-5555",
+	      "profilePicture": null,
+	      "rating": null,
+	      "ratingsCount": null,
+	      "createdAt": "2016-01-13T21:15:07.000Z",
+	      "updatedAt": "2016-01-13T21:15:07.000Z",
+	      "startLocation": "123 Main St. 12244",
+	      "role": "Driver"
+	    }]
+	  }]
+	};
+
+	var Profile = exports.Profile = _react2.default.createClass({
+	  displayName: 'Profile',
+
+	  componentWillMount: function componentWillMount() {
+	    this.setState({ data: test });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(UserInfo, { data: user }),
+	      _react2.default.createElement(DriverBox, { data: test }),
+	      _react2.default.createElement(RiderBox, { data: test })
+	    );
+	  }
+	});
+
+	var UserInfo = exports.UserInfo = _react2.default.createClass({
+	  displayName: 'UserInfo',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h1',
+	        null,
+	        this.props.data.name
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          null,
+	          'logout'
+	        )
+	      ),
+	      _react2.default.createElement('img', { src: '../images/iu1f7brY.png' })
+	    );
+	  }
+	});
+
+	var DriverBox = exports.DriverBox = _react2.default.createClass({
+	  displayName: 'DriverBox',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'Drives'
+	      ),
+	      _react2.default.createElement(DriverTrips, { trips: test.trips })
+	    );
+	  }
+	});
+
+	var DriverTrips = exports.DriverTrips = _react2.default.createClass({
+	  displayName: 'DriverTrips',
+
+	  render: function render() {
+	    var trips = this.props.trips.map(function (trip) {
+	      for (var i = 0; i < trip.users.length; i++) {
+	        if (trip.users[i].id === user.id && trip.users[i].role === "Driver") {
+	          return _react2.default.createElement(TripAsDriver, { key: trip.eventfulId, data: trip, eventfulId: trip.eventfulId });
+	        }
+	      }
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      trips
+	    );
+	  }
+	});
+
+	var TripAsDriver = exports.TripAsDriver = _react2.default.createClass({
+	  displayName: 'TripAsDriver',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      eventful: null
+	    };
+	  },
+	  componentWillMount: function componentWillMount() {
+	    $.ajax({
+	      url: 'http://api.eventful.com/json/events/get?app_key=bMhbgh3kzp8mTZtC&id=' + this.props.eventfulId,
+	      method: 'GET',
+	      dataType: 'jsonp',
+	      success: function (data) {
+	        this.setState({
+	          eventful: data
+	        });
+	      }.bind(this),
+	      error: function (err) {
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+	  render: function render() {
+	    if (!this.state.eventful) {
+	      var title = null;
+	    } else {
+	      var title = this.state.eventful.title;
+	    }
+	    if (!this.state.eventful) {
+	      var start_time = null;
+	    } else {
+	      var start_time = this.state.eventful.start_time;
+	    }
+	    if (!this.state.eventful) {
+	      var venue_name = null;
+	    } else {
+	      var venue_name = this.state.eventful.venue_name;
+	    }
+	    if (!this.state.eventful) {
+	      var city = null;
+	    } else {
+	      var city = this.state.eventful.city;
+	    }
+	    if (!this.state.eventful) {
+	      var region_abbr = null;
+	    } else {
+	      var region_abbr = this.state.eventful.region_abbr;
+	    }
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        title
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        start_time,
+	        ', ',
+	        venue_name,
+	        ', ',
+	        city,
+	        ', ',
+	        region_abbr
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Departure Time: ',
+	        this.props.data.startTime
+	      ),
+	      _react2.default.createElement(TripAsDriverList, { users: this.props.data.users })
+	    );
+	  }
+	});
+
+	var TripAsDriverList = exports.TripAsDriverList = _react2.default.createClass({
+	  displayName: 'TripAsDriverList',
+
+	  render: function render() {
+	    var users = this.props.users.map(function (user) {
+	      if (user.role !== 'Driver') {
+	        return _react2.default.createElement(User, { key: user.id, data: user });
+	      }
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      users
+	    );
+	  }
+	});
+
+	var User = exports.User = _react2.default.createClass({
+	  displayName: 'User',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      status: this.props.data.role
+	    };
+	  },
+	  toggleStatus: function toggleStatus() {
+	    if (this.state.status === 'Unconfirmed') {
+	      // $.ajax({
+	      //   url: EventfulAPI +
+	      //     '&location=' + query.location +
+	      //     '&keywords=' + query.keywords,
+	      //   method: 'GET',
+	      //   dataType: 'jsonp',
+	      //   success: function(data) {
+	      //     if (!data.events) {
+	      //       this.noResults()
+	      //     } else {
+	      //       this.setState({data: data.events.event});
+	      //     }
+	      //   }.bind(this),
+	      //   error: function(err) {
+	      //     console.error(err);
+	      //   }.bind(this)
+	      // })
+	      this.setState({ status: 'Passenger' });
+	    }
+	    if (this.state.status === 'Passenger') {
+	      // $.ajax({
+	      //   url: EventfulAPI +
+	      //     '&location=' + query.location +
+	      //     '&keywords=' + query.keywords,
+	      //   method: 'GET',
+	      //   dataType: 'jsonp',
+	      //   success: function(data) {
+	      //     if (!data.events) {
+	      //       this.noResults()
+	      //     } else {
+	      //       this.setState({data: data.events.event});
+	      //     }
+	      //   }.bind(this),
+	      //   error: function(err) {
+	      //     console.error(err);
+	      //   }.bind(this)
+	      // })
+	      this.setState({ status: 'Unconfirmed' });
+	    }
+	  },
+	  render: function render() {
+	    if (this.props.data.role === 'Unconfirmed') {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.data.name,
+	          ' -',
+	          _react2.default.createElement(
+	            'span',
+	            { onClick: this.toggleStatus },
+	            ' ',
+	            this.state.status
+	          )
+	        )
+	      );
+	    }
+	    if (this.props.data.role === 'Passenger') {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.props.data.name,
+	          ' -',
+	          _react2.default.createElement(
+	            'span',
+	            { onClick: this.toggleStatus },
+	            ' ',
+	            this.state.status
+	          )
+	        )
+	      );
+	    }
+	    return _react2.default.createElement('div', null);
+	  }
+	});
+
+	var RiderBox = exports.RiderBox = _react2.default.createClass({
+	  displayName: 'RiderBox',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Rides'
+	      ),
+	      _react2.default.createElement(RiderTrips, { trips: test.trips })
+	    );
+	  }
+	});
+
+	var RiderTrips = exports.RiderTrips = _react2.default.createClass({
+	  displayName: 'RiderTrips',
+
+	  render: function render() {
+	    var trips = this.props.trips.map(function (trip) {
+	      for (var i = 0; i < trip.users.length; i++) {
+	        if (trip.users[i].id === user.id && trip.users[i].role === "Passenger") {
+	          return _react2.default.createElement(TripAsRider, { key: trip.eventfulId, data: trip, eventfulId: trip.eventfulId });
+	        }
+	      }
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      trips
+	    );
+	  }
+	});
+
+	var TripAsRider = exports.TripAsRider = _react2.default.createClass({
+	  displayName: 'TripAsRider',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      eventful: null
+	    };
+	  },
+	  componentWillMount: function componentWillMount() {
+	    $.ajax({
+	      url: 'http://api.eventful.com/json/events/get?app_key=bMhbgh3kzp8mTZtC&id=' + this.props.eventfulId,
+	      method: 'GET',
+	      dataType: 'jsonp',
+	      success: function (data) {
+	        this.setState({
+	          eventful: data
+	        });
+	      }.bind(this),
+	      error: function (err) {
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+	  render: function render() {
+	    if (!this.state.eventful) {
+	      var title = null;
+	    } else {
+	      var title = this.state.eventful.title;
+	    }
+	    if (!this.state.eventful) {
+	      var start_time = null;
+	    } else {
+	      var start_time = this.state.eventful.start_time;
+	    }
+	    if (!this.state.eventful) {
+	      var venue_name = null;
+	    } else {
+	      var venue_name = this.state.eventful.venue_name;
+	    }
+	    if (!this.state.eventful) {
+	      var city = null;
+	    } else {
+	      var city = this.state.eventful.city;
+	    }
+	    if (!this.state.eventful) {
+	      var region_abbr = null;
+	    } else {
+	      var region_abbr = this.state.eventful.region_abbr;
+	    }
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        title
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        start_time,
+	        ', ',
+	        venue_name,
+	        ', ',
+	        city,
+	        ', ',
+	        region_abbr
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        'Departure Time: ',
+	        this.props.data.startTime
+	      ),
+	      _react2.default.createElement(TripAsRiderList, { users: this.props.data.users })
+	    );
+	  }
+	});
+
+	var TripAsRiderList = exports.TripAsRiderList = _react2.default.createClass({
+	  displayName: 'TripAsRiderList',
+
+	  render: function render() {
+	    var users = this.props.users.map(function (user) {
+	      return _react2.default.createElement(User, { key: user.id, data: user });
+	    });
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      users
+	    );
+	  }
+	});
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.RiderBox = exports.RiderForm = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var RiderForm = exports.RiderForm = _react2.default.createClass({
+	  displayName: 'RiderForm',
+
+	  getInitialState: function getInitialState() {
+	    return { startLocation: "" };
+	  },
+	  handleStartLocationChange: function handleStartLocationChange(e) {
+	    this.setState({ startLocation: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var startLocation = this.state.startLocation.trim();
+	    if (!startLocation) {
+	      return;
+	    }
+	    this.props.onCommentSubmit({ startLocation: startLocation });
+	    this.setState({ startLocation: '' });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { className: 'rider-request-form', onSubmit: this.handleSubmit },
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'startLocation',
+	        value: this.state.startLocation,
+	        onChange: this.handleStartLocationChange
+	      }),
+	      _react2.default.createElement('input', { type: 'submit', value: 'Request Driver' })
+	    );
+	  }
+	});
+
+	var RiderBox = exports.RiderBox = _react2.default.createClass({
+	  displayName: 'RiderBox',
+
+	  noResults: function noResults() {
+	    console.log('no results');
+	  },
+	  handleQuerySubmit: function handleQuerySubmit(query) {
+	    $.ajax({
+	      url: EventfulAPI + '&name=' + query.startLocation,
+	      method: 'POST',
+	      dataType: 'jsonp',
+	      data: {
+	        location: query.startLocation
+	      },
+	      success: function (data) {
+	        this.setState({ data: data.events.event });
+	        console.log("posted successfully");
+	      }.bind(this),
+	      error: function (err) {
+	        console.log("error");
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'rider-request-container' },
+	      _react2.default.createElement(RiderForm, { onCommentSubmit: this.handleQuerySubmit })
+	    );
+	  }
+	});
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SignInBox = exports.SignInForm = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SignInForm = exports.SignInForm = _react2.default.createClass({
+	  displayName: 'SignInForm',
+
+	  getInitialState: function getInitialState() {
+	    return { email: "", password: "" };
+	  },
+	  handleEmailChange: function handleEmailChange(e) {
+	    this.setState({ email: e.target.value });
+	  },
+	  handlePasswordChange: function handlePasswordChange(e) {
+	    this.setState({ password: e.target.value });
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var email = this.state.email.trim();
+	    var password = this.state.password.trim();
+	    if (!email || !password) {
+	      return;
+	    }
+	    this.props.onCommentSubmit({ email: email, password: password });
+	    this.setState({ email: '', password: '' });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'form',
+	      { className: 'sign-in-form', onSubmit: this.handleSubmit },
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'email',
+	        value: this.state.email,
+	        onChange: this.handleEmailChange
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        placeholder: 'password',
+	        value: this.state.password,
+	        onChange: this.handlePasswordChange
+	      }),
+	      _react2.default.createElement('input', { type: 'submit', value: 'Sign In' })
+	    );
+	  }
+	});
+
+	var SignInBox = exports.SignInBox = _react2.default.createClass({
+	  displayName: 'SignInBox',
+
+	  noResults: function noResults() {
+	    console.log('no results');
+	  },
+	  handleQuerySubmit: function handleQuerySubmit(query) {
+	    $.ajax({
+	      url: '/signin',
+	      method: 'POST',
+	      dataType: 'jsonp',
+	      data: {
+	        email: query.email,
+	        password: query.password
+	      },
+	      success: function (data) {
+	        this.setState({ data: data.events });
+	        console.log("posted successfully");
+	      }.bind(this),
+	      error: function (err) {
+	        console.log("error");
+	        console.error(err);
+	      }.bind(this)
+	    });
+	  },
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'sign-in-container' },
+	      _react2.default.createElement(SignInForm, { onCommentSubmit: this.handleQuerySubmit })
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);

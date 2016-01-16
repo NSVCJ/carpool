@@ -1,9 +1,78 @@
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+import { EventfulAPIKey } from './config';
 
-//**Display of chosen event
+export const DriverBox = React.createClass({
+  handleInfoSubmit: function(info) {
+    var settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "/api/trips",
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "postman-token": "a05c261a-a74a-2847-e688-4984ee243fb1"
+      },
+      "processData": false,
+      "data": info
+    }
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  render: function() {
+    // console.log('driver.js', EventDataCache);
+    return (
+      <div>
+        <EventInfo data={EventDataCache} />
+        <DriverForm onInfoSubmit={this.handleInfoSubmit} />
+      </div>
+    )
+  }
+});
+
+export const EventInfo = React.createClass({
+  // componentDidMount: function() {
+  //   this.props = EventDataCache;
+  // },
+  render: function() {
+    return (
+      <div className="event-info container">
+        <div className="event-image-display">
+          <img src={this.props.data.image.medium.url} alt="" />
+        </div>
+        <div className="event-info-description">
+          <h3>{this.props.data.title}</h3>
+          <p>
+            {this.props.data.start_time}<br />
+            {this.props.data.venue_name}<br />
+            {this.props.data.venue_address}, {this.props.data.region_abbr}
+          </p>
+        </div>
+      </div>
+    );
+  }
+});
 
 export const DriverForm = React.createClass({
   getInitialState: function() {
     return {name: "", email: "", phone: "", startTime: "", startLocation: "", rate: ""};
+  },
+  componentDidMount: function() {
+    var thiz = this;
+    var input = document.getElementById('location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      thiz.setState({startLocation: place.formatted_address});
+      console.log(place);
+    });
   },
   handleNameChange: function(e) {
     this.setState({name: e.target.value});
@@ -34,117 +103,99 @@ export const DriverForm = React.createClass({
     if (!name || !email || !phone || !startTime || !startLocation || !rate ) {
       return;
     }
-    this.props.onCommentSubmit({name: name, email: email, phone: phone, startTime: startTime, startLocation: startLocation, rate: rate});
+    this.props.onInfoSubmit(JSON.stringify({
+      "event": {
+        "id": EventDataCache.id
+      },
+      "user": {
+        "name": name,
+        "email": email,
+        "phone": phone
+      },
+      "trip": {
+        "price": rate,
+        "startLocation": startLocation,
+      }
+    }));
     this.setState({name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
   },
   render: function() {
     return (
-      <form className="driverForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="name"
-          value={this.state.name}
-          onChange={this.handleNameChange}
-        />
-       <br />
-       <input
-          type="text"
-          placeholder="email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-        />
-        <input
-          type="text"
-          placeholder="phone"
-          value={this.state.phone}
-          onChange={this.handlePhoneChange}
-        />
-        <input
-          type="text"
-          placeholder="startTime"
-          value={this.state.startTime}
-          onChange={this.handleStartTimeChange}
-        />
-        <input
-          type="text"
-          placeholder="startLocation"
-          value={this.state.startLocation}
-          onChange={this.handleStartLocationChange}
-        />
-
-        <input
-          type="text"
-          placeholder="rate"
-          value={this.state.rate}
-          onChange={this.handleRateChange}
-        />
-        <input type="submit" value="Confirm Driver" />
+      <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Name</label>
+          <div className="col-sm-7">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="name"
+              value={this.state.name}
+              onChange={this.handleNameChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Email</label>
+          <div className="col-sm-7">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="email"
+              value={this.state.email}
+              onChange={this.handleEmailChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Phone</label>
+          <div className="col-sm-7">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="phone"
+              value={this.state.phone}
+              onChange={this.handlePhoneChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Departure Time</label>
+          <div className="col-sm-7">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="startTime"
+              value={this.state.startTime}
+              onChange={this.handleStartTimeChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Start Location</label>
+          <div className="col-sm-7">
+            <input
+              className="form-control"
+              size="100"
+              id="location"
+              type="text"
+              placeholder="startLocation"
+              value={this.state.startLocation}
+              onChange={this.handleStartLocationChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="control-label col-sm-2">Rate</label>
+          <div className="col-sm-7">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="rate"
+              value={this.state.rate}
+              onChange={this.handleRateChange} />
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="col-sm-offset-2 col-sm-7">
+            <input className="btn btn-success" type="submit" value="Confirm Driver" />
+          </div>
+        </div>
       </form>
     );
   }
 });
-//**Event List
-export const EventList = React.createClass({
-  getInitialState: function() {
-    return {data: []};
-  },
-  render: function() {
-    var eventNodes = this.props.data.map(function(event) {
-      return (
-        <Event key={event.id} name={event.title} startTime={event.start_time} venue={event.venue_name} city={event.city_name} region={event.region_abbr} />
-      );
-    });
-    return (
-      <div className="eventList">
-        {eventNodes}
-      </div>
-    );
-  }
-});
-// root component
-export const DriverBox = React.createClass({
-  noResults: function() {
-    console.log('no results');
-  },
-  handleQuerySubmit: function(query) {
-    $.ajax({
-      url: EventfulAPI +
-        '&name=' + query.name +
-        '&name=' + query.email +
-        '&name=' + query.phone +
-        '&name=' + query.startTime +
-        '&name=' + query.startLocation +
-        '&rate=' + query.rate,
-      method: 'POST',
-      dataType: 'jsonp',
-      success: function(data) {
-          this.setState({data: data.events.event});
-          console.log("posted successfully")
-      }.bind(this),
-      error: function(err) {
-        console.log("error")
-        console.error(err);
-      }.bind(this)
-    })
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  render: function() {
-    return (
-      <div className="driverForm">
-        <DriverForm onCommentSubmit={this.handleQuerySubmit} />
-        <EventList data={this.state.data} />
-      </div>
-    )
-  }
-});
-//form data
-// <DriverForm onCommentSubmit={this.handleQuerySubmit} />
-//**event data passed in
-// <EventList data={this.state.data} />
-ReactDOM.render(
-  <DriverBox />,
-  //<EventBox />,
-  document.getElementById('content')
-);
