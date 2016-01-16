@@ -24,7 +24,10 @@ const App = React.createClass({
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <a className="navbar-brand" href="#">Free Loader</a>
+              <div className="logo">
+                <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=50&h=50" />
+              </div>              
+              <a className="navbar-brand" href="#">EventPool</a>
             </div>
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav navbar-right">
@@ -38,7 +41,6 @@ const App = React.createClass({
             </div>
           </div>
         </nav>
-        <h2>Find people in your area who are going to the big game! Pictures of plants while you wait.</h2>
         <div className="event-view">
           {this.props.children}
         </div>
@@ -78,9 +80,21 @@ const EventBox = React.createClass({
 
   render: function() {
     return (
-      <div className="event-box">
-        <SearchBox onCommentSubmit={this.handleQuerySubmit} />
-        <EventList data={this.state.data} />
+      <div>
+        <div className="jumbotron">
+          <div className="container"></div>
+        </div>
+        <div className="event-box">
+          <div className="row">
+            <div className="col-md-5">
+              <h2>Make friends going to the same event.</h2>
+            </div>
+            <div className="col-md-6 col-md-offset-1">
+              <SearchBox onCommentSubmit={this.handleQuerySubmit} />
+            </div>
+          </div>
+          <EventList data={this.state.data} />
+        </div>
       </div>
     )
   }
@@ -110,8 +124,7 @@ const SearchBox = React.createClass({
     return (
       <form className="search-box form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label className="control-label col-sm-3">Location (city/zip code)</label>
-          <div className="col-sm-9">
+          <div className="col-sm-12">
             <input
               className="form-control"
               type="text"
@@ -122,8 +135,7 @@ const SearchBox = React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label className="control-label col-sm-3">Event</label>
-          <div className="col-sm-9">
+          <div className="col-sm-12">
             <input
               className="form-control"
               type="text"
@@ -133,8 +145,8 @@ const SearchBox = React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-10">
-            <input className="btn btn-primary" type="submit" value="Search" />
+          <div className="col-sm-12">
+            <input className="btn-lg btn-primary" type="submit" value="Search" />
           </div>
         </div>
       </form>
@@ -168,15 +180,18 @@ const Event = React.createClass({
   render: function() {
     return (
       <div className="event">
-        <h3>{this.props.name}</h3>
-        <h4>{moment(this.props.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
-        <h4>
-          <span>
-            <Link to="/driver" onClick={this.cacheEventData}>Driver</Link>
-            <br />
-            <Link to="/rider" onClick={this.cacheEventData}>Rider</Link>
-          </span>
-        </h4>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8">
+              <h3>{this.props.name}</h3>
+              <h4>{moment(this.props.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
+            </div>
+            <div className="event-btns col-md-3">
+                <Link to="/driver" className="driver-btn btn-lg btn-success" onClick={this.cacheEventData}>Driver</Link>
+                <Link to="/rider"  className="rider-btn btn-lg btn-info" onClick={this.cacheEventData}>Rider</Link>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
