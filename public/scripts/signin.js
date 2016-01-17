@@ -51,7 +51,7 @@ export const SignInBox = React.createClass({
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:8000/signin",
+      "url": "/signin",
       "method": "POST",
       "headers": {
         "content-type": "application/json",

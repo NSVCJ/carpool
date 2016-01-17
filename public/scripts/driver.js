@@ -7,7 +7,7 @@ export const DriverBox = React.createClass({
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:8000/api/eventDriver",
+      "url": "/api/eventDriver",
       "method": "POST",
       "headers": {
         "content-type": "application/json",
