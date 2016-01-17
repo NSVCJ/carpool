@@ -17,7 +17,9 @@ export const DriverBox = React.createClass({
       "processData": false,
       "data": info,
       success: function(data) {
-
+        $("#driver-form").html('<h3>Your trip has been submitted!<h3>');
+        console.log('trip submitted.');
+        console.log(data);
       }.bind(this),
       error: function(err) {
         console.log("error")
@@ -40,9 +42,6 @@ export const DriverBox = React.createClass({
 });
 
 export const EventInfo = React.createClass({
-  // componentDidMount: function() {
-  //   this.props = EventDataCache;
-  // },
   render: function() {
     return (
       <div className="event-info">
@@ -121,7 +120,7 @@ export const DriverForm = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div id="driver-form">
         <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
           <div className="col-sm-6">
             <div className="form-group">
@@ -194,7 +193,7 @@ export const DriverForm = React.createClass({
 
           <div className="form-group col-sm-12">
             <div className="col-sm-12">
-              <input className="btn btn-success" type="submit" value="Confirm Driver" />
+              <input className="btn btn-success" type="submit" value="Confirm Trip" />
             </div>
           </div>
         </form>
