@@ -44,7 +44,7 @@ export const DriversList = React.createClass({
     if (this.state.data.length === 0) {
       return (
         <div>
-          <p>There are no trips to this event yet.</p>
+          <p>It looks like there are no trips to this event yet.</p>
           <Link to="/driver">Drive to this event!</Link>
         </div>
       )
@@ -64,6 +64,7 @@ export const DriversList = React.createClass({
     return (
       <div className="row driver-list">
         <div className="event-info container">
+          <p>Event Details</p>
           <div className="event-image-display">
             <img src={this.state.EventDataCache.image.medium.url} alt="" />
           </div>
@@ -71,11 +72,12 @@ export const DriversList = React.createClass({
             <h3>{this.state.EventDataCache.title}</h3>
             <p>
               {moment(this.state.EventDataCache.start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}<br />
-            {this.state.EventDataCache.venue_name}<br />
-          {this.state.EventDataCache.venue_address}, {this.state.EventDataCache.region_abbr}
+              {this.state.EventDataCache.venue_name}<br />
+              {this.state.EventDataCache.venue_address} {this.state.EventDataCache.city_name}, {this.state.EventDataCache.region_abbr}
             </p>
           </div>
         </div>
+        <h4>Rides to this event</h4>
         {driverNodes}
       </div>
     );
@@ -83,25 +85,28 @@ export const DriversList = React.createClass({
 });
 
 export const DriverInfo = React.createClass({
+  getInitialState: function() {
+    return {pickupLocation: ''};
+  },
   componentDidMount: function () {
     var thiz = this;
     var input = document.getElementById('pickupLocation');
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.addListener('place_changed', function() {
       var place = autocomplete.getPlace();
-      thiz.setState({startLocation: place.formatted_address});
-      console.log(place);
+      thiz.setState({pickupLocation: place.formatted_address});
     });
   },
-  getInitialState: function() {
-    return {
-      pickupLocation: ''
-    };
-  },
   requestRide: function() {
-    console.log('am i happening? i am');
-    console.log('localstorage id ', localStorage.id);
-    console.log('this.props.id ', this.props.id);
+    console.log(JSON.stringify({
+      "user": {
+        "id": localStorage.id
+      },
+      "trip": {
+        "TripId": this.props.id
+      },
+      "startLocation": this.state.pickupLocation
+    }));
     $.ajax({
       "async": true,
       "crossDomain": true,
@@ -120,7 +125,7 @@ export const DriverInfo = React.createClass({
         "trip": {
           "TripId": this.props.id
         },
-        "startLocation": '123 main st, los angeles, ca 92020'
+        "startLocation": this.state.pickupLocation
       }),
       success: function(data) {
         console.log('request ride successful');
@@ -137,7 +142,6 @@ export const DriverInfo = React.createClass({
   },
 
   handleSubmit: function (e) {
-    console.log('Event cachce inside handle submit', EventDataCache);
     e.preventDefault();
     var pickupLocation = this.state.pickupLocation;
     if (!pickupLocation) {
@@ -150,11 +154,12 @@ export const DriverInfo = React.createClass({
   render: function() {
     return (
       <div className="driver col-md-4">
-        <h2 className="name">Name: {this.props.name}</h2>
+        <p>Driver Details</p>
+        <h4 className="name">{this.props.name}</h4>
+        <div className="rating">Rating {this.props.rating}</div>
         <div className="profilePicture"><img src="../images/iu1f7brY.png" /></div>
-        <div className="price">Price: {this.props.price}</div>
-        <div className="startLocation">Start Location: {this.props.startLocation}</div>
-        <div className="rating">Rating: {this.props.rating}</div>
+        <div className="price">Flat Fare ${this.props.price}</div>
+        <div className="startLocation">Departing From {this.props.startLocation}</div>
 
         <form className="search-box form-horizontal" onSubmit={this.handleSubmit}>
           <div className="form-group">
