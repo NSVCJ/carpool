@@ -13,11 +13,13 @@
   margin-right: 10px;
 }
 
+
 /* Event Info box on Driver page */
 .event-info{
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 15px;
+  overflow: auto;
   padding: 10px;
 }
 
@@ -40,7 +42,7 @@
   padding: 10px;
 }
 .event-view h3{
-  margin: 0 0 7px 0;
+  margin: 0 0 5px 0;
 }
 
 
@@ -50,22 +52,80 @@
   height: 150px;
 }
 
+
+/* Sign In Forms */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/* Rider Request Page */
+.rider-request-form .btn-block {
+  margin-top: 10px;
+}
+
+
+
 /* Event Search Page */
+.profile-content{
+  text-align: center;
+}
+.profile-content img{
+  margin: 0 auto 10px auto;
+  width: 100%;
+}
+
+.drives-content, .rides-content{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.drives-content h3, .rides-content h3{
+  height: 50px;
+  padding: 10px;
+  text-transform: uppercase;
+}
+.drives-content h3{
+  background: rgb(0, 204, 0);
+}
+.rides-content h3{
+  background: rgb(255, 153, 51);
+}
+
+
+.trip{
+  padding: 15px;
+}
+.trip:nth-child(even){
+  background-color: rgba(192, 192, 192, 0.4);
+}
+.trip h4{
+  margin: 0;
+}
+
+ /* Event Search Page */
 .event-box h2{
   font-size: 40px;
   margin: 0;
 }
 .event-search{
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .event-list{
-  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .event{
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 15px;
 }
+.event:last-child{
+  border-bottom: 1px solid #ccc;
+}
+
 .event h3{
   margin-top:   0;
 }

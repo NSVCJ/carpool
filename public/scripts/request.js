@@ -20,15 +20,22 @@ export const RiderForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="rider-request-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="startLocation"
-          value={this.state.startLocation}
-          onChange={this.handleStartLocationChange}
-        />
-        <input type="submit" value="Request Driver" />
-      </form>
+      <div className="row">
+        <div className="container">
+          <form className="rider-request-form form-signin" onSubmit={this.handleSubmit}>
+            <h2>Request a Driver</h2>
+            <label className="sr-only">Start Location</label>
+            <input
+              type="text"
+              placeholder="Start Location"
+              value={this.state.startLocation}
+              onChange={this.handleStartLocationChange}
+              className="form-control"
+              autofocus />
+            <input className="btn-lg btn-primary btn-block" type="submit" value="Request Driver" />
+          </form>
+        </div>
+      </div>
     );
   }
 });

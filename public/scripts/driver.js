@@ -45,7 +45,7 @@ export const EventInfo = React.createClass({
   // },
   render: function() {
     return (
-      <div className="event-info container">
+      <div className="event-info">
         <div className="event-image-display">
           <img src={this.props.data.image.medium.url} alt="" />
         </div>
@@ -121,81 +121,84 @@ export const DriverForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label className="control-label col-sm-2">Name</label>
-          <div className="col-sm-7">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="name"
-              value={this.state.name}
-              onChange={this.handleNameChange} />
+      <div>
+        <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
+          <div className="col-sm-6">
+            <div className="form-group">
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Name"
+                  value={this.state.name}
+                  onChange={this.handleNameChange} />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Email"
+                  value={this.state.email}
+                  onChange={this.handleEmailChange} />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Phone Number"
+                  value={this.state.phone}
+                  onChange={this.handlePhoneChange} />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="form-group">
-          <label className="control-label col-sm-2">Email</label>
-          <div className="col-sm-7">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="email"
-              value={this.state.email}
-              onChange={this.handleEmailChange} />
+
+
+          <div className="col-sm-6">
+            <div className="form-group">
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Start Time"
+                  value={this.state.startTime}
+                  onChange={this.handleStartTimeChange} />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  size="100"
+                  id="location"
+                  type="text"
+                  placeholder="Start Location"
+                  value={this.state.startLocation}
+                  onChange={this.handleStartLocationChange} />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Rate"
+                  value={this.state.rate}
+                  onChange={this.handleRateChange} />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="form-group">
-          <label className="control-label col-sm-2">Phone</label>
-          <div className="col-sm-7">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="phone"
-              value={this.state.phone}
-              onChange={this.handlePhoneChange} />
+
+          <div className="form-group col-sm-12">
+            <div className="col-sm-12">
+              <input className="btn btn-success" type="submit" value="Confirm Driver" />
+            </div>
           </div>
-        </div>
-        <div className="form-group">
-          <label className="control-label col-sm-2">Departure Time</label>
-          <div className="col-sm-7">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="startTime"
-              value={this.state.startTime}
-              onChange={this.handleStartTimeChange} />
-          </div>
-        </div>
-        <div className="form-group">
-          <label className="control-label col-sm-2">Start Location</label>
-          <div className="col-sm-7">
-            <input
-              className="form-control"
-              size="100"
-              id="location"
-              type="text"
-              placeholder="startLocation"
-              value={this.state.startLocation}
-              onChange={this.handleStartLocationChange} />
-          </div>
-        </div>
-        <div className="form-group">
-          <label className="control-label col-sm-2">Rate</label>
-          <div className="col-sm-7">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="rate"
-              value={this.state.rate}
-              onChange={this.handleRateChange} />
-          </div>
-        </div>
-        <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-7">
-            <input className="btn btn-success" type="submit" value="Confirm Driver" />
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 });
