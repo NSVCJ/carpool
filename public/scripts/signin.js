@@ -32,7 +32,7 @@ export const SignInForm = React.createClass({
           onChange={this.handleEmailChange}
         />
        <input
-          type="text"
+          type="password"
           placeholder="password"
           value={this.state.password}
           onChange={this.handlePasswordChange}

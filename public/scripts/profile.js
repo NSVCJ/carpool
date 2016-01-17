@@ -169,7 +169,6 @@ export const UserInfo = React.createClass({
       <div className="profile-content">
         <h3>{this.props.data.name}</h3>
         <img src="../images/iu1f7brY.png" className="img-circle" />
-        <p><a>logout</a></p>
       </div>
     )
   }
