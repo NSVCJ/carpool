@@ -148,10 +148,16 @@ export const Profile = React.createClass({
   },
   render: function () {
     return (
-      <div>
-        <UserInfo data={user} />
-        <DriverBox data={test} />
-        <RiderBox data={test} />
+      <div className="profile-container">
+        <div className="row">
+          <div className="col-md-3">
+            <UserInfo data={user} />
+          </div>
+          <div className="col-md-9">
+            <DriverBox data={test} />
+            <RiderBox data={test} />
+          </div>
+        </div>
       </div>
     )
   }
@@ -160,10 +166,10 @@ export const Profile = React.createClass({
 export const UserInfo = React.createClass({
   render: function () {
     return (
-      <div>
-        <h1>{this.props.data.name}</h1>
+      <div className="profile-content">
+        <h3>{this.props.data.name}</h3>
+        <img src="../images/iu1f7brY.png" className="img-circle" />
         <p><a>logout</a></p>
-        <img src="../images/iu1f7brY.png" />
       </div>
     )
   }
@@ -172,7 +178,7 @@ export const UserInfo = React.createClass({
 export const DriverBox = React.createClass({
   render: function () {
     return (
-      <div>
+      <div className="drives-content">
         <h3>Drives</h3>
         <DriverTrips trips={test.trips} />
       </div>
@@ -192,7 +198,7 @@ export const DriverTrips = React.createClass({
        }
      })
     return (
-      <div>
+      <div className="trips-content">
         {trips}
       </div>
     )
@@ -227,10 +233,10 @@ export const TripAsDriver = React.createClass({
     if (!this.state.eventful) { var city = null } else { var city = this.state.eventful.city }
     if (!this.state.eventful) { var region_abbr = null } else { var region_abbr = this.state.eventful.region_abbr }
     return (
-      <div>
+      <div className="trip">
         <h4>{title}</h4>
-        <h4>{start_time}, {venue_name}, {city}, {region_abbr}</h4>
-        <p>Departure Time: {this.props.data.startTime}</p>
+        <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/>
+          Departure Time: {this.props.data.startTime}</p>
         <TripAsDriverList users={this.props.data.users} />
       </div>
     )
@@ -247,9 +253,9 @@ export const TripAsDriverList = React.createClass({
       }
     })
     return (
-      <div>
+      <ul className="passenger-content">
         {users}
-      </div>
+      </ul>
     )
   }
 })
@@ -305,22 +311,22 @@ export const User = React.createClass({
   render: function () {
     if (this.props.data.role === 'Unconfirmed') {
       return (
-        <div>
+        <li>
           <p>
             {this.props.data.name} -
             <span onClick={this.toggleStatus}> {this.state.status}</span>
           </p>
-        </div>
+        </li>
       )
     }
     if (this.props.data.role === 'Passenger') {
       return (
-        <div>
+        <li>
           <p>
             {this.props.data.name} -
             <span onClick={this.toggleStatus}> {this.state.status}</span>
           </p>
-        </div>
+        </li>
       )
     }
     return (
@@ -333,8 +339,8 @@ export const User = React.createClass({
 export const RiderBox = React.createClass({
   render: function () {
     return (
-      <div>
-        <h2>Rides</h2>
+      <div className="rides-content">
+        <h3>Rides</h3>
         <RiderTrips trips={test.trips} />
       </div>
     )
@@ -388,10 +394,10 @@ export const TripAsRider = React.createClass({
     if (!this.state.eventful) { var city = null } else { var city = this.state.eventful.city }
     if (!this.state.eventful) { var region_abbr = null } else { var region_abbr = this.state.eventful.region_abbr }
     return (
-      <div>
+      <div className="trip">
         <h4>{title}</h4>
-        <h4>{start_time}, {venue_name}, {city}, {region_abbr}</h4>
-        <p>Departure Time: {this.props.data.startTime}</p>
+        <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/>
+          Departure Time: {this.props.data.startTime}</p>
         <TripAsRiderList users={this.props.data.users} />
       </div>
     )
@@ -406,9 +412,9 @@ export const TripAsRiderList = React.createClass({
       )
     })
     return (
-      <div>
+      <ul className="passenger-content">
         {users}
-      </div>
+      </ul>
     )
   }
 })
