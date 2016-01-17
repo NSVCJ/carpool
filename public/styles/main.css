@@ -50,6 +50,20 @@
   height: 150px;
 }
 
+
+/* Sign In Forms */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/* Rider Request Page */
+.rider-request-form .btn-block {
+  margin-top: 10px;
+}
+
+
 /* Event Search Page */
 .event-box h2{
   font-size: 40px;
