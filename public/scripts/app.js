@@ -12,40 +12,78 @@ import { EventfulAPIKey } from './config';
 var EventfulAPI = 'http://api.eventful.com/json/events/search?app_key=' + EventfulAPIKey;
 
 const App = React.createClass({
+  logout: function() {
+    delete localStorage.id;
+    delete localStorage.name;
+    delete localStorage.email;
+    delete localStorage.phone;
+    delete localStorage.token;
+  },
   render: function() {
-    return (
-      <div>
-        <nav className="navbar navbar-inverse">
-          <div className="container">
-            <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-              <div className="logo">
-                <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=50&h=50" />
-              </div>              
-              <a className="navbar-brand" href="#">EventPool</a>
+    // LOGGED OUT VIEW
+    if (!localStorage.token) {
+      return (
+        <div>
+          <nav className="navbar navbar-inverse">
+            <div className="container">
+              <div className="navbar-header">
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+                <div className="logo">
+                  <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=50&h=50" />
+                </div>
+                <a className="navbar-brand" href="#">EventPool</a>
+              </div>
+              <div id="navbar" className="navbar-collapse collapse">
+                <ul className="nav navbar-nav navbar-right">
+                  <li><Link to="/signin">Sign In</Link></li>
+                  <li><Link to="/signup">Sign Up</Link></li>
+                </ul>
+              </div>
             </div>
-            <div id="navbar" className="navbar-collapse collapse">
-              <ul className="nav navbar-nav navbar-right">
-                <li><a href="#">Sign Up</a></li>
-                <li><a href="#">Log In</a></li>
-                <li><Link to="/profile">profile</Link></li>
-                <li><Link to="/request">request</Link></li>
-                <li><Link to="/signin">signin</Link></li>
-                <li><Link to="/signup">signup</Link></li>
-              </ul>
-            </div>
+          </nav>
+          <div className="event-view">
+            {this.props.children}
           </div>
-        </nav>
-        <div className="event-view">
-          {this.props.children}
         </div>
-      </div>
-    );
+      );
+    }
+    // LOGGED IN VIEW
+    if (localStorage.token) {
+      return (
+        <div>
+          <nav className="navbar navbar-inverse">
+            <div className="container">
+              <div className="navbar-header">
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+                <div className="logo">
+                  <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=50&h=50" />
+                </div>
+                <a className="navbar-brand" href="#">EventPool</a>
+              </div>
+              <div id="navbar" className="navbar-collapse collapse">
+                <ul className="nav navbar-nav navbar-right">
+                  <li><Link to="/profile">My Trips</Link></li>
+                  <li><Link to="/" onClick={this.logout}>Sign Out</Link></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <div className="event-view">
+            {this.props.children}
+          </div>
+        </div>
+      )
+    }
   }
 });
 
