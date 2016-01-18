@@ -132,7 +132,7 @@
   margin-top:   0;
 }
 .event .event-btns{
-  margin-top: 20px;  
+  margin-top: 20px;
 }
 .event .driver-btn{
   margin-right: 15px;
@@ -161,4 +161,8 @@
 }
 .rider-content .driver .search-box{
   text-align: center;
+}
+
+.passenger-content .rider-list {
+  margin-bottom: 10px;
 }

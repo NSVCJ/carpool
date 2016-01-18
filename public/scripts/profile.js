@@ -277,12 +277,12 @@ export const TripAsDriver = React.createClass({
     if (!this.state.eventful) { var venue_name = null } else { var venue_name = this.state.eventful.venue_name }
     if (!this.state.eventful) { var city = null } else { var city = this.state.eventful.city }
     if (!this.state.eventful) { var region_abbr = null } else { var region_abbr = this.state.eventful.region_abbr }
+    // Departure Time: {this.props.data.startTime}
     return (
       <div className="trip">
         <h4>{title}</h4>
-        <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/>
-          Departure Time: {this.props.data.startTime}</p>
-        <TripAsDriverList users={this.props.data.users} data ={this.props.data}/>
+        <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/></p>
+        <TripAsDriverList users={this.props.data.users} />
       </div>
     )
   }
@@ -299,7 +299,7 @@ export const TripAsDriverList = React.createClass({
       )
     })
     return (
-      <ul className="passenger-content">
+      <ul className="passenger-content list-unstyled">
         {users}
       </ul>
     )
@@ -365,18 +365,24 @@ export const User = React.createClass({
     }
   },
   render: function () {
-    return (
-      <li>
-        <div className="row">
-          <div className="col-md-6">
-            {this.props.user.name}
+    if (this.props.data.role === 'Unconfirmed') {
+      return (
+        <li className="rider-list">
+          <div className="row">
+            <div className="col-md-6">
+              {this.props.data.name}
+            </div>
+            <div className="col-md-6">
+              <span onClick={this.toggleStatus}>
+                <input className="btn btn-primary" type="submit" value={this.state.status} />
+              </span>
+            </div>
           </div>
           <div className="col-md-6">
             <span onClick={this.toggleStatus}>
-              <input className="btn" type="submit" value={this.state.status} />
+              <input className="btn btn-primary" type="submit" value={this.state.status} />
             </span>
           </div>
-        </div>
       </li>
     )
   }
@@ -469,11 +475,11 @@ export const TripAsRider = React.createClass({
     if (!this.state.eventful) { var venue_name = null } else { var venue_name = this.state.eventful.venue_name }
     if (!this.state.eventful) { var city = null } else { var city = this.state.eventful.city }
     if (!this.state.eventful) { var region_abbr = null } else { var region_abbr = this.state.eventful.region_abbr }
+    // Departure Time: {moment(this.props.data.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}</p>
     return (
       <div className="trip">
         <h4>{title}</h4>
-        <p>{moment(start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {venue_name}, {city}, {region_abbr}<br/>
-          Departure Time: {moment(this.props.data.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}</p>
+        <p>{moment(start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {venue_name}, {city}, {region_abbr}<br/></p>
         <TripAsRiderList users={this.props.data} />
       </div>
     )

@@ -154,7 +154,7 @@ export const DriverInfo = React.createClass({
   render: function() {
     return (
       <div className="driver col-md-4">
-        <div className="profilePicture"><img src="../images/iu1f7brY.png" className="img-circle"/></div>
+        <div className="profilePicture"><img src="../images/ricky.png" className="img-circle"/></div>
         <h4 className="name">{this.props.name}</h4>
         <div className="price">Flat Fare ${this.props.price}</div>
         <div className="startLocation">Start Location: {this.props.startLocation}</div>
