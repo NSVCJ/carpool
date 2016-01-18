@@ -114,7 +114,8 @@ export const DriverForm = React.createClass({
       },
       "trip": {
         "price": rate,
-        "startLocation": startLocation,
+        "startTime" : startTime,
+        "startLocation": startLocation
       }
     }));
     this.setState({name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });

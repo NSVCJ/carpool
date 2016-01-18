@@ -23,6 +23,7 @@ var User = sequelize.define("User", {
 
 var Trip = sequelize.define("Trip", {
   price: Sequelize.DECIMAL(7,2),
+  startTime: Sequelize.DATE(),
   eventfulId: Sequelize.STRING
 });
 
