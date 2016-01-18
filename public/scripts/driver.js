@@ -102,7 +102,8 @@ export const DriverForm = React.createClass({
     var startTime = this.state.startTime.trim();
     var startLocation = this.state.startLocation.trim();
     var rate = this.state.rate.trim();
-    if (!name || !email || !phone || !startTime || !startLocation || !rate ) {
+    // removed check for unused fields - startTime not being handled on db-side
+    if ( !startLocation || !rate ) {
       return;
     }
     this.props.onInfoSubmit(JSON.stringify({
@@ -114,7 +115,7 @@ export const DriverForm = React.createClass({
       },
       "trip": {
         "price": rate,
-        "startTime" : startTime,
+        "startTime": startTime,
         "startLocation": startLocation
       }
     }));
