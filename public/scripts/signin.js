@@ -49,7 +49,7 @@ export const SignInForm = React.createClass({
         <br /><br />
         <div className="form-group">
           <div className="col-sm-12">
-            <input className="btn-lg btn-primary" type="submit" value="Sign In" />
+            <Link to="/profile" ><input className="btn-lg btn-primary" type="submit" value="Sign In" /></Link>
           </div>
         </div>
 
@@ -59,6 +59,9 @@ export const SignInForm = React.createClass({
 });
 
 export const SignInBox = React.createClass({
+  componentWillMount: function () {
+    this.forceUpdate();
+  },
   noResults: function() {
     console.log('no results');
   },
