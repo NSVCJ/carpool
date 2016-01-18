@@ -282,7 +282,7 @@ export const TripAsDriver = React.createClass({
         <h4>{title}</h4>
         <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/>
           Departure Time: {this.props.data.startTime}</p>
-        <TripAsDriverList users={this.props.data.users} />
+        <TripAsDriverList users={this.props.data.users} data ={this.props.data}/>
       </div>
     )
   }
@@ -290,9 +290,12 @@ export const TripAsDriver = React.createClass({
 
 export const TripAsDriverList = React.createClass({
   render: function () {
+    var that = this;
+    console.log("This outside callback", that);
     var users = this.props.users.map(function (user) {
+      console.log("Props in TripAsDriverList", that.props);
       return (
-        <User key={user.id} data={user} />
+        <User key={user.id} user={user} data={that.props.data} />
       )
     })
     return (
@@ -306,45 +309,55 @@ export const TripAsDriverList = React.createClass({
 export const User = React.createClass({
   getInitialState: function () {
     return {
-      status: this.props.data.role
+      status: this.props.user.role
     };
   },
   toggleStatus: function () {
+    var that = this;
+    console.log("Do we have props in toggle???", this.props)
     if (this.state.status === 'Unconfirmed') {
       // $.ajax({
-      //   url: EventfulAPI +
-      //     '&location=' + query.location +
-      //     '&keywords=' + query.keywords,
-      //   method: 'GET',
+      //   url: '/api/driverProfile',
+      //   method: 'PUT',
       //   dataType: 'jsonp',
+      //   data: {
+      //     "TripId": that.props.data.TripId,
+      //     "UserId": that.props.user.id
+      //   },
       //   success: function(data) {
-      //     if (!data.events) {
-      //       this.noResults()
-      //     } else {
-      //       this.setState({data: data.events.event});
-      //     }
+      //     console.log("Toggle WORKSSSSSS", data)
+      //     // data = JSON.parse(data)
+      //     this.setState({status: 'Rider'})
       //   }.bind(this),
       //   error: function(err) {
+      //     console.log("Toggle Failssssss");
+      //     // var data =JSON.parse(err.responseText)
+      //     // console.log("What is the state", data.trips)
+      //     this.setState({status: 'Rider'})
       //     console.error(err);
       //   }.bind(this)
       // })
-      this.setState({status: 'Passenger'})
+      this.setState({status: 'Rider'})
     }
-    if (this.state.status === 'Passenger') {
+    if (this.state.status === 'Rider') {
       // $.ajax({
-      //   url: EventfulAPI +
-      //     '&location=' + query.location +
-      //     '&keywords=' + query.keywords,
-      //   method: 'GET',
+      //   url: '/api/driverProfile',
+      //   method: 'PUT',
       //   dataType: 'jsonp',
+      //   data: {
+      //     "TripId": that.props.data.TripId,
+      //     "UserId": that.props.user.id
+      //   },
       //   success: function(data) {
-      //     if (!data.events) {
-      //       this.noResults()
-      //     } else {
-      //       this.setState({data: data.events.event});
-      //     }
+      //     console.log("Toggle WORKSSSSSS", data)
+      //     // data = JSON.parse(data)
+      //     this.setState({status: 'Unconfirmed'})
       //   }.bind(this),
       //   error: function(err) {
+      //     console.log("Toggle Failssssss");
+      //     // var data =JSON.parse(err.responseText)
+      //     // console.log("What is the state", data.trips)
+      //     this.setState({status: 'Unconfirmed'})
       //     console.error(err);
       //   }.bind(this)
       // })
@@ -352,37 +365,19 @@ export const User = React.createClass({
     }
   },
   render: function () {
-    if (this.props.data.role === 'Unconfirmed') {
-      return (
-        <li>
-          <div className="row">
-            <div className="col-md-6">
-              {this.props.data.name}
-            </div>
-            <div className="col-md-6">
-              <span onClick={this.toggleStatus}>
-                <input className="btn" type="submit" value={this.state.status} />
-              </span>
-            </div>
+    return (
+      <li>
+        <div className="row">
+          <div className="col-md-6">
+            {this.props.user.name}
           </div>
-        </li>
-      )
-    }
-    if (this.props.data.role === 'Passenger') {
-      return (
-        <li>
-          <span>
-            {this.props.data.name}
+          <div className="col-md-6">
             <span onClick={this.toggleStatus}>
               <input className="btn" type="submit" value={this.state.status} />
             </span>
-          </span>
-        </li>
-      )
-    }
-    return (
-      <div>
-      </div>
+          </div>
+        </div>
+      </li>
     )
   }
 })
