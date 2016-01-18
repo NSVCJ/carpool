@@ -86,14 +86,9 @@ export const SignUpBox = React.createClass({
   handleQuerySubmit: function(query) {
     $.ajax({
       url: '/signup',
-      method: 'POST',
-      dataType: 'jsonp',
-      data: {
-        name: query.name,
-        email: query.email,
-        password: query.password,
-        phone: query.phone
-      },
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(query),
       success: function(data) {
           this.setState({data: data.event});
           console.log("posted successfully")
