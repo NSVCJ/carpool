@@ -38,16 +38,17 @@ exports.riderUnconfirmedFormat = function(riderInfo, driverInfo, callback) {
   callback(riderUnconfirmedArr);
 }
 
-exports.driverProfileFormat = function(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo) {
+exports.driverProfileFormat = function(driverInfo, userInfo) {
   var driverProfileArr = [];
   _.each(driverInfo, function(trip, index){
     var driverProfileObj = {};
     driverProfileObj.TripId = trip.TripId;
     driverProfileObj.eventfulId = trip.eventfulId;
+    driverProfileObj.startTime = trip.startTime;
     driverProfileObj.startLocation = trip.startLocation;
-    var pending = riderUnconfirmedInfo[index];
-    driverProfileObj.unconfirmedRiders = riderUnconfirmedInfo[index];
-    driverProfileObj.confirmedRiders = riderConfirmedInfo[index];
+    // var pending = riderUnconfirmedInfo[index];
+    driverProfileObj.users = userInfo[index];
+    // driverProfileObj.confirmedRiders = riderConfirmedInfo[index];
     driverProfileArr.push(driverProfileObj);
   });
   return driverProfileArr;

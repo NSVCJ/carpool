@@ -41,33 +41,33 @@ module.exports = models = {
     get: function(callback, params) {
       //Get all trips where logged-in user is driving.
       db.sequelize.query(
-        "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
+        "select TripUsers.TripId, TripUsers.startLocation, Trips.startTime, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Driver' AND TripUsers.TripId = Trips.id",
       {type: db.sequelize.QueryTypes.SELECT})
       .then(function(driverInfo){
         var queries = [];
         _.map(driverInfo, function(trip) {
           queries.push(
             db.sequelize.query(
-              "select Users.id, Users.name, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.UserId = Users.id",
+              "select Users.id, Users.name, Users.role, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role <> 'Driver' AND TripUsers.UserId = Users.id",
             {type: db.sequelize.QueryTypes.SELECT})
           )
         })
-        Promise.all(queries)
-        .then(function(riderUnconfirmedInfo){
-          var queries = [];
-          _.map(driverInfo, function(trip) {
-            queries.push(
-              db.sequelize.query(
-                "select Users.name, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.role = 'Rider' AND TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.UserId = Users.id",
-              {type: db.sequelize.QueryTypes.SELECT})
-            )
-          })
+        // Promise.all(queries)
+        // .then(function(riderUnconfirmedInfo){
+        //   var queries = [];
+        //   _.map(driverInfo, function(trip) {
+        //     queries.push(
+        //       db.sequelize.query(
+        //         "select Users.name, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.role = 'Rider' AND TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.UserId = Users.id",
+        //       {type: db.sequelize.QueryTypes.SELECT})
+        //     )
+        //   })
           Promise.all(queries)
-          .then(function(riderConfirmedInfo) {
+          .then(function(riderInfo) {
             console.log("What is our callback", callback);
-            callback(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo);
+            callback(driverInfo, riderInfo);
           })
-        })
+        // })
       })
     },
     put: utils.toggleConfirm,
@@ -121,6 +121,7 @@ module.exports = models = {
       // }).then(function(user) {
         db.Trip.create( {
           price: data.trip.price,
+          startTime: data.trip.startTime,
           eventfulId: data.event.id
         }).then(function(trip) {
           tripUser = db.TripUser.create( {

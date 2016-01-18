@@ -163,6 +163,7 @@ export const Profile = React.createClass({
   }
 })
 
+//Get this from localStorage
 export const UserInfo = React.createClass({
   render: function () {
     return (
@@ -174,6 +175,7 @@ export const UserInfo = React.createClass({
   }
 })
 
+// Plug in own props instead of test.trips
 export const DriverBox = React.createClass({
   render: function () {
     return (
@@ -185,22 +187,63 @@ export const DriverBox = React.createClass({
   }
 })
 
+//Do ajax call before component mounts
 export const DriverTrips = React.createClass({
+  getInitialState: function() {
+    return {
+      trips: []
+    };
+  },
+
+  componentWillMount: function() {
+    $.ajax({
+      url: '/api/driverProfile?UserId=' + localStorage.id,
+      method: 'GET',
+      dataType: 'jsonp',
+      success: function(data) {
+        console.log("OMG it works", data)
+        data = JSON.parse(data)
+        this.setState({
+          trips: data.trips
+        })
+      }.bind(this),
+      error: function(err) {
+        console.log("Now there's a problem");
+        var data =JSON.parse(err.responseText)
+        console.log("What is the state", data.trips)
+        this.setState({
+          trips: data.trips
+        });
+        console.error(err);
+      }.bind(this)
+    })
+  },
+
   render: function () {
-     var trips = this.props.trips.map(function (trip) {
-       for (var i = 0; i < trip.users.length; i++) {
-         if (trip.users[i].id === user.id && trip.users[i].role === "Driver") {
-           return (
-             <TripAsDriver key={trip.eventfulId} data={trip} eventfulId={trip.eventfulId} />
-           )
-         }
-       }
-     })
-    return (
-      <div className="trips-content">
+    console.log("Now I'm rendering");
+    console.log("Do we have a state?", this.state.trips);
+    if (this.state) {
+      var trips = this.state.trips.map(function (trip) {
+        for (var i = 0; i < trip.users.length; i++) {
+          if (trip.users[i].id === user.id && trip.users[i].role === "Driver") {
+            return (
+              <TripAsDriver key={trip.eventfulId} data={trip} eventfulId={trip.eventfulId} />
+            )
+          }
+        }
+      })
+      return (
+        <div className="trips-content">
         {trips}
-      </div>
-    )
+        </div>
+      )
+    } else {
+      return (
+        <div className="trips-content">
+        It broked.
+        </div>
+      )
+    }
   }
 })
 
