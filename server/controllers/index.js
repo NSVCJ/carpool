@@ -32,7 +32,7 @@ module.exports = {
   driverProfile:{
     get: function (req, res) {
       console.log('inside controllers driverProfile get');
-      models.driverProfile.get(function(driverInfo, riderConfirmedInfo, riderUnconfirmedInfo){
+      models.driverProfile.get(function(driverInfo, userInfo){
         var driverProfileInfo = utils.driverProfileFormat(driverInfo, userInfo);
         console.log("What is driverProfileInfo", driverProfileInfo);
         res.send({"trips": driverProfileInfo});

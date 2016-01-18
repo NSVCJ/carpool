@@ -20,7 +20,7 @@ module.exports = models = {
   },
   checkAuth:{
     get: function(){},
-    post: function(callback, parmas){
+    post: function(callback, params){
       console.log('inside models checkAuth post');
       signHelper.findUser(callback, params);
     }

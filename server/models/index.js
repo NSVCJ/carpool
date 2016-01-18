@@ -48,7 +48,7 @@ module.exports = models = {
         _.map(driverInfo, function(trip) {
           queries.push(
             db.sequelize.query(
-              "select Users.id, Users.name, Users.role, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role <> 'Driver' AND TripUsers.UserId = Users.id",
+              "select Users.id, Users.name, TripUsers.role, Users.email, Users.phone, Users.profilePicture, Users.rating, TripUsers.startLocation AS 'pickupLocation' from Users, TripUsers where TripUsers.TripId = '"+trip.TripId+"' AND TripUsers.role <> 'Driver' AND TripUsers.UserId = Users.id",
             {type: db.sequelize.QueryTypes.SELECT})
           )
         })
@@ -64,7 +64,8 @@ module.exports = models = {
         //   })
           Promise.all(queries)
           .then(function(riderInfo) {
-            console.log("What is our callback", callback);
+            console.log("What is our driverInfo", driverInfo);
+            console.log("What is our riderInfo", riderInfo);
             callback(driverInfo, riderInfo);
           })
         // })

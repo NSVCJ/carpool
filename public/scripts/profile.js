@@ -225,11 +225,9 @@ export const DriverTrips = React.createClass({
     if (this.state) {
       var trips = this.state.trips.map(function (trip) {
         for (var i = 0; i < trip.users.length; i++) {
-          if (trip.users[i].id === user.id && trip.users[i].role === "Driver") {
-            return (
-              <TripAsDriver key={trip.eventfulId} data={trip} eventfulId={trip.eventfulId} />
-            )
-          }
+          return (
+            <TripAsDriver key={trip.eventfulId} data={trip} eventfulId={trip.eventfulId} />
+          )
         }
       })
       return (
