@@ -32,32 +32,48 @@ export const SignUpForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="sign-up-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="name"
-          value={this.state.name}
-          onChange={this.handleNameChange}
-        />
-       <input
-          type="text"
-          placeholder="email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-        />
-       <input
-          type="text"
-          placeholder="password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-        />
-        <input
-          type="text"
-          placeholder="phone"
-          value={this.state.phone}
-          onChange={this.handlePhoneChange}
-        />
-        <input type="submit" value="Sign Up" />
+      <form className="sign-up-form form-signin" onSubmit={this.handleSubmit}>
+        <h3 className="form-signin-heading">Sign Up</h3>
+        <div className="form-group">
+          <label className="sr-only">Name</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="Name"
+            value={this.state.name}
+            onChange={this.handleNameChange}
+            autoFocus />
+        </div>
+        <div className="form-group">
+          <label className="sr-only">Email</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleEmailChange} />
+        </div>
+        <div className="form-group">
+          <label className="sr-only">Password</label>
+         <input
+            className="form-control"
+            type="text"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handlePasswordChange} />
+        </div>
+        <div className="form-group">
+          <label className="sr-only">Phone</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="Phone"
+            value={this.state.phone}
+            onChange={this.handlePhoneChange} />
+        </div>
+        <div className="form-group">
+          <input className="btn-lg btn-primary" type="submit" value="Sign Up" />
+        </div>
       </form>
     );
   }

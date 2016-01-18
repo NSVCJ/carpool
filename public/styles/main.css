@@ -49,9 +49,9 @@
 
 
 .jumbotron{
-  background: url("https://placeholdit.imgix.net/~text?txtsize=100&txt=banner%20image&w=1920&h=200");
+  background: url("../images/heroImage1920_246.png");
   background-size: cover;
-  height: 150px;
+  height: 175px;
 }
 
 
