@@ -165,11 +165,15 @@ export const Profile = React.createClass({
 
 //Get this from localStorage
 export const UserInfo = React.createClass({
+  var image = "../images/iu1f7brY.png"
+  if (localStorage.id !== 1) {
+    image = "../images/tomhardy.jpg";
+  }
   render: function () {
     return (
       <div className="profile-content">
         <h3>{this.props.data.name}</h3>
-        <img src="../images/iu1f7brY.png" className="img-circle" />
+        <img src={image} className="img-circle" />
       </div>
     )
   }
