@@ -25,7 +25,7 @@ const App = React.createClass({
       return (
         <div>
           <nav className="navbar navbar-inverse">
-            <div className="container">
+            <div className="container-fluid">
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                   <span className="sr-only">Toggle navigation</span>
@@ -34,7 +34,7 @@ const App = React.createClass({
                   <span className="icon-bar"></span>
                 </button>
                 <div className="logo">
-                  <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=50&h=50" />
+                  <img src="/images/EventPoolHeaderIcon.png" />
                 </div>
                 <a className="navbar-brand" href="#">EventPool</a>
               </div>
@@ -57,7 +57,7 @@ const App = React.createClass({
       return (
         <div>
           <nav className="navbar navbar-inverse">
-            <div className="container">
+            <div className="container-fluid">
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                   <span className="sr-only">Toggle navigation</span>
@@ -66,7 +66,7 @@ const App = React.createClass({
                   <span className="icon-bar"></span>
                 </button>
                 <div className="logo">
-                  <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=logo&w=50&h=50" />
+                  <img src="/images/EventPoolHeaderIcon.png" />
                 </div>
                 <a className="navbar-brand" href="#">EventPool</a>
               </div>
