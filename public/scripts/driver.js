@@ -133,7 +133,6 @@ export const DriverForm = React.createClass({
       },
       "trip": {
         "price": rate,
-        "startTime": startTime,
         "startLocation": startLocation
       }
     }));
@@ -151,10 +150,12 @@ export const DriverForm = React.createClass({
             <div className="form-group">
               <div className="">
                 <label className="sr-only">Start Time</label>
-                  <div className="input-group bootstrap-timepicker timepicker">
-                      <input id="timepicker1" type="text" className="form-control input-small" />
-                      <span className="input-group-addon"><i className="glyphicon glyphicon-time"></i></span>
-                  </div>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Start Time"
+                  value={this.state.startTime}
+                  onChange={this.handleStartTimeChange} />
               </div>
             </div>
             <div className="form-group">
