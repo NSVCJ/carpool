@@ -7,6 +7,7 @@ exports.riderConfirmedFormat = function(riderInfo, driverInfo, callback) {
     var driver = driverInfo[index][0];
     confirmedTrips.push({
       TripId: trip.TripId,
+      role: trip.role,
       pickupLocation: trip.startLocation,
       price: trip.price,
       eventfulId: trip.eventfulId,
@@ -26,6 +27,7 @@ exports.riderUnconfirmedFormat = function(riderInfo, driverInfo, callback) {
   _.each(riderInfo, function(trip, index){
     var riderUnconfirmedObj = {};
     riderUnconfirmedObj.TripId = trip.TripId;
+    riderUnconfirmedObj.role = trip.role;
     riderUnconfirmedObj.pickupLocation = trip.startLocation;
     riderUnconfirmedObj.price = trip.price;
     riderUnconfirmedObj.eventfulId = trip.eventfulId;
@@ -75,7 +77,7 @@ exports.toggleConfirm = function(callback, data) {
 
 exports.getConfirmedRiders = function(callback, params) {
   db.sequelize.query(
-    "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Rider' AND TripUsers.TripId = Trips.id",
+    "select TripUsers.TripId, TripUsers.startLocation, TripUsers.role, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Rider' AND TripUsers.TripId = Trips.id",
   {type: db.sequelize.QueryTypes.SELECT})
   .then(function(riderInfo){
     var queries = [];
@@ -93,7 +95,7 @@ exports.getConfirmedRiders = function(callback, params) {
 
 exports.getUnconfirmedRiders = function(callback, params) {
   db.sequelize.query(
-    "select TripUsers.TripId, TripUsers.startLocation, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.TripId = Trips.id",
+    "select TripUsers.TripId, TripUsers.startLocation, TripUsers.role, Trips.price, Trips.eventfulId from TripUsers, Trips where TripUsers.UserId = '"+params.UserId+"' AND TripUsers.role = 'Unconfirmed' AND TripUsers.TripId = Trips.id",
   {type: db.sequelize.QueryTypes.SELECT})
   .then(function(riderInfo){
     var queries = [];

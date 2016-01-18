@@ -13,7 +13,7 @@ exports.testDriverPosts = [
 },
 {
   "event": {
-    "id": "SingleDadMixer"
+    "id": "E0-001-088675509-3"
   },
   "trip": {
     "price": 1000.00,
@@ -25,7 +25,7 @@ exports.testDriverPosts = [
 },
 {
   "event": {
-    "id": "SingleDadMixer"
+    "id": "E0-001-088675509-3"
   },
   "trip": {
     "price": 0.02,
@@ -49,7 +49,7 @@ exports.testDriverPosts = [
 },
 {
   "event": {
-    "id": "HotDogEatingContest"
+    "id": "E0-001-089696908-4"
   },
   "trip": {
     "price": 30.00,
@@ -61,7 +61,7 @@ exports.testDriverPosts = [
 },
 {
   "event": {
-    "id": "LakersGame"
+    "id": "E0-001-085645831-5"
   },
   "trip": {
     "price": 30.00,

@@ -177,18 +177,6 @@ export const UserInfo = React.createClass({
 
 // Plug in own props instead of test.trips
 export const DriverBox = React.createClass({
-  render: function () {
-    return (
-      <div className="drives-content">
-        <h3>Drives</h3>
-        <DriverTrips trips={test.trips} />
-      </div>
-    )
-  }
-})
-
-//Do ajax call before component mounts
-export const DriverTrips = React.createClass({
   getInitialState: function() {
     return {
       trips: []
@@ -208,9 +196,9 @@ export const DriverTrips = React.createClass({
         })
       }.bind(this),
       error: function(err) {
-        console.log("Now there's a problem");
+        // console.log("Now there's a problem");
         var data =JSON.parse(err.responseText)
-        console.log("What is the state", data.trips)
+        // console.log("What is the state", data.trips)
         this.setState({
           trips: data.trips
         });
@@ -220,10 +208,23 @@ export const DriverTrips = React.createClass({
   },
 
   render: function () {
-    console.log("Now I'm rendering");
-    console.log("Do we have a state?", this.state.trips);
-    if (this.state) {
-      var trips = this.state.trips.map(function (trip) {
+    return (
+      <div className="drives-content">
+        <h3>Drives</h3>
+        <DriverTrips trips={this.state.trips} />
+      </div>
+    )
+  }
+})
+
+//Do ajax call before component mounts
+export const DriverTrips = React.createClass({
+
+  render: function () {
+    // console.log("Now I'm rendering");
+    // console.log("Do we have a state?", this.props.trips);
+    if (this.props.trips) {
+      var trips = this.props.trips.map(function (trip) {
         for (var i = 0; i < trip.users.length; i++) {
           return (
             <TripAsDriver key={trip.eventfulId} data={trip} eventfulId={trip.eventfulId} />
@@ -286,11 +287,9 @@ export const TripAsDriver = React.createClass({
 export const TripAsDriverList = React.createClass({
   render: function () {
     var users = this.props.users.map(function (user) {
-      if (user.role !== 'Driver') {
-        return (
-          <User key={user.id} data={user} />
-        )
-      }
+      return (
+        <User key={user.id} data={user} />
+      )
     })
     return (
       <ul className="passenger-content">
@@ -377,11 +376,45 @@ export const User = React.createClass({
 })
 
 export const RiderBox = React.createClass({
+  getInitialState: function() {
+    return {
+      confirmed: [],
+      unconfirmed: []
+    };
+  },
+
+  componentWillMount: function() {
+    $.ajax({
+      url: '/api/riderProfile?UserId=' + localStorage.id,
+      method: 'GET',
+      dataType: 'jsonp',
+      success: function(data) {
+        console.log("OMG it works", data)
+        data = JSON.parse(data)
+        this.setState({
+          confirmed: data.confirmed,
+          unconfirmed: data.unconfirmed
+        })
+      }.bind(this),
+      error: function(err) {
+        console.log("Now there's a problem");
+        var data =JSON.parse(err.responseText)
+        console.log("What is the state", data)
+        this.setState({
+          confirmed: data.confirmed,
+          unconfirmed: data.unconfirmed
+        });
+        console.error(err);
+      }.bind(this)
+    })
+  },
+
   render: function () {
     return (
       <div className="rides-content">
         <h3>Rides</h3>
-        <RiderTrips trips={test.trips} />
+        <RiderTrips trips={this.state.confirmed} />
+        <RiderTrips trips={this.state.unconfirmed} />
       </div>
     )
   }
@@ -390,13 +423,9 @@ export const RiderBox = React.createClass({
 export const RiderTrips = React.createClass({
   render: function () {
      var trips = this.props.trips.map(function (trip) {
-       for (var i = 0; i < trip.users.length; i++) {
-         if (trip.users[i].id === user.id && trip.users[i].role === "Passenger") {
-           return (
-             <TripAsRider key={trip.eventfulId} data={trip} eventfulId={trip.eventfulId} />
-           )
-         }
-       }
+       return (
+         <TripAsRider key={trip.TripId} data={trip} eventfulId={trip.eventfulId} />
+       )
      })
     return (
       <div>
@@ -438,7 +467,7 @@ export const TripAsRider = React.createClass({
         <h4>{title}</h4>
         <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/>
           Departure Time: {this.props.data.startTime}</p>
-        <TripAsRiderList users={this.props.data.users} />
+        <TripAsRiderList users={this.props.data} />
       </div>
     )
   }
@@ -446,14 +475,68 @@ export const TripAsRider = React.createClass({
 
 export const TripAsRiderList = React.createClass({
   render: function () {
-    var users = this.props.users.map(function (user) {
-      return (
-        <User key={user.id} data={user} />
-      )
-    })
+    console.log("Show me the props", this.props);
+    var riderBlock;
+    if (this.props.users.role === "Unconfirmed") {
+      riderBlock = <UnconfirmedRider key={this.props.users.Tripid} data={this.props.users}/>
+    } else if (this.props.users.role === "Rider") {
+      riderBlock = <ConfirmedRider key={this.props.users.Tripid} data={this.props.users} />
+    }
     return (
       <ul className="passenger-content">
-        {users}
+        {riderBlock}
+      </ul>
+    )
+  }
+})
+
+export const ConfirmedRider = React.createClass({
+  render: function() {
+    return (
+      <ul>
+        <li>
+          <p>
+            You are confirmed to ride!
+          </p>
+        </li>
+        <li>
+          <p>
+            Pickup Location: {this.props.data.pickupLocation}
+          </p>
+        </li>
+        <li>
+          <p>
+            Driver: {this.props.data.driverName}
+          </p>
+        </li>
+        <li>
+          <p>
+            Contact Info
+          </p>
+          <ul>
+            <li> {this.props.data.driverEmail} </li>
+            <li> {this.props.data.driverPhone} </li>
+          </ul>
+        </li>
+      </ul>
+    )
+  }
+})
+
+export const UnconfirmedRider = React.createClass({
+  render: function() {
+    return (
+      <ul>
+        <li>
+          <p>
+            You are not confirmed to ride yet.
+          </p>
+        </li>
+        <li>
+          <p>
+            Driver: {this.props.data.driverName}
+          </p>
+        </li>
       </ul>
     )
   }
