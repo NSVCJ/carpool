@@ -8,7 +8,7 @@ exports.testDriverPosts = [
     "startLocation": "1600 Pennsylvania Ave NW, Washington, DC 20500"
   },
   "user" : {
-    "id" : 1
+    "id" : 4
   }
 },
 {
