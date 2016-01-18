@@ -24,35 +24,30 @@ export const SignInForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="sign-in-form" onSubmit={this.handleSubmit}>
+      <form className="sign-in-form form-signin" onSubmit={this.handleSubmit}>
+        <h3 className="form-signin-heading">Sign In</h3>
         <div className="form-group">
-          <div className="col-sm-12">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="email"
-              value={this.state.email}
-              onChange={this.handleEmailChange} />
-          </div>
+          <label className="sr-only">Email</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleEmailChange}
+            autoFocus />
         </div>
-        <br /><br />
         <div className="form-group">
-          <div className="col-sm-12">
-            <input
-              className="form-control"
-              type="password"
-              placeholder="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange} />
-          </div>
+          <label className="sr-only">Password</label>
+          <input
+            className="form-control"
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handlePasswordChange} />
         </div>
-        <br /><br />
         <div className="form-group">
-          <div className="col-sm-12">
-            <Link to="/profile" ><input className="btn-lg btn-primary" type="submit" value="Sign In" /></Link>
-          </div>
+          <Link to="/profile" ><input className="btn-lg btn-primary" type="submit" value="Sign In" /></Link>
         </div>
-
       </form>
     );
   }
