@@ -351,20 +351,28 @@ export const User = React.createClass({
     if (this.props.data.role === 'Unconfirmed') {
       return (
         <li>
-          <p>
-            {this.props.data.name} -
-            <span onClick={this.toggleStatus}> {this.state.status}</span>
-          </p>
+          <div className="row">
+            <div className="col-md-6">
+              {this.props.data.name}
+            </div>
+            <div className="col-md-6">
+              <span onClick={this.toggleStatus}>
+                <input className="btn" type="submit" value={this.state.status} />
+              </span>
+            </div>
+          </div>
         </li>
       )
     }
     if (this.props.data.role === 'Passenger') {
       return (
         <li>
-          <p>
-            {this.props.data.name} -
-            <span onClick={this.toggleStatus}> {this.state.status}</span>
-          </p>
+          <span>
+            {this.props.data.name}
+            <span onClick={this.toggleStatus}>
+              <input className="btn" type="submit" value={this.state.status} />
+            </span>
+          </span>
         </li>
       )
     }
@@ -465,8 +473,8 @@ export const TripAsRider = React.createClass({
     return (
       <div className="trip">
         <h4>{title}</h4>
-        <p>{start_time}, {venue_name}, {city}, {region_abbr}<br/>
-          Departure Time: {this.props.data.startTime}</p>
+        <p>{moment(start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {venue_name}, {city}, {region_abbr}<br/>
+          Departure Time: {moment(this.props.data.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}</p>
         <TripAsRiderList users={this.props.data} />
       </div>
     )
@@ -483,7 +491,7 @@ export const TripAsRiderList = React.createClass({
       riderBlock = <ConfirmedRider key={this.props.users.Tripid} data={this.props.users} />
     }
     return (
-      <ul className="passenger-content">
+      <ul className="passenger-content list-unstyled">
         {riderBlock}
       </ul>
     )
