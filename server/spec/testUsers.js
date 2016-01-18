@@ -37,7 +37,7 @@ exports.testUsers = [
 {
 
     "name": "Sam Samerston",
-    "email": "tom@hardy.com",
+    "email": "sam@samerston.com",
     "phone": "208-208-3945",
     "password": "password"
 
