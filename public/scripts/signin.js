@@ -24,21 +24,43 @@ export const SignInForm = React.createClass({
   },
   render: function() {
     return (
+
+    <div>
       <form className="sign-in-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-        />
-       <input
-          type="text"
-          placeholder="password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-        />
-        <input type="submit" value="Sign In" />
+
+      <div className="">
+              <h3>Please Sign In</h3>
+      </div>
+
+       <div className="form-group">
+          <div className="">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="email"
+              value={this.state.email}
+              onChange={this.handleEmailChange}
+              autoFocus />
+          </div>
+        </div>
+
+       <div className="form-group">
+          <div className="">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="password"
+              value={this.state.password}
+              onChange={this.handlePasswordChange}
+              autoFocus />
+          </div>
+        </div>
+
+          <div className="">
+            <input className="btn-lg btn-primary" type="submit" value="Sign In" />
+          </div>
       </form>
+    </div>
     );
   }
 });
