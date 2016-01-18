@@ -1,2 +1,3 @@
 var EventfulAPIKey = 'bMhbgh3kzp8mTZtC';
-export { EventfulAPIKey };
+var GoogleAPIKey = 'AIzaSyAbt0o_xmBFEAIF1UhCJsjXjYLLeiJLj2A';
+export { EventfulAPIKey, GoogleAPIKey };

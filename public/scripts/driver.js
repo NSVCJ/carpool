@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
+import { GoogleAPIKey } from './config';
 
 export const DriverBox = React.createClass({
   handleInfoSubmit: function(info) {
@@ -73,7 +74,24 @@ export const DriverForm = React.createClass({
     autocomplete.addListener('place_changed', function() {
       var place = autocomplete.getPlace();
       thiz.setState({startLocation: place.formatted_address});
-      console.log(place);
+      var directionsService = new google.maps.DirectionsService();
+      var directionsRequest = {
+        origin: place.formatted_address,
+        destination: EventDataCache.venue_address,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+      };
+      directionsService.route(
+        directionsRequest,
+        function(response, status)
+        {
+          if (status == google.maps.DirectionsStatus.OK) {
+            $('#travel-time').html('<p>Estimated travel time is ' + response.routes[0].legs[0].duration.text + '</p>');
+          }
+          else {
+            console.log('error');
+          }
+        }
+      );
     });
   },
   handleNameChange: function(e) {
@@ -124,6 +142,7 @@ export const DriverForm = React.createClass({
   render: function() {
     return (
       <div className="row">
+      <div id="travel-time"></div>
       <div id="driver-form "className="container">
         <form className="driver-form form-signin" onSubmit={this.handleSubmit}>
           <div className="form-group">
