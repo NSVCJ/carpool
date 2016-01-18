@@ -62,22 +62,22 @@ export const DriversList = React.createClass({
       );
     });
     return (
-      <div className="row driver-list">
-        <div className="event-info container">
-          <p>Event Details</p>
-          <div className="event-image-display">
+      <div className="rider-content">
+        <div className="event-info">
+          <h3>Event Details</h3>
+          <div className="event-image-display col-md-2">
             <img src={this.state.EventDataCache.image.medium.url} alt="" />
           </div>
-          <div className="event-info-description">
-            <h3>{this.state.EventDataCache.title}</h3>
+          <div className="event-info-description col-md-10">
+            <div className="event-title">{this.state.EventDataCache.title}</div>
             <p>
               {moment(this.state.EventDataCache.start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}<br />
               {this.state.EventDataCache.venue_name}<br />
-              {this.state.EventDataCache.venue_address} {this.state.EventDataCache.city_name}, {this.state.EventDataCache.region_abbr}
+              {this.state.EventDataCache.venue_address}, {this.state.EventDataCache.region_abbr}
             </p>
           </div>
         </div>
-        <h4>Rides to this event</h4>
+        <h3>Drivers to this event</h3>
         {driverNodes}
       </div>
     );
@@ -154,28 +154,24 @@ export const DriverInfo = React.createClass({
   render: function() {
     return (
       <div className="driver col-md-4">
-        <p>Driver Details</p>
+        <div className="profilePicture"><img src="../images/iu1f7brY.png" className="img-circle"/></div>
         <h4 className="name">{this.props.name}</h4>
-        <div className="rating">Rating {this.props.rating}</div>
-        <div className="profilePicture"><img src="../images/iu1f7brY.png" /></div>
         <div className="price">Flat Fare ${this.props.price}</div>
-        <div className="startLocation">Departing From {this.props.startLocation}</div>
-
-        <form className="search-box form-horizontal" onSubmit={this.handleSubmit}>
+        <div className="startLocation">Start Location: {this.props.startLocation}</div>
+        <div className="rating">Rating: {this.props.rating}</div>
+        <form className="search-box" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <div className="col-sm-12">
-              <input
-                className="form-control"
-                id="pickupLocation"
-                type="text"
-                placeholder="Pickup Location"
-                onChange={this.handlePickupLocationChange}
-                value={this.state.pickupLocation} />
-            </div>
+            <label className="sr-only">Pickup Location</label>
+            <input
+              className="form-control"
+              id="pickupLocation"
+              type="text"
+              placeholder="Pickup Location"
+              onChange={this.handlePickupLocationChange}
+              value={this.state.pickupLocation} />
           </div>
           <input className="btn btn-success" type="submit" value="Request to Join Ride" />
         </form>
-
       </div>
     );
   }

@@ -20,18 +20,20 @@
   border-radius: 5px;
   margin-bottom: 15px;
   overflow: auto;
+  padding: 0 0 10px 0;
+}
+.event-info h3{
+  background-color: #ddd;
+  margin: 0 0 10px 0;
   padding: 10px;
 }
 
 .event-image-display img{
-  float: left;
   margin-right: 10px;
 }
 
-.event-info-description{
-  float: left;
-}
-.event-info-description h3{
+.event-info-description .event-title{
+  font-size: 20px;
   margin: 0 0 5px 0;
 }
 
@@ -98,7 +100,7 @@
   padding: 15px;
 }
 .trip:nth-child(even){
-  background-color: rgba(192, 192, 192, 0.4);
+  background-color: rgba(192, 192, 192, 0.3);
 }
 .trip h4{
   margin: 0;
@@ -136,5 +138,27 @@
   margin-right: 15px;
 }
 .event:nth-child(even){
-  background-color: rgba(192, 192, 192, 0.4);
+  background-color: rgba(192, 192, 192, 0.3);
+}
+
+.rider-content .driver .profilePicture{
+  float: left;
+  margin-right: 10px;
+}
+.rider-content .driver .profilePicture img{
+  float: left;
+  height: 80px;
+  width: 80px;
+}
+.rider-content .driver .name,
+.rider-content .driver .price,
+.rider-content .driver .startLocation,
+.rider-content .driver .rating{
+  padding-left: 90px;
+}
+.rider-content .driver .rating{
+  margin-bottom: 10px;
+}
+.rider-content .driver .search-box{
+  text-align: center;
 }

@@ -45,11 +45,12 @@ export const EventInfo = React.createClass({
   render: function() {
     return (
       <div className="event-info">
-        <div className="event-image-display">
+        <h3>Event Details</h3>
+        <div className="event-image-display col-md-2">
           <img src={this.props.data.image.medium.url} alt="" />
         </div>
-        <div className="event-info-description">
-          <h3>{this.props.data.title}</h3>
+        <div className="event-info-description col-md-10">
+          <div className="event-title">{this.props.data.title}</div>
           <p>
             {moment(this.props.data.start_time, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}<br />
             {this.props.data.venue_name}<br />
@@ -120,83 +121,51 @@ export const DriverForm = React.createClass({
   },
   render: function() {
     return (
-      <div id="driver-form">
-        <form className="driver-form form-horizontal" onSubmit={this.handleSubmit}>
-          <div className="col-sm-6">
-            <div className="form-group">
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Name"
-                  value={this.state.name}
-                  onChange={this.handleNameChange} />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Email"
-                  value={this.state.email}
-                  onChange={this.handleEmailChange} />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Phone Number"
-                  value={this.state.phone}
-                  onChange={this.handlePhoneChange} />
-              </div>
+      <div className="row">
+      <div id="driver-form "className="container">
+        <form className="driver-form form-signin" onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <div className="">
+              <label className="sr-only">Start Time</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Start Time"
+                value={this.state.startTime}
+                onChange={this.handleStartTimeChange} />
             </div>
           </div>
-
-
-          <div className="col-sm-6">
-            <div className="form-group">
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Start Time"
-                  value={this.state.startTime}
-                  onChange={this.handleStartTimeChange} />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  size="100"
-                  id="location"
-                  type="text"
-                  placeholder="Start Location"
-                  value={this.state.startLocation}
-                  onChange={this.handleStartLocationChange} />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-sm-10">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Rate"
-                  value={this.state.rate}
-                  onChange={this.handleRateChange} />
-              </div>
+          <div className="form-group">
+            <div className="">
+              <label className="sr-only">Start Location</label>
+              <input
+                className="form-control"
+                size="100"
+                id="location"
+                type="text"
+                placeholder="Start Location"
+                value={this.state.startLocation}
+                onChange={this.handleStartLocationChange} />
             </div>
           </div>
-
+          <div className="form-group">
+            <div className="">
+              <label className="sr-only">Rate</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Rate"
+                value={this.state.rate}
+                onChange={this.handleRateChange} />
+            </div>
+          </div>
           <div className="form-group col-sm-12">
             <div className="col-sm-12">
-              <input className="btn btn-success" type="submit" value="Confirm Trip" />
+              <input className="btn btn-success btn-block" type="submit" value="Confirm Trip" />
             </div>
           </div>
         </form>
+      </div>
       </div>
     );
   }
