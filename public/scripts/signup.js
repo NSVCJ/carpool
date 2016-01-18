@@ -57,7 +57,7 @@ export const SignUpForm = React.createClass({
           <label className="sr-only">Password</label>
          <input
             className="form-control"
-            type="text"
+            type="password"
             placeholder="Password"
             value={this.state.password}
             onChange={this.handlePasswordChange} />
