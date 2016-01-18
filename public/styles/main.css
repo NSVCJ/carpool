@@ -1,0 +1,164 @@
+/* Bootstrap overrides */
+.form-group{
+  margin-bottom: 10px;
+}
+.navbar{
+  border-radius: 0;
+}
+.navbar-inverse .navbar-brand{
+  color: #fff;
+}
+.navbar .logo{
+  float: left;
+  margin-right: 10px;
+}
+
+
+/* Event Info box on Driver page */
+.event-info{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  overflow: auto;
+  padding: 0 0 10px 0;
+}
+.event-info h3{
+  background-color: #ddd;
+  margin: 0 0 10px 0;
+  padding: 10px;
+}
+
+.event-image-display img{
+  margin-right: 10px;
+}
+
+.event-info-description .event-title{
+  font-size: 20px;
+  margin: 0 0 5px 0;
+}
+
+
+.event-view .driver{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+.event-view h3{
+  margin: 0 0 5px 0;
+}
+
+
+.jumbotron{
+  background: url("../images/heroImage1920_246.png");
+  background-size: cover;
+  height: 175px;
+}
+
+
+/* Sign In Forms */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/* Rider Request Page */
+.rider-request-form .btn-block {
+  margin-top: 10px;
+}
+
+
+
+/* Event Search Page */
+.profile-content{
+  text-align: center;
+}
+.profile-content img{
+  margin: 0 auto 10px auto;
+  width: 100%;
+}
+
+.drives-content, .rides-content{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.drives-content h3, .rides-content h3{
+  height: 50px;
+  padding: 10px;
+  text-transform: uppercase;
+}
+.drives-content h3{
+  background: rgb(0, 204, 0);
+}
+.rides-content h3{
+  background: rgb(255, 153, 51);
+}
+
+
+.trip{
+  padding: 15px;
+}
+.trip:nth-child(even){
+  background-color: rgba(192, 192, 192, 0.3);
+}
+.trip h4{
+  margin: 0;
+}
+
+ /* Event Search Page */
+.event-box h2{
+  font-size: 40px;
+  margin: 0;
+}
+.event-search{
+  margin-bottom: 20px;
+}
+.event-list{
+  border-radius: 5px;
+}
+
+.event{
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 15px;
+}
+.event:last-child{
+  border-bottom: 1px solid #ccc;
+}
+
+.event h3{
+  margin-top:   0;
+}
+.event .event-btns{
+  margin-top: 20px;  
+}
+.event .driver-btn{
+  margin-right: 15px;
+}
+.event:nth-child(even){
+  background-color: rgba(192, 192, 192, 0.3);
+}
+
+.rider-content .driver .profilePicture{
+  float: left;
+  margin-right: 10px;
+}
+.rider-content .driver .profilePicture img{
+  float: left;
+  height: 80px;
+  width: 80px;
+}
+.rider-content .driver .name,
+.rider-content .driver .price,
+.rider-content .driver .startLocation,
+.rider-content .driver .rating{
+  padding-left: 90px;
+}
+.rider-content .driver .rating{
+  margin-bottom: 10px;
+}
+.rider-content .driver .search-box{
+  text-align: center;
+}

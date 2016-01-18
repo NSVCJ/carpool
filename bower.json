@@ -1,0 +1,21 @@
+{
+  "name": "carpool",
+  "homepage": "",
+  "authors": [],
+  "description": "carpool app",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "twbs/bootstrap#~3.3.6",
+    "jquery": "~2.2.0",
+    "moment": "~2.11.1"
+  }
+}

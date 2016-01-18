@@ -1,10 +1,9 @@
-var controllers = require('./controllers');
+var controllers = require('./controllers/signIndex.js');
 var router = require('express').Router();
 
 for (var route in controllers) {
   router.route("/" + route)
     .get(controllers[route].get)
-    .put(controllers[route].put)
     .post(controllers[route].post);
 }
 

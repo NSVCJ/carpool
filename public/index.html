@@ -2,16 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>carpool</title>
+    <title>EventPool</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script>var EventDataCache;</script>
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-timepicker/css/timepicker.css">
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <h1>carpool</h1>
-    <h2>Find people in your area who are going to the big game! Pictures of plants while you wait.</h2>
-    <script type="text/babel" src="scripts/app.js"></script>
-    <div id="content"></div>
-  </body>
-</html>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbt0o_xmBFEAIF1UhCJsjXjYLLeiJLj2A&libraries=places"></script>
+    <div class="container">
+      <div id="content"></div>
+      <script src="bundle.js"></script>
+    </div>
+  </body></html>
