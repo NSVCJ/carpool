@@ -117,46 +117,24 @@ const EventBox = React.createClass({
   },
 
   render: function() {
-    if (!localStorage.token) {
-      return (
-        <div>
-          <div className="jumbotron">
-            <div className="container"></div>
-          </div>
-          <div className="event-box">
-            <div className="row">
-              <div className="col-md-5">
-                <h2>Make friends going to the same event.</h2>
-                <h4>Sign in to find events near you!</h4>
-                <p>Don't have an account? <Link to="/signup">Sign up</Link> today.</p>
-              </div>
-              <div className="col-md-6 col-md-offset-1">
-                <SignInBox />
-              </div>
+    return (
+      <div>
+        <div className="jumbotron">
+          <div className="container"></div>
+        </div>
+        <div className="event-box">
+          <div className="row">
+            <div className="col-md-5">
+              <h2>Make friends going to the same event.</h2>
+            </div>
+            <div className="col-md-6 col-md-offset-1">
+              <SearchBox onCommentSubmit={this.handleQuerySubmit} />
             </div>
           </div>
+          <EventList data={this.state.data} />
         </div>
-      )
-    } else {
-      return (
-        <div>
-          <div className="jumbotron">
-            <div className="container"></div>
-          </div>
-          <div className="event-box">
-            <div className="row">
-              <div className="col-md-5">
-                <h2>Make friends going to the same event.</h2>
-              </div>
-              <div className="col-md-6 col-md-offset-1">
-                <SearchBox onCommentSubmit={this.handleQuerySubmit} />
-              </div>
-            </div>
-            <EventList data={this.state.data} />
-          </div>
-        </div>
-      )
-    }
+      </div>
+    )
   }
 });
 
@@ -247,8 +225,8 @@ const Event = React.createClass({
               <h4>{moment(this.props.startTime, 'YYYY-MM-DD, HH:mm:ss a').format('MMMM Do YYYY, h:mm a')}, {this.props.venue}, {this.props.city}, {this.props.region}</h4>
             </div>
             <div className="event-btns col-md-3">
-                <Link to="/driver" className="driver-btn btn-lg btn-success" onClick={this.cacheEventData}>Driver</Link>
-                <Link to="/rider"  className="rider-btn btn-lg btn-info" onClick={this.cacheEventData}>Rider</Link>
+                <Link to="/driver" className="driver-btn btn-lg btn-success" onClick={this.cacheEventData}>Drive</Link>
+                <Link to="/rider"  className="rider-btn btn-lg btn-info" onClick={this.cacheEventData}>Ride</Link>
             </div>
           </div>
         </div>

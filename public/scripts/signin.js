@@ -26,6 +26,7 @@ export const SignInForm = React.createClass({
     return (
       <form className="sign-in-form form-signin" onSubmit={this.handleSubmit}>
         <h3 className="form-signin-heading">Sign In</h3>
+        <p>Don't have an account? <Link to="/signup">Sign up</Link> today.</p>
         <div className="form-group">
           <label className="sr-only">Email</label>
           <input
@@ -46,7 +47,7 @@ export const SignInForm = React.createClass({
             onChange={this.handlePasswordChange} />
         </div>
         <div className="form-group">
-          <Link to="/profile" ><input className="btn-lg btn-primary" type="submit" value="Sign In" /></Link>
+          <input className="btn-lg btn-primary" type="submit" value="Sign In" />
         </div>
       </form>
     );
