@@ -117,24 +117,46 @@ const EventBox = React.createClass({
   },
 
   render: function() {
-    return (
-      <div>
-        <div className="jumbotron">
-          <div className="container"></div>
-        </div>
-        <div className="event-box">
-          <div className="row">
-            <div className="col-md-5">
-              <h2>Make friends going to the same event.</h2>
-            </div>
-            <div className="col-md-6 col-md-offset-1">
-              <SearchBox onCommentSubmit={this.handleQuerySubmit} />
+    if (!localStorage.token) {
+      return (
+        <div>
+          <div className="jumbotron">
+            <div className="container"></div>
+          </div>
+          <div className="event-box">
+            <div className="row">
+              <div className="col-md-5">
+                <h2>Make friends going to the same event.</h2>
+                <h4>Sign in to find events near you!</h4>
+                <p>Don't have an account? <Link to="/signup">Sign up</Link> today.</p>
+              </div>
+              <div className="col-md-6 col-md-offset-1">
+                <SignInBox />
+              </div>
             </div>
           </div>
-          <EventList data={this.state.data} />
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div>
+          <div className="jumbotron">
+            <div className="container"></div>
+          </div>
+          <div className="event-box">
+            <div className="row">
+              <div className="col-md-5">
+                <h2>Make friends going to the same event.</h2>
+              </div>
+              <div className="col-md-6 col-md-offset-1">
+                <SearchBox onCommentSubmit={this.handleQuerySubmit} />
+              </div>
+            </div>
+            <EventList data={this.state.data} />
+          </div>
+        </div>
+      )
+    }
   }
 });
 
