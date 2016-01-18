@@ -140,53 +140,54 @@ export const DriverForm = React.createClass({
     this.setState({name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
   },
   render: function() {
+    $('#timepicker1').timepicker({
+      template: false
+    });
     return (
       <div className="row">
-      <div id="travel-time"></div>
-      <div id="driver-form "className="container">
-        <form className="driver-form form-signin" onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <div className="">
-              <label className="sr-only">Start Time</label>
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Start Time"
-                value={this.state.startTime}
-                onChange={this.handleStartTimeChange} />
+        <div id="travel-time"></div>
+        <div id="driver-form "className="container">
+          <form className="driver-form form-signin" onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <div className="">
+                <label className="sr-only">Start Time</label>
+                  <div className="input-group bootstrap-timepicker timepicker">
+                      <input id="timepicker1" type="text" className="form-control input-small" />
+                      <span className="input-group-addon"><i className="glyphicon glyphicon-time"></i></span>
+                  </div>
+              </div>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="">
-              <label className="sr-only">Start Location</label>
-              <input
-                className="form-control"
-                size="100"
-                id="location"
-                type="text"
-                placeholder="Start Location"
-                value={this.state.startLocation}
-                onChange={this.handleStartLocationChange} />
+            <div className="form-group">
+              <div className="">
+                <label className="sr-only">Start Location</label>
+                <input
+                  className="form-control"
+                  size="100"
+                  id="location"
+                  type="text"
+                  placeholder="Start Location"
+                  value={this.state.startLocation}
+                  onChange={this.handleStartLocationChange} />
+              </div>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="">
-              <label className="sr-only">Rate</label>
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Rate"
-                value={this.state.rate}
-                onChange={this.handleRateChange} />
+            <div className="form-group">
+              <div className="">
+                <label className="sr-only">Rate</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Rate"
+                  value={this.state.rate}
+                  onChange={this.handleRateChange} />
+              </div>
             </div>
-          </div>
-          <div className="form-group col-sm-12">
-            <div className="col-sm-12">
-              <input className="btn btn-success btn-block" type="submit" value="Confirm Trip" />
+            <div className="form-group col-sm-12">
+              <div className="col-sm-12">
+                <Link to="/profile"><input className="btn btn-success btn-block" type="submit" value="Confirm Trip" /></Link>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
       </div>
     );
   }
