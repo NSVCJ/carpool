@@ -139,9 +139,6 @@ export const DriverForm = React.createClass({
     this.setState({name: '', email: '', phone: '', startTime: '', startLocation: '', rate: '' });
   },
   render: function() {
-    $('#timepicker1').timepicker({
-      template: false
-    });
     return (
       <div className="row">
         <div id="travel-time"></div>

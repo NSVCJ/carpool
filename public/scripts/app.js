@@ -140,7 +140,7 @@ const EventBox = React.createClass({
 
 const SearchBox = React.createClass({
   getInitialState: function() {
-    return {location: 'Los Angeles', keywords: 'Lakers'};
+    return {location: '', keywords: ''};
   },
   handleLocationChange: function(e) {
     this.setState({location: e.target.value});

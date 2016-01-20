@@ -290,12 +290,9 @@ export const TripAsDriver = React.createClass({
 
 export const TripAsDriverList = React.createClass({
   render: function () {
-    var that = this;
-    console.log("This outside callback", that);
     var users = this.props.users.map(function (user) {
-      console.log("Props in TripAsDriverList", that.props);
       return (
-        <User key={user.id} user={user} data={that.props.data} />
+        <User key={user.id} data={user} />
       )
     })
     return (
@@ -309,55 +306,45 @@ export const TripAsDriverList = React.createClass({
 export const User = React.createClass({
   getInitialState: function () {
     return {
-      status: this.props.user.role
+      status: this.props.data.role
     };
   },
   toggleStatus: function () {
-    var that = this;
-    console.log("Do we have props in toggle???", this.props)
     if (this.state.status === 'Unconfirmed') {
       // $.ajax({
-      //   url: '/api/driverProfile',
-      //   method: 'PUT',
+      //   url: EventfulAPI +
+      //     '&location=' + query.location +
+      //     '&keywords=' + query.keywords,
+      //   method: 'GET',
       //   dataType: 'jsonp',
-      //   data: {
-      //     "TripId": that.props.data.TripId,
-      //     "UserId": that.props.user.id
-      //   },
       //   success: function(data) {
-      //     console.log("Toggle WORKSSSSSS", data)
-      //     // data = JSON.parse(data)
-      //     this.setState({status: 'Rider'})
+      //     if (!data.events) {
+      //       this.noResults()
+      //     } else {
+      //       this.setState({data: data.events.event});
+      //     }
       //   }.bind(this),
       //   error: function(err) {
-      //     console.log("Toggle Failssssss");
-      //     // var data =JSON.parse(err.responseText)
-      //     // console.log("What is the state", data.trips)
-      //     this.setState({status: 'Rider'})
       //     console.error(err);
       //   }.bind(this)
       // })
-      this.setState({status: 'Rider'})
+      this.setState({status: 'Passenger'})
     }
-    if (this.state.status === 'Rider') {
+    if (this.state.status === 'Passenger') {
       // $.ajax({
-      //   url: '/api/driverProfile',
-      //   method: 'PUT',
+      //   url: EventfulAPI +
+      //     '&location=' + query.location +
+      //     '&keywords=' + query.keywords,
+      //   method: 'GET',
       //   dataType: 'jsonp',
-      //   data: {
-      //     "TripId": that.props.data.TripId,
-      //     "UserId": that.props.user.id
-      //   },
       //   success: function(data) {
-      //     console.log("Toggle WORKSSSSSS", data)
-      //     // data = JSON.parse(data)
-      //     this.setState({status: 'Unconfirmed'})
+      //     if (!data.events) {
+      //       this.noResults()
+      //     } else {
+      //       this.setState({data: data.events.event});
+      //     }
       //   }.bind(this),
       //   error: function(err) {
-      //     console.log("Toggle Failssssss");
-      //     // var data =JSON.parse(err.responseText)
-      //     // console.log("What is the state", data.trips)
-      //     this.setState({status: 'Unconfirmed'})
       //     console.error(err);
       //   }.bind(this)
       // })
@@ -367,7 +354,7 @@ export const User = React.createClass({
   render: function () {
     if (this.props.data.role === 'Unconfirmed') {
       return (
-        <li className="rider-list">
+        <li className ="rider-list">
           <div className="row">
             <div className="col-md-6">
               {this.props.data.name}
@@ -378,12 +365,24 @@ export const User = React.createClass({
               </span>
             </div>
           </div>
-          <div className="col-md-6">
+        </li>
+      )
+    }
+    if (this.props.data.role === 'Passenger') {
+      return (
+        <li>
+          <span>
+            {this.props.data.name}
             <span onClick={this.toggleStatus}>
               <input className="btn btn-primary" type="submit" value={this.state.status} />
             </span>
-          </div>
-      </li>
+          </span>
+        </li>
+      )
+    }
+    return (
+      <div>
+      </div>
     )
   }
 })
